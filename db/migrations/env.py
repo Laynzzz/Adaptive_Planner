@@ -3,6 +3,7 @@
 from alembic import context
 from sqlalchemy import create_engine, pool
 
+from planner.db.models import Base
 from planner.settings import Settings
 
 config = context.config
@@ -15,7 +16,7 @@ if context.is_offline_mode():
 else:
     engine = create_engine(url, poolclass=pool.NullPool)
     with engine.connect() as connection:
-        context.configure(connection=connection)
+        context.configure(connection=connection, target_metadata=Base.metadata)
         with context.begin_transaction():
             context.run_migrations()
     engine.dispose()

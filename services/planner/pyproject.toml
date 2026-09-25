@@ -17,6 +17,8 @@ dependencies = [
   "tzdata==2026.4",
   "starlette==0.52.1",
   "anyio==4.12.1",
+  "httpx2==2.13.1",
+  "joserfc==1.7.5",
 ]
 
 [build-system]

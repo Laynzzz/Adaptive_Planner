@@ -4,6 +4,7 @@ import argparse
 
 import uvicorn
 
+from planner.db.demo import seed_demo
 from planner.db.session import create_db_engine, database_is_ready, migration_heads
 from planner.settings import Settings
 
@@ -15,14 +16,19 @@ def main() -> int:
     parser.add_argument("--port", type=int, default=8000)
     args = parser.parse_args()
     if args.command == "serve":
-        uvicorn.run("planner.app:create_app", factory=True, host=args.host, port=args.port)
-        return 0
-    if args.command == "seed-demo":
-        parser.error(
-            "seed-demo requires the Task 3 identity/task schema; it is not implemented yet"
+        uvicorn.run(
+            "planner.app:create_app", factory=True, host=args.host, port=args.port, access_log=False
         )
+        return 0
     engine = create_db_engine(Settings())
     try:
+        if args.command == "seed-demo":
+            try:
+                count = seed_demo(engine, Settings())
+            except ValueError as error:
+                parser.error(str(error))
+            print(f"Seeded {count} demo workspaces; existing demo tasks were preserved.")
+            return 0
         ready = database_is_ready(engine, migration_heads())
     finally:
         engine.dispose()

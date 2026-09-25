@@ -1,5 +1,6 @@
-"""Isolated process configuration."""
+"""Isolated process configuration; HTTP cookies are a local-development exception."""
 
+from pydantic import model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -8,3 +9,20 @@ class Settings(BaseSettings):
     database_url: str = "postgresql+psycopg://planner:local-planner-only@127.0.0.1:25432/planner"
     oidc_issuer: str = "http://127.0.0.1:28080/realms/adaptive-planner"
     oidc_client_id: str = "planner-web"
+    app_origin: str = "http://127.0.0.1:8000"
+    ui_origin: str = "http://127.0.0.1:5173"
+    environment: str = "local"
+    session_hours: int = 8
+
+    @property
+    def secure_cookies(self) -> bool:
+        return self.environment != "local"
+
+    @model_validator(mode="after")
+    def production_https(self):
+        if self.environment != "local" and any(
+            not url.startswith("https://")
+            for url in (self.oidc_issuer, self.app_origin, self.ui_origin)
+        ):
+            raise ValueError("Non-local deployments require HTTPS origins and OIDC issuer")
+        return self

@@ -98,3 +98,18 @@ def load_fixture(name: str) -> InputSnapshot:
     """Load committed raw inputs with their explicit clock via the production parser."""
     fixture = json.loads((Path(__file__).parent / name).read_text(encoding="utf-8"))
     return normalize_time_inputs(fixture["raw"], datetime.fromisoformat(fixture["now"]))
+
+
+def valid_task_command(**changes) -> dict:
+    """A fixed-clock command; the API wrapper moves its key into the required header."""
+    from uuid import uuid4
+
+    values = {
+        "title": "Synthetic 60-minute task",
+        "remaining_minutes": 60,
+        "deadline": {"kind": "TIMESTAMP", "value": "2026-09-25T17:00:00Z", "timezone": "UTC"},
+        "expected_revision": 0,
+        "idempotency_key": str(uuid4()),
+    }
+    values.update(changes)
+    return values
