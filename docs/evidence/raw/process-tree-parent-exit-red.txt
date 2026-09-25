@@ -1,0 +1,25 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+__ test_deadline_stops_descendants_after_parent_exit_during_blocked_callback __
+
+tmp_path = WindowsPath('C:/Users/tiany/AppData/Local/Temp/pytest-of-tiany/pytest-227/test_deadline_stops_descendant0')
+
+    def test_deadline_stops_descendants_after_parent_exit_during_blocked_callback(tmp_path):
+        command, ready, late = tree_command(tmp_path, parent_exits=True)
+    
+        def slow_check():
+            time.sleep(1.7)
+            return False
+    
+        result = run_process(command, timeout_seconds=0.6, is_cancelled=slow_check)
+        assert ready.exists()
+>       assert not late.exists(), "Watchdog must own descendants even after the immediate parent exits"
+E       AssertionError: Watchdog must own descendants even after the immediate parent exits
+E       assert not True
+E        +  where True = exists()
+E        +    where exists = WindowsPath('C:/Users/tiany/AppData/Local/Temp/pytest-of-tiany/pytest-227/test_deadline_stops_descendant0/late').exists
+
+tests\fault\test_process_tree.py:89: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/fault/test_process_tree.py::test_deadline_stops_descendants_after_parent_exit_during_blocked_callback
+1 failed, 8 deselected in 2.02s

@@ -1,0 +1,158 @@
+FFFFF                                                                    [100%]
+================================== FAILURES ===================================
+_______ test_descendant_cannot_write_after_process_scope_ends[timeout] ________
+
+tmp_path = WindowsPath('C:/Users/tiany/AppData/Local/Temp/pytest-of-tiany/pytest-219/test_descendant_cannot_write_a0')
+termination = 'timeout'
+
+    @pytest.mark.parametrize("termination", ["timeout", "cancel", "parent_exit", "callback_error"])
+    def test_descendant_cannot_write_after_process_scope_ends(tmp_path, termination):
+        command, ready, late = tree_command(tmp_path, parent_exits=termination == "parent_exit")
+    
+        def cancelled():
+            if termination == "callback_error" and ready.exists():
+                raise RuntimeError("state check failed")
+            return termination == "cancel" and ready.exists()
+    
+        if termination == "callback_error":
+            with pytest.raises(RuntimeError, match="state check failed"):
+                run_process(command, timeout_seconds=3, is_cancelled=cancelled)
+        else:
+            result = run_process(
+                command,
+                timeout_seconds=0.6 if termination == "timeout" else 3,
+                is_cancelled=cancelled,
+            )
+            assert result.reason_code == {"timeout": "WALL_TIMEOUT", "cancel": "SUPERSEDED",
+                                          "parent_exit": None}[termination]
+        assert ready.exists(), "The actual descendant must have started before testing cleanup"
+        time.sleep(1.2)
+>       assert not late.exists(), "A descendant wrote after the process scope ended"
+E       AssertionError: A descendant wrote after the process scope ended
+E       assert not True
+E        +  where True = exists()
+E        +    where exists = WindowsPath('C:/Users/tiany/AppData/Local/Temp/pytest-of-tiany/pytest-219/test_descendant_cannot_write_a0/late').exists
+
+tests\fault\test_process_tree.py:55: AssertionError
+________ test_descendant_cannot_write_after_process_scope_ends[cancel] ________
+
+tmp_path = WindowsPath('C:/Users/tiany/AppData/Local/Temp/pytest-of-tiany/pytest-219/test_descendant_cannot_write_a1')
+termination = 'cancel'
+
+    @pytest.mark.parametrize("termination", ["timeout", "cancel", "parent_exit", "callback_error"])
+    def test_descendant_cannot_write_after_process_scope_ends(tmp_path, termination):
+        command, ready, late = tree_command(tmp_path, parent_exits=termination == "parent_exit")
+    
+        def cancelled():
+            if termination == "callback_error" and ready.exists():
+                raise RuntimeError("state check failed")
+            return termination == "cancel" and ready.exists()
+    
+        if termination == "callback_error":
+            with pytest.raises(RuntimeError, match="state check failed"):
+                run_process(command, timeout_seconds=3, is_cancelled=cancelled)
+        else:
+            result = run_process(
+                command,
+                timeout_seconds=0.6 if termination == "timeout" else 3,
+                is_cancelled=cancelled,
+            )
+            assert result.reason_code == {"timeout": "WALL_TIMEOUT", "cancel": "SUPERSEDED",
+                                          "parent_exit": None}[termination]
+        assert ready.exists(), "The actual descendant must have started before testing cleanup"
+        time.sleep(1.2)
+>       assert not late.exists(), "A descendant wrote after the process scope ended"
+E       AssertionError: A descendant wrote after the process scope ended
+E       assert not True
+E        +  where True = exists()
+E        +    where exists = WindowsPath('C:/Users/tiany/AppData/Local/Temp/pytest-of-tiany/pytest-219/test_descendant_cannot_write_a1/late').exists
+
+tests\fault\test_process_tree.py:55: AssertionError
+_____ test_descendant_cannot_write_after_process_scope_ends[parent_exit] ______
+
+tmp_path = WindowsPath('C:/Users/tiany/AppData/Local/Temp/pytest-of-tiany/pytest-219/test_descendant_cannot_write_a2')
+termination = 'parent_exit'
+
+    @pytest.mark.parametrize("termination", ["timeout", "cancel", "parent_exit", "callback_error"])
+    def test_descendant_cannot_write_after_process_scope_ends(tmp_path, termination):
+        command, ready, late = tree_command(tmp_path, parent_exits=termination == "parent_exit")
+    
+        def cancelled():
+            if termination == "callback_error" and ready.exists():
+                raise RuntimeError("state check failed")
+            return termination == "cancel" and ready.exists()
+    
+        if termination == "callback_error":
+            with pytest.raises(RuntimeError, match="state check failed"):
+                run_process(command, timeout_seconds=3, is_cancelled=cancelled)
+        else:
+            result = run_process(
+                command,
+                timeout_seconds=0.6 if termination == "timeout" else 3,
+                is_cancelled=cancelled,
+            )
+            assert result.reason_code == {"timeout": "WALL_TIMEOUT", "cancel": "SUPERSEDED",
+                                          "parent_exit": None}[termination]
+        assert ready.exists(), "The actual descendant must have started before testing cleanup"
+        time.sleep(1.2)
+>       assert not late.exists(), "A descendant wrote after the process scope ended"
+E       AssertionError: A descendant wrote after the process scope ended
+E       assert not True
+E        +  where True = exists()
+E        +    where exists = WindowsPath('C:/Users/tiany/AppData/Local/Temp/pytest-of-tiany/pytest-219/test_descendant_cannot_write_a2/late').exists
+
+tests\fault\test_process_tree.py:55: AssertionError
+____ test_descendant_cannot_write_after_process_scope_ends[callback_error] ____
+
+tmp_path = WindowsPath('C:/Users/tiany/AppData/Local/Temp/pytest-of-tiany/pytest-219/test_descendant_cannot_write_a3')
+termination = 'callback_error'
+
+    @pytest.mark.parametrize("termination", ["timeout", "cancel", "parent_exit", "callback_error"])
+    def test_descendant_cannot_write_after_process_scope_ends(tmp_path, termination):
+        command, ready, late = tree_command(tmp_path, parent_exits=termination == "parent_exit")
+    
+        def cancelled():
+            if termination == "callback_error" and ready.exists():
+                raise RuntimeError("state check failed")
+            return termination == "cancel" and ready.exists()
+    
+        if termination == "callback_error":
+            with pytest.raises(RuntimeError, match="state check failed"):
+                run_process(command, timeout_seconds=3, is_cancelled=cancelled)
+        else:
+            result = run_process(
+                command,
+                timeout_seconds=0.6 if termination == "timeout" else 3,
+                is_cancelled=cancelled,
+            )
+            assert result.reason_code == {"timeout": "WALL_TIMEOUT", "cancel": "SUPERSEDED",
+                                          "parent_exit": None}[termination]
+        assert ready.exists(), "The actual descendant must have started before testing cleanup"
+        time.sleep(1.2)
+>       assert not late.exists(), "A descendant wrote after the process scope ended"
+E       AssertionError: A descendant wrote after the process scope ended
+E       assert not True
+E        +  where True = exists()
+E        +    where exists = WindowsPath('C:/Users/tiany/AppData/Local/Temp/pytest-of-tiany/pytest-219/test_descendant_cannot_write_a3/late').exists
+
+tests\fault\test_process_tree.py:55: AssertionError
+_________ test_process_scope_passes_environment_and_working_directory _________
+
+tmp_path = WindowsPath('C:/Users/tiany/AppData/Local/Temp/pytest-of-tiany/pytest-219/test_process_scope_passes_envi0')
+
+    def test_process_scope_passes_environment_and_working_directory(tmp_path):
+>       result = run_process(
+            [sys.executable, "-c", "import os,pathlib; pathlib.Path('result').write_text(os.environ['PLANNER_TREE_TEST'])"],
+            env={**os.environ, "PLANNER_TREE_TEST": "isolated"},
+            cwd=tmp_path,
+        )
+E       TypeError: run_process() got an unexpected keyword argument 'env'
+
+tests\fault\test_process_tree.py:59: TypeError
+=========================== short test summary info ===========================
+FAILED tests/fault/test_process_tree.py::test_descendant_cannot_write_after_process_scope_ends[timeout]
+FAILED tests/fault/test_process_tree.py::test_descendant_cannot_write_after_process_scope_ends[cancel]
+FAILED tests/fault/test_process_tree.py::test_descendant_cannot_write_after_process_scope_ends[parent_exit]
+FAILED tests/fault/test_process_tree.py::test_descendant_cannot_write_after_process_scope_ends[callback_error]
+FAILED tests/fault/test_process_tree.py::test_process_scope_passes_environment_and_working_directory
+5 failed in 6.37s

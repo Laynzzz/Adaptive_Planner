@@ -10,6 +10,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from planner.domain.contracts import Candidate, InputSnapshot
+from planner.jobs.process_tree import spawn_process_tree
 from planner.solver.greedy import greedy_schedule
 from planner.solver.validator import validate_candidate
 
@@ -27,25 +28,22 @@ def run_process(
     timeout_seconds: float = 5,
     is_cancelled: Callable[[], bool] | None = None,
     on_heartbeat: Callable[[], bool] | None = None,
+    env: dict[str, str] | None = None,
+    cwd: str | Path | None = None,
 ) -> ProcessResult:
     start = time.monotonic()
     next_heartbeat = start + 5
-    process = subprocess.Popen(
-        command,
-        stdin=subprocess.DEVNULL,
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL,
-        creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
-    )
+    process = spawn_process_tree(command, env=env, cwd=cwd)
     deadline_expired = threading.Event()
 
     def enforce_deadline():
-        if process.poll() is None:
-            deadline_expired.set()
-            try:
-                process.kill()
-            except ProcessLookupError:
-                pass
+        # A redirector/parent may exit while descendants keep running. The owned
+        # scope, rather than the immediate process's liveness, sets the deadline.
+        deadline_expired.set()
+        try:
+            process.kill()
+        except ProcessLookupError:
+            pass
 
     timer = threading.Timer(max(0, timeout_seconds - (time.monotonic() - start)), enforce_deadline)
     timer.daemon = True
@@ -71,13 +69,8 @@ def run_process(
                 pass
     finally:
         timer.cancel()
-        if process.poll() is None:
-            process.terminate()
-            try:
-                process.wait(timeout=0.3)
-            except subprocess.TimeoutExpired:
-                process.kill()
-                process.wait(timeout=0.3)
+        timer.join()
+        process.close()
     if deadline_expired.is_set():
         reason = "WALL_TIMEOUT"
     return ProcessResult(process.returncode, reason, time.monotonic() - start)
@@ -120,6 +113,9 @@ def run_solver(
             return SolveResult(None, outcome.reason_code)
         if outcome.returncode != 0 or not result.exists():
             return SolveResult(None, "CHILD_CRASH")
+        from planner.observability.routing import observe_route
+
+        observe_route(result)
         try:
             candidate = Candidate.model_validate_json(result.read_text(encoding="utf-8"))
         except ValueError:
