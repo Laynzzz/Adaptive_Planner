@@ -1,5 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
+import { lazy, Suspense, useEffect, useState } from "react";
 import Workspace from "./features/Workspace";
+const EvidencePanel = lazy(() => import("./features/evidence/EvidencePanel"));
 
 async function checkReadiness(): Promise<boolean> {
   const response = await fetch("/health/ready", {
@@ -12,6 +14,14 @@ async function checkReadiness(): Promise<boolean> {
 }
 
 export default function App() {
+  const [showEvidence, setShowEvidence] = useState(
+    window.location.hash === "#evidence",
+  );
+  useEffect(() => {
+    const change = () => setShowEvidence(window.location.hash === "#evidence");
+    window.addEventListener("hashchange", change);
+    return () => window.removeEventListener("hashchange", change);
+  }, []);
   const readiness = useQuery({
     queryKey: ["readiness"],
     queryFn: checkReadiness,
@@ -34,8 +44,19 @@ export default function App() {
           </span>
         </a>
         <nav aria-label="Workspace">
-          <a href="#main" aria-current="page">
+          <a
+            href="#main"
+            aria-current={!showEvidence ? "page" : undefined}
+            onClick={() => setShowEvidence(false)}
+          >
             My agenda
+          </a>
+          <a
+            href="#evidence"
+            aria-current={showEvidence ? "page" : undefined}
+            onClick={() => setShowEvidence(true)}
+          >
+            Evidence &amp; limits
           </a>
         </nav>
         <p className="sidebar-note">
@@ -83,13 +104,19 @@ export default function App() {
             </button>
           </section>
         )}
-        <section className="agenda-surface" aria-labelledby="agenda-title">
-          <header className="section-header">
-            <h2 id="agenda-title">Your agenda</h2>
-            <span>14-day planning window</span>
-          </header>
-          {readiness.isSuccess && <Workspace />}
-        </section>
+        {showEvidence ? (
+          <Suspense fallback={<p role="status">Loading evidence…</p>}>
+            <EvidencePanel />
+          </Suspense>
+        ) : (
+          <section className="agenda-surface" aria-labelledby="agenda-title">
+            <header className="section-header">
+              <h2 id="agenda-title">Your agenda</h2>
+              <span>14-day planning window</span>
+            </header>
+            {readiness.isSuccess && <Workspace />}
+          </section>
+        )}
         <footer className="workspace-footer">
           Plans stay under your control. Changes require your review.
         </footer>

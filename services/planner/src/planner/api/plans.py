@@ -13,9 +13,9 @@ from sqlalchemy.orm import Session
 
 from planner.api.auth import Principal, require_mutation, require_session
 from planner.api.errors import APIError
-from planner.db.job_models import Job, ProposalRecord
+from planner.db.job_models import Job, ProposalRecord, SnapshotRecord
 from planner.db.models import CommandReceipt, PlanningState
-from planner.domain.contracts import Candidate, Contract
+from planner.domain.contracts import Candidate, Contract, OriginalTimeInput, RoundingLoss
 from planner.domain.plans import activate_in_transaction
 from planner.jobs.coalescing import enqueue_in_transaction
 
@@ -52,6 +52,54 @@ class ProposalView(Contract):
 
 class ProposalList(Contract):
     items: tuple[ProposalView, ...]
+
+
+class TimeInputView(Contract):
+    timezone: str
+    original_time_inputs: tuple[OriginalTimeInput, ...] = ()
+    rounding_losses: tuple[RoundingLoss, ...] = ()
+
+
+def time_input_view(db, snapshot_id, owner_id):
+    snapshot = db.scalar(
+        select(SnapshotRecord).where(
+            SnapshotRecord.id == snapshot_id, SnapshotRecord.owner_id == owner_id
+        )
+    )
+    if snapshot is None:
+        raise APIError("NOT_FOUND", 404, "Planning inputs not found.")
+    return TimeInputView(
+        **{
+            key: snapshot.payload[key]
+            for key in ("timezone", "original_time_inputs", "rounding_losses")
+        }
+    )
+
+
+@router.get("/proposals/{proposal_id}/time-inputs", response_model=TimeInputView)
+def proposal_time_inputs(
+    proposal_id: UUID, request: Request, principal: Principal = Depends(require_session)
+):
+    with Session(request.app.state.engine) as db:
+        proposal = db.scalar(
+            select(ProposalRecord).where(
+                ProposalRecord.id == proposal_id, ProposalRecord.owner_id == principal.owner_id
+            )
+        )
+        if proposal is None:
+            raise APIError("NOT_FOUND", 404, "Proposal not found.")
+        return time_input_view(db, proposal.snapshot_id, principal.owner_id)
+
+
+@router.get("/jobs/{job_id}/time-inputs", response_model=TimeInputView)
+def job_time_inputs(
+    job_id: UUID, request: Request, principal: Principal = Depends(require_session)
+):
+    with Session(request.app.state.engine) as db:
+        job = db.scalar(select(Job).where(Job.id == job_id, Job.owner_id == principal.owner_id))
+        if job is None:
+            raise APIError("NOT_FOUND", 404, "Job not found.")
+        return time_input_view(db, job.snapshot_id, principal.owner_id)
 
 
 class ActivationView(Contract):

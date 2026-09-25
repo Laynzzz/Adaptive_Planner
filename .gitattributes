@@ -10,22 +10,23 @@
 *.png binary
 
 # Frozen evaluation manifests hash exact bytes; preserve their original bytes.
-services/planner/src/planner/ai/provider.py -text
-services/planner/src/planner/ai/interpret.py -text
-services/planner/src/planner/ai/schema.py -text
-services/planner/src/planner/ai/prompt.py -text
-evals/data/author.py -text
-evals/score/metrics.py -text
-evals/run/evaluate.py -text
-evals/data/dev.jsonl -text
-evals/data/validation.jsonl -text
-evals/data/test.jsonl -text
-evals/data/manifest.json -text
+services/planner/src/planner/ai/provider.py -text whitespace=cr-at-eol
+services/planner/src/planner/ai/interpret.py -text whitespace=cr-at-eol
+services/planner/src/planner/ai/schema.py -text whitespace=cr-at-eol
+services/planner/src/planner/ai/prompt.py -text whitespace=cr-at-eol
+evals/data/author.py -text whitespace=cr-at-eol
+evals/score/metrics.py -text whitespace=cr-at-eol
+evals/run/evaluate.py -text whitespace=cr-at-eol
+evals/data/dev.jsonl -text whitespace=cr-at-eol
+evals/data/validation.jsonl -text whitespace=cr-at-eol
+evals/data/test.jsonl -text whitespace=cr-at-eol
+evals/data/manifest.json -text whitespace=cr-at-eol
 
 # Measurement manifests are immutable byte-hashed inputs.
-benchmarks/manifests/*.json -text
+benchmarks/manifests/*.json -text whitespace=cr-at-eol
 benchmarks/artifacts/*.zip binary
 
 # Preserve byte-hashed experiment artifacts across Windows checkouts.
-training/artifacts/** -text
-docs/evidence/raw/ml*.json -text
+training/artifacts/** -text whitespace=cr-at-eol
+docs/evidence/raw/ml*.json -text whitespace=cr-at-eol
+

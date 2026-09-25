@@ -20,6 +20,7 @@ from planner.db.calendar_models import (
 from planner.db.job_models import ProposalRecord
 from planner.db.models import AuditEvent, PlanningState
 from planner.jobs.coalescing import enqueue_in_transaction
+from planner.observability.runtime import traced_owner_work
 
 
 @dataclass(frozen=True)
@@ -97,6 +98,7 @@ def _effective(db, owner):
     )
 
 
+@traced_owner_work("sync")
 def synchronize(
     engine, owner_id, provider, *, now: datetime, window_start: datetime, window_end: datetime
 ) -> SyncResult:

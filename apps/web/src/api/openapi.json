@@ -615,6 +615,40 @@
         "title": "CreatedRule",
         "type": "object"
       },
+      "DateDeadlineChange": {
+        "additionalProperties": false,
+        "properties": {
+          "date": {
+            "title": "Date",
+            "type": "string"
+          },
+          "new_bound": {
+            "title": "New Bound",
+            "type": "string"
+          },
+          "old_bound": {
+            "title": "Old Bound",
+            "type": "string"
+          },
+          "task_id": {
+            "title": "Task Id",
+            "type": "string"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          }
+        },
+        "required": [
+          "task_id",
+          "title",
+          "date",
+          "old_bound",
+          "new_bound"
+        ],
+        "title": "DateDeadlineChange",
+        "type": "object"
+      },
       "Deadline": {
         "additionalProperties": false,
         "properties": {
@@ -1567,6 +1601,45 @@
         "title": "MoveCommand",
         "type": "object"
       },
+      "OriginalTimeInput": {
+        "additionalProperties": false,
+        "properties": {
+          "field": {
+            "title": "Field",
+            "type": "string"
+          },
+          "fold": {
+            "anyOf": [
+              {
+                "enum": [
+                  0,
+                  1
+                ],
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fold"
+          },
+          "timezone": {
+            "title": "Timezone",
+            "type": "string"
+          },
+          "value": {
+            "title": "Value",
+            "type": "string"
+          }
+        },
+        "required": [
+          "field",
+          "value",
+          "timezone"
+        ],
+        "title": "OriginalTimeInput",
+        "type": "object"
+      },
       "PlanDiff": {
         "additionalProperties": false,
         "properties": {
@@ -1860,6 +1933,38 @@
           "revision"
         ],
         "title": "RevisionResponse",
+        "type": "object"
+      },
+      "RoundingLoss": {
+        "additionalProperties": false,
+        "properties": {
+          "field": {
+            "title": "Field",
+            "type": "string"
+          },
+          "original": {
+            "format": "date-time",
+            "title": "Original",
+            "type": "string"
+          },
+          "rounded": {
+            "format": "date-time",
+            "title": "Rounded",
+            "type": "string"
+          },
+          "seconds": {
+            "minimum": 0,
+            "title": "Seconds",
+            "type": "number"
+          }
+        },
+        "required": [
+          "field",
+          "original",
+          "rounded",
+          "seconds"
+        ],
+        "title": "RoundingLoss",
         "type": "object"
       },
       "RuleCommand": {
@@ -2479,6 +2584,142 @@
           "created_at"
         ],
         "title": "TaskResponse",
+        "type": "object"
+      },
+      "TimeInputView": {
+        "additionalProperties": false,
+        "properties": {
+          "original_time_inputs": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/OriginalTimeInput"
+            },
+            "title": "Original Time Inputs",
+            "type": "array"
+          },
+          "rounding_losses": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/RoundingLoss"
+            },
+            "title": "Rounding Losses",
+            "type": "array"
+          },
+          "timezone": {
+            "title": "Timezone",
+            "type": "string"
+          }
+        },
+        "required": [
+          "timezone"
+        ],
+        "title": "TimeInputView",
+        "type": "object"
+      },
+      "TimezoneCommand": {
+        "additionalProperties": false,
+        "properties": {
+          "confirmed": {
+            "const": true,
+            "title": "Confirmed",
+            "type": "boolean"
+          },
+          "expected_revision": {
+            "minimum": 0,
+            "title": "Expected Revision",
+            "type": "integer"
+          },
+          "preview_hash": {
+            "maxLength": 64,
+            "minLength": 64,
+            "title": "Preview Hash",
+            "type": "string"
+          },
+          "timezone": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Timezone",
+            "type": "string"
+          }
+        },
+        "required": [
+          "expected_revision",
+          "timezone",
+          "preview_hash",
+          "confirmed"
+        ],
+        "title": "TimezoneCommand",
+        "type": "object"
+      },
+      "TimezonePreview": {
+        "additionalProperties": false,
+        "properties": {
+          "date_deadlines": {
+            "items": {
+              "$ref": "#/components/schemas/DateDeadlineChange"
+            },
+            "title": "Date Deadlines",
+            "type": "array"
+          },
+          "old_timezone": {
+            "title": "Old Timezone",
+            "type": "string"
+          },
+          "preserved_available_windows": {
+            "title": "Preserved Available Windows",
+            "type": "integer"
+          },
+          "preserved_fixed_events": {
+            "title": "Preserved Fixed Events",
+            "type": "integer"
+          },
+          "preview_hash": {
+            "title": "Preview Hash",
+            "type": "string"
+          },
+          "revision": {
+            "title": "Revision",
+            "type": "integer"
+          },
+          "timezone": {
+            "title": "Timezone",
+            "type": "string"
+          },
+          "weekly_rules_follow_new_timezone": {
+            "title": "Weekly Rules Follow New Timezone",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "old_timezone",
+          "timezone",
+          "revision",
+          "date_deadlines",
+          "preserved_fixed_events",
+          "preserved_available_windows",
+          "weekly_rules_follow_new_timezone",
+          "preview_hash"
+        ],
+        "title": "TimezonePreview",
+        "type": "object"
+      },
+      "TimezoneSaved": {
+        "additionalProperties": false,
+        "properties": {
+          "revision": {
+            "title": "Revision",
+            "type": "integer"
+          },
+          "timezone": {
+            "title": "Timezone",
+            "type": "string"
+          }
+        },
+        "required": [
+          "revision",
+          "timezone"
+        ],
+        "title": "TimezoneSaved",
         "type": "object"
       },
       "ValidationError": {
@@ -3459,6 +3700,54 @@
       }
     },
     "/api/v1/fixed-events/{event_id}": {
+      "delete": {
+        "operationId": "delete_event_api_v1_fixed_events__event_id__delete",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "event_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Event Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RevisionCommand"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RevisionResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Delete Event"
+      },
       "patch": {
         "operationId": "patch_event_api_v1_fixed_events__event_id__patch",
         "parameters": [
@@ -3688,6 +3977,49 @@
         ]
       }
     },
+    "/api/v1/jobs/{job_id}/time-inputs": {
+      "get": {
+        "operationId": "job_time_inputs_api_v1_jobs__job_id__time_inputs_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "job_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Job Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TimeInputView"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Job Time Inputs",
+        "tags": [
+          "plans"
+        ]
+      }
+    },
     "/api/v1/me": {
       "get": {
         "operationId": "me_api_v1_me_get",
@@ -3866,6 +4198,49 @@
         ]
       }
     },
+    "/api/v1/proposals/{proposal_id}/time-inputs": {
+      "get": {
+        "operationId": "proposal_time_inputs_api_v1_proposals__proposal_id__time_inputs_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "proposal_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Proposal Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TimeInputView"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Proposal Time Inputs",
+        "tags": [
+          "plans"
+        ]
+      }
+    },
     "/api/v1/protected-work": {
       "get": {
         "operationId": "protected_list_api_v1_protected_work_get",
@@ -3925,6 +4300,91 @@
         "summary": "Generate",
         "tags": [
           "plans"
+        ]
+      }
+    },
+    "/api/v1/settings/timezone": {
+      "put": {
+        "operationId": "change_api_v1_settings_timezone_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TimezoneCommand"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TimezoneSaved"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Change",
+        "tags": [
+          "settings"
+        ]
+      }
+    },
+    "/api/v1/settings/timezone-preview": {
+      "get": {
+        "operationId": "preview_api_v1_settings_timezone_preview_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "timezone",
+            "required": true,
+            "schema": {
+              "maxLength": 100,
+              "minLength": 1,
+              "title": "Timezone",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TimezonePreview"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Preview",
+        "tags": [
+          "settings"
         ]
       }
     },

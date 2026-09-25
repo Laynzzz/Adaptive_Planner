@@ -1,0 +1,53 @@
+{"event":"span","name":"api.request","trace_id":"0cbfa41695e5da5d01d473a6dc877194","span_id":"e47b37ffe1782f3a","parent_span_id":null,"start_unix_ns":1790371892257100700,"end_unix_ns":1790371892264836400,"status":"UNSET","attributes":{"http.method":"GET","http.status_code":200,"http.route":"/api/v1/me"}}
+FF                                                                       [100%]
+================================== FAILURES ===================================
+_________ test_api_committed_job_worker_provider_trace_and_redaction __________
+
+api_a = <conftest.AuthenticatedAPI object at 0x000002B186B03CE0>
+app = <fastapi.applications.FastAPI object at 0x000002B1866082F0>
+recorder = (<planner.observability.runtime.Telemetry object at 0x000002B186A3CE60>, <opentelemetry.sdk.trace.export.in_memory_spa...at 0x000002B186B34830>, <opentelemetry.sdk.metrics._internal.export.InMemoryMetricReader object at 0x000002B186B34B00>)
+
+    def test_api_committed_job_worker_provider_trace_and_redaction(api_a, app, recorder):
+        telemetry, exporter, _ = recorder
+        response = api_a.post(
+            "/api/v1/interpretations",
+            json={
+                "text": "PRIVATE_SYNTHETIC study for 60 minutes due 2026-10-01",
+                "mode": "mock",
+                "expected_revision": 0,
+            },
+        )
+        assert response.status_code == 202, response.text
+        identity = UUID(response.json()["id"])
+        owner = UUID(api_a.get("/api/v1/me").json()["id"])
+        parent = load_context(app.state.engine, "interpretation", owner, identity)
+>       assert parent is not None
+E       assert None is not None
+
+tests\integration\test_observability.py:42: AssertionError
+______________ test_context_rolls_back_with_business_transaction ______________
+
+api_a = <conftest.AuthenticatedAPI object at 0x000002B187D9E1E0>
+app = <fastapi.applications.FastAPI object at 0x000002B187CC17F0>
+recorder = (<planner.observability.runtime.Telemetry object at 0x000002B187DB3140>, <opentelemetry.sdk.trace.export.in_memory_spa...at 0x000002B187DB3EC0>, <opentelemetry.sdk.metrics._internal.export.InMemoryMetricReader object at 0x000002B187DB3770>)
+
+    def test_context_rolls_back_with_business_transaction(api_a, app, recorder):
+        telemetry, _, _ = recorder
+        owner = UUID(api_a.get("/api/v1/me").json()["id"])
+        with use(telemetry), span("api.request"):
+            with pytest.raises(RuntimeError):
+                with Session(app.state.engine) as db, db.begin():
+                    state = db.get(PlanningState, owner, with_for_update=True)
+                    state.revision = 777
+                    db.flush()
+>                   assert load_context(db.connection(), "revision", owner, 777)
+E                   AssertionError: assert None
+E                    +  where None = load_context(<sqlalchemy.engine.base.Connection object at 0x000002B187DDBEC0>, 'revision', UUID('d50e047b-f9cb-4123-b7a1-bb562f4c5c33'), 777)
+E                    +    where <sqlalchemy.engine.base.Connection object at 0x000002B187DDBEC0> = connection()
+E                    +      where connection = <sqlalchemy.orm.session.Session object at 0x000002B187DDA8D0>.connection
+
+tests\integration\test_observability.py:71: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/integration/test_observability.py::test_api_committed_job_worker_provider_trace_and_redaction
+FAILED tests/integration/test_observability.py::test_context_rolls_back_with_business_transaction
+2 failed in 1.18s

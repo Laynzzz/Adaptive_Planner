@@ -1,0 +1,58 @@
+..F                                                                      [100%]
+================================== FAILURES ===================================
+__ test_cancel_releases_protected_inputs_but_preserves_proposal_and_replays ___
+
+api_a = <conftest.AuthenticatedAPI object at 0x000001C68D4271A0>
+app = <fastapi.applications.FastAPI object at 0x000001C68D40A540>
+
+    def test_cancel_releases_protected_inputs_but_preserves_proposal_and_replays(api_a, app):
+        from tests.integration.test_adaptation import create_selected_plan
+    
+        task, revision, proposal_id, _ = create_selected_plan(api_a, app)
+        candidate = api_a.get(f'/api/v1/proposals/{proposal_id}').json()['candidate']
+        block = candidate['blocks'][0]
+        locked = api_a.post(f"/api/v1/blocks/{block['id']}/lock",
+                            json={'locked': True, 'expected_revision': revision})
+        assert locked.status_code == 200
+        assert len(api_a.get('/api/v1/protected-work').json()['items']) == 1
+        revision = locked.json()['revision']
+        key = str(uuid4())
+        args = {'json': {'expected_revision': revision}, 'headers': {'Idempotency-Key': key}}
+        cancelled = api_a.post(f"/api/v1/tasks/{task['id']}/cancel", **args)
+        assert cancelled.status_code == 200
+>       assert api_a.get('/api/v1/protected-work').json()['items'] == []
+E       AssertionError: assert [{'id': '8b4f...00:00Z', ...}] == []
+E         
+E         Left contains one more item: {'id': '8b4f3a0b-0289-5448-adc7-9eccb5814cec', 'task_id': '2bf17647-8544-4250-aa7b-fc102e5c12eb', 'start': '2026-09-25T09:00:00Z', 'end': '2026-09-25T10:00:00Z', ...}
+E         Use -v to get more diff
+
+tests\integration\test_fixed_events.py:118: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/integration/test_fixed_events.py::test_cancel_releases_protected_inputs_but_preserves_proposal_and_replays
+1 failed, 2 passed in 2.07s
+{"event":"span","name":"db.query","trace_id":"0edf2b13155712ad0d771e0e141fbf5c","span_id":"e8f12d43544a4a4c","parent_span_id":"f72dc5197d6100f8","start_unix_ns":1790373195770056000,"end_unix_ns":1790373195770056000,"status":"UNSET","attributes":{"db.operation":"DELETE"}}
+{"event":"span","name":"db.query","trace_id":"0edf2b13155712ad0d771e0e141fbf5c","span_id":"56ec3e4f91aaf887","parent_span_id":"f72dc5197d6100f8","start_unix_ns":1790373195771580000,"end_unix_ns":1790373195772091300,"status":"UNSET","attributes":{"db.operation":"INSERT"}}
+{"event":"span","name":"api.request","trace_id":"0edf2b13155712ad0d771e0e141fbf5c","span_id":"f72dc5197d6100f8","parent_span_id":null,"start_unix_ns":1790373195739875700,"end_unix_ns":1790373195774140300,"status":"UNSET","attributes":{"http.method":"GET","http.status_code":302,"http.route":"/api/v1/auth/login"}}
+{"event":"span","name":"db.query","trace_id":"8767f9821f2b0b3d10c54f1facec639b","span_id":"e87112c360202429","parent_span_id":"b5e3092ac7cd0ed2","start_unix_ns":1790373196014014700,"end_unix_ns":1790373196015042700,"status":"UNSET","attributes":{"db.operation":"SELECT"}}
+{"event":"span","name":"db.query","trace_id":"8767f9821f2b0b3d10c54f1facec639b","span_id":"bf432e28680c9d71","parent_span_id":"b5e3092ac7cd0ed2","start_unix_ns":1790373196016581300,"end_unix_ns":1790373196017091800,"status":"UNSET","attributes":{"db.operation":"SELECT"}}
+{"event":"span","name":"db.query","trace_id":"8767f9821f2b0b3d10c54f1facec639b","span_id":"ec884a5ce952a580","parent_span_id":"b5e3092ac7cd0ed2","start_unix_ns":1790373196017603200,"end_unix_ns":1790373196018113900,"status":"UNSET","attributes":{"db.operation":"SELECT"}}
+{"event":"span","name":"db.query","trace_id":"8767f9821f2b0b3d10c54f1facec639b","span_id":"c29999ec6b417449","parent_span_id":"b5e3092ac7cd0ed2","start_unix_ns":1790373196018113900,"end_unix_ns":1790373196018624600,"status":"UNSET","attributes":{"db.operation":"SELECT"}}
+{"event":"span","name":"db.query","trace_id":"8767f9821f2b0b3d10c54f1facec639b","span_id":"c43992a856059b0f","parent_span_id":"b5e3092ac7cd0ed2","start_unix_ns":1790373196019640800,"end_unix_ns":1790373196020147300,"status":"UNSET","attributes":{"db.operation":"SELECT"}}
+{"event":"span","name":"db.query","trace_id":"8767f9821f2b0b3d10c54f1facec639b","span_id":"74e4ba9e47780fbd","parent_span_id":"b5e3092ac7cd0ed2","start_unix_ns":1790373196020657900,"end_unix_ns":1790373196021168200,"status":"UNSET","attributes":{"db.operation":"SELECT"}}
+{"event":"span","name":"db.query","trace_id":"8767f9821f2b0b3d10c54f1facec639b","span_id":"a507ccccba705ea7","parent_span_id":"b5e3092ac7cd0ed2","start_unix_ns":1790373196021681100,"end_unix_ns":1790373196022792300,"status":"UNSET","attributes":{"db.operation":"INSERT"}}
+{"event":"span","name":"db.query","trace_id":"8767f9821f2b0b3d10c54f1facec639b","span_id":"b3e6a9f6310b2e9f","parent_span_id":"b5e3092ac7cd0ed2","start_unix_ns":1790373196022792300,"end_unix_ns":1790373196023815500,"status":"UNSET","attributes":{"db.operation":"SELECT"}}
+{"event":"span","name":"db.query","trace_id":"8767f9821f2b0b3d10c54f1facec639b","span_id":"0aa6d7a7c61da331","parent_span_id":"b5e3092ac7cd0ed2","start_unix_ns":1790373196023815500,"end_unix_ns":1790373196024325300,"status":"UNSET","attributes":{"db.operation":"SELECT"}}
+{"event":"span","name":"db.query","trace_id":"8767f9821f2b0b3d10c54f1facec639b","span_id":"f1b638887833a1e5","parent_span_id":"b5e3092ac7cd0ed2","start_unix_ns":1790373196024835800,"end_unix_ns":1790373196025345600,"status":"UNSET","attributes":{"db.operation":"SELECT"}}
+{"event":"span","name":"db.query","trace_id":"8767f9821f2b0b3d10c54f1facec639b","span_id":"7df63959021ce55f","parent_span_id":"b5e3092ac7cd0ed2","start_unix_ns":1790373196025857200,"end_unix_ns":1790373196026366600,"status":"UNSET","attributes":{"db.operation":"SELECT"}}
+{"event":"span","name":"db.query","trace_id":"8767f9821f2b0b3d10c54f1facec639b","span_id":"67789d13c78d3412","parent_span_id":"b5e3092ac7cd0ed2","start_unix_ns":1790373196026366600,"end_unix_ns":1790373196026876300,"status":"UNSET","attributes":{"db.operation":"SELECT"}}
+{"event":"span","name":"db.query","trace_id":"8767f9821f2b0b3d10c54f1facec639b","span_id":"49f8a8feaecfd17d","parent_span_id":"b5e3092ac7cd0ed2","start_unix_ns":1790373196027389900,"end_unix_ns":1790373196027901900,"status":"UNSET","attributes":{"db.operation":"SELECT"}}
+{"event":"span","name":"db.query","trace_id":"8767f9821f2b0b3d10c54f1facec639b","span_id":"e9cfb5413ae9f6e4","parent_span_id":"b5e3092ac7cd0ed2","start_unix_ns":1790373196028413600,"end_unix_ns":1790373196028924500,"status":"UNSET","attributes":{"db.operation":"SELECT"}}
+{"event":"span","name":"db.query","trace_id":"8767f9821f2b0b3d10c54f1facec639b","span_id":"8253db9bef203843","parent_span_id":"b5e3092ac7cd0ed2","start_unix_ns":1790373196029438100,"end_unix_ns":1790373196029438100,"status":"UNSET","attributes":{"db.operation":"SELECT"}}
+{"event":"span","name":"db.query","trace_id":"8767f9821f2b0b3d10c54f1facec639b","span_id":"9fc286745522b3f6","parent_span_id":"b5e3092ac7cd0ed2","start_unix_ns":1790373196029943900,"end_unix_ns":1790373196030452300,"status":"UNSET","attributes":{"db.operation":"SELECT"}}
+{"event":"span","name":"db.query","trace_id":"8767f9821f2b0b3d10c54f1facec639b","span_id":"6250fe7ff9315a55","parent_span_id":"b5e3092ac7cd0ed2","start_unix_ns":1790373196030960100,"end_unix_ns":1790373196031474500,"status":"UNSET","attributes":{"db.operation":"SELECT"}}
+{"event":"span","name":"db.query","trace_id":"8767f9821f2b0b3d10c54f1facec639b","span_id":"5ad582cda6ba6ff5","parent_span_id":"b5e3092ac7cd0ed2","start_unix_ns":1790373196032497800,"end_unix_ns":1790373196033013800,"status":"UNSET","attributes":{"db.operation":"INSERT"}}
+{"event":"span","name":"db.query","trace_id":"8767f9821f2b0b3d10c54f1facec639b","span_id":"6cd3b73dec711673","parent_span_id":"b5e3092ac7cd0ed2","start_unix_ns":1790373196033013800,"end_unix_ns":1790373196033528300,"status":"UNSET","attributes":{"db.operation":"INSERT"}}
+{"event":"span","name":"db.query","trace_id":"8767f9821f2b0b3d10c54f1facec639b","span_id":"e2be681ee352aab8","parent_span_id":"b5e3092ac7cd0ed2","start_unix_ns":1790373196034037900,"end_unix_ns":1790373196034550700,"status":"UNSET","attributes":{"db.operation":"INSERT"}}
+{"event":"span","name":"db.query","trace_id":"8767f9821f2b0b3d10c54f1facec639b","span_id":"2f292c8f30b4d239","parent_span_id":"b5e3092ac7cd0ed2","start_unix_ns":1790373196034550700,"end_unix_ns":1790373196035065700,"status":"UNSET","attributes":{"db.operation":"UPDATE"}}
+{"event":"span","name":"db.query","trace_id":"8767f9821f2b0b3d10c54f1facec639b","span_id":"0f95fd456dca45a8","parent_span_id":"b5e3092ac7cd0ed2","start_unix_ns":1790373196035577200,"end_unix_ns":1790373196036089100,"status":"UNSET","attributes":{"db.operation":"INSERT"}}
+{"event":"span","name":"api.request","trace_id":"8767f9821f2b0b3d10c54f1facec639b","span_id":"b5e3092ac7cd0ed2","parent_span_id":null,"start_unix_ns":1790373196012479200,"end_unix_ns":1790373196037111400,"status":"UNSET","attributes":{"http.method":"POST","http.status_code":200,"http.route":"/api/v1/blocks/{block_id}/lock"}}

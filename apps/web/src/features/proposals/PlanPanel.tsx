@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { mutate, request, type Identity } from "../../api/client";
 import type { components } from "../../api/generated";
+import TimeExplanation from "./TimeExplanation";
+import { conflictSummary } from "./conflicts";
 type Proposal = components["schemas"]["ProposalView"];
 type Job = components["schemas"]["JobView"];
 const statusLabels: Record<string, string> = {
@@ -50,7 +52,10 @@ export default function PlanPanel({
   const latest = proposals.data?.items?.[0];
   const diff = useQuery({
     queryKey: ["plan-diff", latest?.id],
-    queryFn: () => request<components["schemas"]["PlanDiff"]>(`/proposals/${latest!.id}/diff`),
+    queryFn: () =>
+      request<components["schemas"]["PlanDiff"]>(
+        `/proposals/${latest!.id}/diff`,
+      ),
     enabled: !!latest?.id,
   });
   const running =
@@ -192,15 +197,26 @@ export default function PlanPanel({
                 100 · {candidate.source_policy}
               </p>
             )}
+            {(latest?.id || (failedCandidate && jobId)) && (
+              <TimeExplanation
+                path={
+                  failedCandidate
+                    ? `/jobs/${jobId}/time-inputs`
+                    : `/proposals/${latest!.id}/time-inputs`
+                }
+                taskNames={taskNames}
+              />
+            )}
             {violations.length > 0 && (
               <ul className="conflicts">
                 {violations.map((violation, index) => (
                   <li key={`${violation.code}-${index}`}>
-                    <strong>
-                      {violation.code.replaceAll("_", " ").toLowerCase()}
-                    </strong>
+                    <strong>{conflictSummary(violation)}</strong>
                     {Object.keys(violation.facts ?? {}).length > 0 && (
-                      <pre>{JSON.stringify(violation.facts, null, 2)}</pre>
+                      <details>
+                        <summary>Diagnostic details</summary>
+                        <pre>{JSON.stringify(violation.facts, null, 2)}</pre>
+                      </details>
                     )}
                   </li>
                 ))}
@@ -208,13 +224,26 @@ export default function PlanPanel({
             )}
             {blocks.length > 0 && (
               <>
-                {diff.data && <details>
-                  <summary>Changes from the previous plan</summary>
-                  <p>{diff.data.retained?.length ?? 0} retained · {diff.data.moved?.length ?? 0} moved · {diff.data.added?.length ?? 0} added · {diff.data.removed?.length ?? 0} removed</p>
-                  <ul>{diff.data.moved?.map((move) => <li key={move.new.id}>
-                    {taskNames[move.new.task_id] ?? "Task"}: {formatTime(move.old.start)} → {formatTime(move.new.start)}
-                  </li>)}</ul>
-                </details>}
+                {diff.data && (
+                  <details>
+                    <summary>Changes from the previous plan</summary>
+                    <p>
+                      {diff.data.retained?.length ?? 0} retained ·{" "}
+                      {diff.data.moved?.length ?? 0} moved ·{" "}
+                      {diff.data.added?.length ?? 0} added ·{" "}
+                      {diff.data.removed?.length ?? 0} removed
+                    </p>
+                    <ul>
+                      {diff.data.moved?.map((move) => (
+                        <li key={move.new.id}>
+                          {taskNames[move.new.task_id] ?? "Task"}:{" "}
+                          {formatTime(move.old.start)} →{" "}
+                          {formatTime(move.new.start)}
+                        </li>
+                      ))}
+                    </ul>
+                  </details>
+                )}
                 <p className="field-help">
                   All times shown in {identity.timezone}. Scheduling uses
                   15-minute slots.

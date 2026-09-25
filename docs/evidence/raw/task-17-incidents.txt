@@ -1,0 +1,9 @@
+{"fault": "database_connections_disabled", "detected_and_recovered_seconds": 0.049, "states": [503, 200]}
+.{"fault": "synthetic_provider_throttle", "states": ["FAILED", "READY"], "automatic_retry": false}
+{"event":"span","name":"db.query","trace_id":"c97452a2a25241be003ea334713a44c9","span_id":"92053006277e034f","parent_span_id":"9721011382ff8be2","start_unix_ns":1790372095071943500,"end_unix_ns":1790372095072974600,"status":"UNSET","attributes":{"db.operation":"SELECT"}}
+{"event":"span","name":"db.query","trace_id":"c97452a2a25241be003ea334713a44c9","span_id":"c070ce9fcb7934dd","parent_span_id":"9721011382ff8be2","start_unix_ns":1790372095074502100,"end_unix_ns":1790372095075532600,"status":"UNSET","attributes":{"db.operation":"SELECT"}}
+{"event":"span","name":"db.query","trace_id":"c97452a2a25241be003ea334713a44c9","span_id":"582ec1118cb9a5ae","parent_span_id":"9721011382ff8be2","start_unix_ns":1790372095077633600,"end_unix_ns":1790372095078143400,"status":"UNSET","attributes":{"db.operation":"SELECT"}}
+{"event":"span","name":"api.request","trace_id":"c97452a2a25241be003ea334713a44c9","span_id":"9721011382ff8be2","parent_span_id":null,"start_unix_ns":1790372095070919800,"end_unix_ns":1790372095079164600,"status":"UNSET","attributes":{"http.method":"GET","http.status_code":200,"http.route":"/api/v1/me"}}
+.{"fault": "killed_worker_process", "states": ["RUNNING", "QUEUED", "SUCCEEDED"], "lease_clock_advance_seconds": 31, "wall_seconds": 1.769}
+.
+3 passed in 3.78s

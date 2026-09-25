@@ -24,6 +24,7 @@ from planner.ai.provider import (
 from planner.ai.spend import reserve, settle
 from planner.db.ai_models import InterpretationRecord
 from planner.db.session import create_db_engine
+from planner.observability.runtime import observed_provider, traced_work
 from planner.settings import Settings
 
 POOL_SIZE = 2
@@ -75,6 +76,7 @@ def claim_next(engine, now):
         )
 
 
+@traced_work("interpretation")
 def process_claim(engine, claim, *, provider=None, config=None, clock=utc_now):
     started = perf_counter()
     config = config or AIConfig()
@@ -86,6 +88,8 @@ def process_claim(engine, claim, *, provider=None, config=None, clock=utc_now):
             provider = provider or OpenAIResponsesProvider(config, reserved_microusd=amount)
         else:
             provider = provider or MockProvider()
+
+        provider = observed_provider(provider)
 
         async def bounded_call():
             async with asyncio.timeout(config.provider_timeout_seconds):
@@ -174,6 +178,9 @@ def main():
     signal.signal(signal.SIGTERM, lambda *_: stop.set())
     signal.signal(signal.SIGINT, lambda *_: stop.set())
     engine = create_db_engine(Settings())
+    from planner.observability.runtime import get_telemetry
+
+    get_telemetry().observe_database(engine)
     try:
         serve(engine, stop)
     finally:

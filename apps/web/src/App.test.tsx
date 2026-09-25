@@ -4,7 +4,10 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { afterEach, expect, test, vi } from "vitest";
 import App from "./App";
 
-afterEach(() => vi.unstubAllGlobals());
+afterEach(() => {
+  vi.unstubAllGlobals();
+  window.location.hash = "";
+});
 function renderApp() {
   const client = new QueryClient({
     defaultOptions: { queries: { retry: false } },
@@ -59,4 +62,24 @@ test("does not claim connection for an unexpected readiness response", async () 
   expect(await screen.findByRole("alert")).toHaveTextContent(
     "Workspace is unavailable",
   );
+});
+
+test("evidence and limitations stay readable while the backend is unavailable", async () => {
+  vi.stubGlobal("fetch", vi.fn().mockRejectedValue(new Error("offline")));
+  renderApp();
+  await userEvent.click(
+    screen.getByRole("link", { name: "Evidence & limits" }),
+  );
+  expect(
+    await screen.findByRole("heading", { name: "What has been verified" }),
+  ).toBeInTheDocument();
+  expect(
+    screen.getByText(
+      "Live Google, paid AI evaluation and AWS deployment have not been executed.",
+    ),
+  ).toBeInTheDocument();
+  await userEvent.click(screen.getByText("AI evaluation", { exact: true }));
+  expect(
+    await screen.findByRole("link", { name: "Download AI evaluation report" }),
+  ).toHaveAttribute("download");
 });

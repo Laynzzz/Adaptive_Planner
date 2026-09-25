@@ -1,0 +1,13 @@
+
+> @adaptive-planner/web@0.1.0 test
+> vitest --run src/features/tasks/TaskEditor.test.tsx
+
+
+ RUN  v5.0.2 C:/Users/tiany/.codex/worktrees/adaptive-planner-implementation/adaptive-planner/apps/web
+
+
+ Test Files  1 passed (1)
+      Tests  3 passed (3)
+   Start at  18:02:05
+   Duration  1.87s (tests 58%, environment 28%, setup 8%, transform 3%, import 3%)
+

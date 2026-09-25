@@ -21,6 +21,7 @@ from planner.calendar.sync import synchronize
 from planner.db.calendar_models import BlockEventMapping, CalendarConnection
 from planner.db.job_models import ProposalRecord
 from planner.db.models import Identity, PlanningState
+from planner.observability.runtime import traced_owner_work
 
 CALENDAR_POOL_SIZE = 2
 
@@ -49,6 +50,7 @@ def default_provider_factory(engine, config, clock):
     return factory
 
 
+@traced_owner_work("disconnect")
 def _disconnect(engine, owner, provider, token, clock):
     with Session(engine) as db:
         connection = db.get(CalendarConnection, owner)
@@ -245,6 +247,9 @@ def main():
     signal.signal(signal.SIGTERM, lambda *_: stop.set())
     signal.signal(signal.SIGINT, lambda *_: stop.set())
     engine = create_db_engine(Settings())
+    from planner.observability.runtime import get_telemetry
+
+    get_telemetry().observe_database(engine)
     try:
         serve(engine, stop, clock=lambda: datetime.now(UTC))
     finally:

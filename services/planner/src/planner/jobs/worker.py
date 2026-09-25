@@ -12,6 +12,7 @@ from planner.jobs.dispatcher import claim_next
 from planner.jobs.handlers import fail_attempt, finalize
 from planner.jobs.leases import heartbeat, is_obsolete, reconcile_expired
 from planner.jobs.subprocesses import run_solver
+from planner.observability.runtime import span, traced_work
 from planner.settings import Settings
 
 SOLVE_POOL_SIZE = 2
@@ -23,6 +24,7 @@ def utc_now():
     return datetime.now(UTC)
 
 
+@traced_work("solve")
 def work_claim(engine, claim, stop, clock=utc_now):
     result = run_solver(
         claim.snapshot,
@@ -30,7 +32,12 @@ def work_claim(engine, claim, stop, clock=utc_now):
         on_heartbeat=lambda: heartbeat(engine, claim, now=clock()),
     )
     if result.candidate is not None:
-        return finalize(engine, claim, result.candidate, now=clock())
+        with span(
+            "job.result",
+            solver_status=result.candidate.status,
+            reason_code=result.candidate.solver_metadata.reason_code,
+        ):
+            return finalize(engine, claim, result.candidate, now=clock())
     if result.reason_code == "SUPERSEDED" and not stop.is_set():
         empty = Candidate(
             snapshot_hash=claim.snapshot.snapshot_hash,
@@ -80,6 +87,9 @@ def main():
     signal.signal(signal.SIGTERM, lambda *_: stop.set())
     signal.signal(signal.SIGINT, lambda *_: stop.set())
     engine = create_db_engine(Settings())
+    from planner.observability.runtime import get_telemetry
+
+    get_telemetry().observe_database(engine)
     try:
         serve(engine, stop)
     finally:

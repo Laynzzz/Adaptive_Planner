@@ -17,8 +17,15 @@ from planner.domain.weekday_rules import accept_weekday_rule, assert_deadline_al
 
 
 def accept_in_transaction(
-    db, owner_id, interpretation_id, selected_keys, confirmed_fields, overrides, *, now,
-    selected_constraint_keys=None
+    db,
+    owner_id,
+    interpretation_id,
+    selected_keys,
+    confirmed_fields,
+    overrides,
+    *,
+    now,
+    selected_constraint_keys=None,
 ):
     record = db.scalar(
         select(InterpretationRecord).where(
@@ -38,27 +45,47 @@ def accept_in_transaction(
             "MODEL_OUTPUT_INVALID", 422, "The proposal failed semantic validation."
         ) from None
     if proposal.constraints and selected_constraint_keys is None:
-        raise APIError("CONSTRAINT_REVIEW_REQUIRED", 422,
-                       "Explicitly select or deselect the proposed weekday rules.")
+        raise APIError(
+            "CONSTRAINT_REVIEW_REQUIRED",
+            422,
+            "Explicitly select or deselect the proposed weekday rules.",
+        )
     selected_rules = set(selected_constraint_keys or ())
     rules = {rule.key: rule for rule in proposal.constraints}
-    if (len(rules) != len(proposal.constraints)
-            or len(selected_rules) != len(selected_constraint_keys or ())
-            or not selected_rules.issubset(rules)):
+    if (
+        len(rules) != len(proposal.constraints)
+        or len(selected_rules) != len(selected_constraint_keys or ())
+        or not selected_rules.issubset(rules)
+    ):
         raise APIError("SELECTION_INVALID", 422, "Select each proposed rule at most once.")
     if proposal.abstained or not (selected_keys or selected_rules):
         raise APIError("CLARIFICATION_REQUIRED", 422, "Select at least one proposed task or rule.")
     for key in selected_rules:
         rule = rules[key]
         evidence = " ".join(span.text.lower() for span in rule.evidence)
-        weekday = ("monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday")[rule.weekday]
-        cues = {"SOFT_AVOID": r"\b(dislike|prefer|avoid|rather)\b",
-                "HARD_UNAVAILABLE": r"\b(cannot|can't|unavailable|must not|never|no work|not available)\b",
-                "HARD_NO_DEADLINE": r"\b(no deadlines?|no due dates?|deadlines? (?:must not|cannot|can't|not)|not due)\b"}
-        if (rule.label == "unknown" or not re.search(cues[rule.kind], evidence)
-                or not re.search(r"\b" + weekday + r"\b", evidence)):
-            raise APIError("CONSTRAINT_UNSUPPORTED", 422,
-                           "The rule lacks supported source evidence; use the explicit rule form.")
+        weekday = ("monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday")[
+            rule.weekday
+        ]
+        cues = {
+            "SOFT_AVOID": r"\b(dislike|prefer|avoid|rather)\b",
+            "HARD_UNAVAILABLE": (
+                r"\b(cannot|can't|unavailable|must not|never|no work|not available)\b"
+            ),
+            "HARD_NO_DEADLINE": (
+                r"\b(no deadlines?|no due dates?|deadlines? "
+                r"(?:must not|cannot|can't|not)|not due)\b"
+            ),
+        }
+        if (
+            rule.label == "unknown"
+            or not re.search(cues[rule.kind], evidence)
+            or not re.search(r"\b" + weekday + r"\b", evidence)
+        ):
+            raise APIError(
+                "CONSTRAINT_UNSUPPORTED",
+                422,
+                "The rule lacks supported source evidence; use the explicit rule form.",
+            )
         if f"constraints.{key}" not in confirmed_fields:
             raise APIError("CONFIRMATION_REQUIRED", 422, "Confirm every selected weekday rule.")
     tasks = {task.key: task for task in proposal.tasks}
@@ -165,9 +192,14 @@ def accept_in_transaction(
                     owner_id=owner_id, predecessor_id=ids[predecessor], successor_id=ids[key]
                 )
             )
-    rule_ids = [str(accept_weekday_rule(db, owner_id, rules[key].kind, rules[key].weekday, now))
-                for key in (selected_constraint_keys or ())]
+    rule_ids = [
+        str(accept_weekday_rule(db, owner_id, rules[key].kind, rules[key].weekday, now))
+        for key in (selected_constraint_keys or ())
+    ]
     record.state = "ACCEPTED"
     record.accepted_task_ids = [str(ids[key]) for key in selected_keys]
-    return {"task_ids": record.accepted_task_ids, "weekday_rule_ids": rule_ids,
-            "interpretation_id": str(record.id)}
+    return {
+        "task_ids": record.accepted_task_ids,
+        "weekday_rule_ids": rule_ids,
+        "interpretation_id": str(record.id),
+    }

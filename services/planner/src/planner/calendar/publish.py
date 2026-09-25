@@ -18,6 +18,7 @@ from planner.db.calendar_models import BlockEventMapping, CalendarConnection, Ca
 from planner.db.job_models import ProposalBlock, ProposalRecord, PublicationOperation
 from planner.db.models import AuditEvent, PlanningState, Task
 from planner.jobs.coalescing import enqueue_in_transaction
+from planner.observability.runtime import traced_owner_work
 
 
 @dataclass(frozen=True)
@@ -316,6 +317,7 @@ def _run_operation(engine, operation_id, provider, token, clock):
         _record(engine, operation_id, token, clock, remote=remote, failure=error.kind)
 
 
+@traced_owner_work("publish")
 def publish_active(engine, owner_id, provider, *, clock, limit=200) -> PublicationResult:
     token = uuid4()
     with Session(engine) as db, db.begin():

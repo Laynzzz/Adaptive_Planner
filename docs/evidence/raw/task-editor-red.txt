@@ -1,0 +1,44 @@
+
+> @adaptive-planner/web@0.1.0 test
+> vitest --run src/features/tasks/TaskEditor.test.tsx
+
+
+ RUN  v5.0.2 C:/Users/tiany/.codex/worktrees/adaptive-planner-implementation/adaptive-planner/apps/web
+
+ ❯ src/features/tasks/TaskEditor.test.tsx (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/features/tasks/TaskEditor.test.tsx [ src/features/tasks/TaskEditor.test.tsx ]
+Error: Failed to resolve import "./TaskEditor" from "src/features/tasks/TaskEditor.test.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: C:/Users/tiany/.codex/worktrees/adaptive-planner-implementation/adaptive-planner/apps/web/src/features/tasks/TaskEditor.test.tsx:5:23
+  2  |  import userEvent from "@testing-library/user-event";
+  3  |  import { afterEach, expect, test, vi } from "vitest";
+  4  |  import TaskEditor from "./TaskEditor";
+     |                          ^
+  5  |  var _jsxFileName = "C:/Users/tiany/.codex/worktrees/adaptive-planner-implementation/adaptive-planner/apps/web/src/fea...
+  6  |  import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";
+ ❯ TransformPluginContext._formatLog ../../node_modules/vite/dist/node/chunks/node.js:8736:39
+ ❯ TransformPluginContext.error ../../node_modules/vite/dist/node/chunks/node.js:8733:14
+ ❯ normalizeUrl ../../node_modules/vite/dist/node/chunks/node.js:26423:18
+ ❯ ../../node_modules/vite/dist/node/chunks/node.js:26493:30
+ ❯ TransformPluginContext.transform ../../node_modules/vite/dist/node/chunks/node.js:26459:4
+ ❯ EnvironmentPluginContainer.transform ../../node_modules/vite/dist/node/chunks/node.js:8515:14
+ ❯ loadAndTransform ../../node_modules/vite/dist/node/chunks/node.js:19998:26
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  no tests
+   Start at  17:50:59
+   Duration  849ms (environment 75%, setup 22%, transform 3%, worker 1%)
+
+npm error Lifecycle script `test` failed with error:
+npm error code 1
+npm error path C:\Users\tiany\.codex\worktrees\adaptive-planner-implementation\adaptive-planner\apps\web
+npm error workspace @adaptive-planner/web@0.1.0
+npm error location C:\Users\tiany\.codex\worktrees\adaptive-planner-implementation\adaptive-planner\apps\web
+npm error command failed
+npm error command C:\WINDOWS\system32\cmd.exe /d /s /c vitest --run src/features/tasks/TaskEditor.test.tsx

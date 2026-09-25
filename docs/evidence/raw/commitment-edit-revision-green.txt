@@ -1,0 +1,13 @@
+
+> @adaptive-planner/web@0.1.0 test
+> vitest --run src/features/tasks/Commitments.test.tsx
+
+
+ RUN  v5.0.2 C:/Users/tiany/.codex/worktrees/adaptive-planner-implementation/adaptive-planner/apps/web
+
+
+ Test Files  1 passed (1)
+      Tests  2 passed (2)
+   Start at  18:13:13
+   Duration  1.56s (tests 50%, environment 32%, setup 9%, import 5%, transform 3%)
+

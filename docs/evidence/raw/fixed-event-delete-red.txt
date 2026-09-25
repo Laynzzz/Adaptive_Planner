@@ -1,0 +1,41 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+_ test_delete_fixed_event_checks_owner_revision_and_replays_without_new_demand _
+
+api_a = <conftest.AuthenticatedAPI object at 0x0000022719680770>
+api_b = <conftest.AuthenticatedAPI object at 0x00000227196E7980>
+app = <fastapi.applications.FastAPI object at 0x00000227180FF7A0>
+
+    def test_delete_fixed_event_checks_owner_revision_and_replays_without_new_demand(api_a, api_b, app):
+        event = api_a.post('/api/v1/fixed-events', json={
+            'title': 'Synthetic meeting', 'start': '2026-09-26T10:00:00Z',
+            'end': '2026-09-26T11:00:00Z', 'expected_revision': 0,
+        }).json()
+        path = '/api/v1/fixed-events/' + event['id']
+        def remove(api, revision, key=None):
+            return api.request('DELETE', path, json={'expected_revision': revision},
+                               headers={'Idempotency-Key': key or str(uuid4())})
+        foreign = remove(api_b, 0)
+{"event":"span","name":"db.query","trace_id":"3e07226ce4a2869d01c8675378cd8971","span_id":"0443590f16ff2b86","parent_span_id":"092920290486c716","start_unix_ns":1790372868980973800,"end_unix_ns":1790372868982002300,"status":"UNSET","attributes":{"db.operation":"SELECT"}}
+>       assert foreign.status_code == 404
+E       assert 405 == 404
+E        +  where 405 = <Response [405 Method Not Allowed]>.status_code
+
+tests\integration\test_fixed_events.py:19: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/integration/test_fixed_events.py::test_delete_fixed_event_checks_owner_revision_and_replays_without_new_demand
+1 failed in 0.96s
+{"event":"span","name":"db.query","trace_id":"3e07226ce4a2869d01c8675378cd8971","span_id":"c470be6565b2b43c","parent_span_id":"092920290486c716","start_unix_ns":1790372868985589800,"end_unix_ns":1790372868986617100,"status":"UNSET","attributes":{"db.operation":"SELECT"}}
+{"event":"span","name":"db.query","trace_id":"3e07226ce4a2869d01c8675378cd8971","span_id":"697317857b552da8","parent_span_id":"092920290486c716","start_unix_ns":1790372868987637600,"end_unix_ns":1790372868988147700,"status":"UNSET","attributes":{"db.operation":"SELECT"}}
+{"event":"span","name":"api.request","trace_id":"3e07226ce4a2869d01c8675378cd8971","span_id":"092920290486c716","parent_span_id":null,"start_unix_ns":1790372868979428600,"end_unix_ns":1790372868989177400,"status":"UNSET","attributes":{"http.method":"GET","http.status_code":200,"http.route":"/api/v1/me"}}
+{"event":"span","name":"db.query","trace_id":"c2d8a15e5706034007d641f6e475a218","span_id":"5e975ba5e9964032","parent_span_id":"4202469c7e8e31a0","start_unix_ns":1790372869125306400,"end_unix_ns":1790372869126335800,"status":"UNSET","attributes":{"db.operation":"SELECT"}}
+{"event":"span","name":"db.query","trace_id":"c2d8a15e5706034007d641f6e475a218","span_id":"d601a705f3bd9176","parent_span_id":"4202469c7e8e31a0","start_unix_ns":1790372869128382400,"end_unix_ns":1790372869129408200,"status":"UNSET","attributes":{"db.operation":"SELECT"}}
+{"event":"span","name":"db.query","trace_id":"c2d8a15e5706034007d641f6e475a218","span_id":"bb8e79749a503240","parent_span_id":"4202469c7e8e31a0","start_unix_ns":1790372869130973900,"end_unix_ns":1790372869131988500,"status":"UNSET","attributes":{"db.operation":"SELECT"}}
+{"event":"span","name":"db.query","trace_id":"c2d8a15e5706034007d641f6e475a218","span_id":"ed1f22836139ba86","parent_span_id":"4202469c7e8e31a0","start_unix_ns":1790372869131988500,"end_unix_ns":1790372869132500800,"status":"UNSET","attributes":{"db.operation":"SELECT"}}
+{"event":"span","name":"db.query","trace_id":"c2d8a15e5706034007d641f6e475a218","span_id":"886d56d062ab23fb","parent_span_id":"4202469c7e8e31a0","start_unix_ns":1790372869133524700,"end_unix_ns":1790372869134165700,"status":"UNSET","attributes":{"db.operation":"INSERT"}}
+{"event":"span","name":"db.query","trace_id":"c2d8a15e5706034007d641f6e475a218","span_id":"12c00991cd95fe2d","parent_span_id":"4202469c7e8e31a0","start_unix_ns":1790372869135191300,"end_unix_ns":1790372869136212500,"status":"UNSET","attributes":{"db.operation":"INSERT"}}
+{"event":"span","name":"db.query","trace_id":"c2d8a15e5706034007d641f6e475a218","span_id":"de5d079242db396d","parent_span_id":"4202469c7e8e31a0","start_unix_ns":1790372869136724200,"end_unix_ns":1790372869137745400,"status":"UNSET","attributes":{"db.operation":"INSERT"}}
+{"event":"span","name":"db.query","trace_id":"c2d8a15e5706034007d641f6e475a218","span_id":"0ddb767fe6566e5a","parent_span_id":"4202469c7e8e31a0","start_unix_ns":1790372869138256700,"end_unix_ns":1790372869139280100,"status":"UNSET","attributes":{"db.operation":"INSERT"}}
+{"event":"span","name":"db.query","trace_id":"c2d8a15e5706034007d641f6e475a218","span_id":"f99c8fa5549c34ec","parent_span_id":"4202469c7e8e31a0","start_unix_ns":1790372869139280100,"end_unix_ns":1790372869139794500,"status":"UNSET","attributes":{"db.operation":"UPDATE"}}
+{"event":"span","name":"db.query","trace_id":"c2d8a15e5706034007d641f6e475a218","span_id":"c3dbf48dfbef3f2e","parent_span_id":"4202469c7e8e31a0","start_unix_ns":1790372869140304600,"end_unix_ns":1790372869141327200,"status":"UNSET","attributes":{"db.operation":"INSERT"}}
+{"event":"span","name":"api.request","trace_id":"c2d8a15e5706034007d641f6e475a218","span_id":"4202469c7e8e31a0","parent_span_id":null,"start_unix_ns":1790372869123770300,"end_unix_ns":1790372869142866500,"status":"UNSET","attributes":{"http.method":"POST","http.status_code":201,"http.route":"/api/v1/fixed-events"}}

@@ -284,7 +284,8 @@ export interface paths {
         get?: never;
         put?: never;
         post?: never;
-        delete?: never;
+        /** Delete Event */
+        delete: operations["delete_event_api_v1_fixed_events__event_id__delete"];
         options?: never;
         head?: never;
         /** Patch Event */
@@ -351,6 +352,23 @@ export interface paths {
         };
         /** Get Job */
         get: operations["get_job_api_v1_jobs__job_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/jobs/{job_id}/time-inputs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Job Time Inputs */
+        get: operations["job_time_inputs_api_v1_jobs__job_id__time_inputs_get"];
         put?: never;
         post?: never;
         delete?: never;
@@ -444,6 +462,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/proposals/{proposal_id}/time-inputs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Proposal Time Inputs */
+        get: operations["proposal_time_inputs_api_v1_proposals__proposal_id__time_inputs_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/protected-work": {
         parameters: {
             query?: never;
@@ -472,6 +507,40 @@ export interface paths {
         put?: never;
         /** Generate */
         post: operations["generate_api_v1_replans_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/settings/timezone": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Change */
+        put: operations["change_api_v1_settings_timezone_put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/settings/timezone-preview": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Preview */
+        get: operations["preview_api_v1_settings_timezone_preview_get"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -977,6 +1046,19 @@ export interface components {
             /** Weekday */
             weekday: number;
         };
+        /** DateDeadlineChange */
+        DateDeadlineChange: {
+            /** Date */
+            date: string;
+            /** New Bound */
+            new_bound: string;
+            /** Old Bound */
+            old_bound: string;
+            /** Task Id */
+            task_id: string;
+            /** Title */
+            title: string;
+        };
         /** Deadline */
         Deadline: {
             /** Fold */
@@ -1332,6 +1414,17 @@ export interface components {
              */
             start: string;
         };
+        /** OriginalTimeInput */
+        OriginalTimeInput: {
+            /** Field */
+            field: string;
+            /** Fold */
+            fold?: (0 | 1) | null;
+            /** Timezone */
+            timezone: string;
+            /** Value */
+            value: string;
+        };
         /** PlanDiff */
         PlanDiff: {
             /**
@@ -1455,6 +1548,23 @@ export interface components {
         RevisionResponse: {
             /** Revision */
             revision: number;
+        };
+        /** RoundingLoss */
+        RoundingLoss: {
+            /** Field */
+            field: string;
+            /**
+             * Original
+             * Format: date-time
+             */
+            original: string;
+            /**
+             * Rounded
+             * Format: date-time
+             */
+            rounded: string;
+            /** Seconds */
+            seconds: number;
         };
         /** RuleCommand */
         RuleCommand: {
@@ -1695,6 +1805,61 @@ export interface components {
             state: "TODO" | "IN_PROGRESS" | "DONE" | "CANCELLED";
             /** Title */
             title: string;
+        };
+        /** TimeInputView */
+        TimeInputView: {
+            /**
+             * Original Time Inputs
+             * @default []
+             */
+            original_time_inputs: components["schemas"]["OriginalTimeInput"][];
+            /**
+             * Rounding Losses
+             * @default []
+             */
+            rounding_losses: components["schemas"]["RoundingLoss"][];
+            /** Timezone */
+            timezone: string;
+        };
+        /** TimezoneCommand */
+        TimezoneCommand: {
+            /**
+             * Confirmed
+             * @constant
+             */
+            confirmed: true;
+            /** Expected Revision */
+            expected_revision: number;
+            /** Preview Hash */
+            preview_hash: string;
+            /** Timezone */
+            timezone: string;
+        };
+        /** TimezonePreview */
+        TimezonePreview: {
+            /** Date Deadlines */
+            date_deadlines: components["schemas"]["DateDeadlineChange"][];
+            /** Old Timezone */
+            old_timezone: string;
+            /** Preserved Available Windows */
+            preserved_available_windows: number;
+            /** Preserved Fixed Events */
+            preserved_fixed_events: number;
+            /** Preview Hash */
+            preview_hash: string;
+            /** Revision */
+            revision: number;
+            /** Timezone */
+            timezone: string;
+            /** Weekly Rules Follow New Timezone */
+            weekly_rules_follow_new_timezone: boolean;
+        };
+        /** TimezoneSaved */
+        TimezoneSaved: {
+            /** Revision */
+            revision: number;
+            /** Timezone */
+            timezone: string;
         };
         /** ValidationError */
         ValidationError: {
@@ -2333,6 +2498,41 @@ export interface operations {
             };
         };
     };
+    delete_event_api_v1_fixed_events__event_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                event_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RevisionCommand"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RevisionResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     patch_event_api_v1_fixed_events__event_id__patch: {
         parameters: {
             query?: never;
@@ -2498,6 +2698,37 @@ export interface operations {
             };
         };
     };
+    job_time_inputs_api_v1_jobs__job_id__time_inputs_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                job_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TimeInputView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     me_api_v1_me_get: {
         parameters: {
             query?: never;
@@ -2635,6 +2866,37 @@ export interface operations {
             };
         };
     };
+    proposal_time_inputs_api_v1_proposals__proposal_id__time_inputs_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                proposal_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TimeInputView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     protected_list_api_v1_protected_work_get: {
         parameters: {
             query?: never;
@@ -2675,6 +2937,70 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["GenerateResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    change_api_v1_settings_timezone_put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TimezoneCommand"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TimezoneSaved"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    preview_api_v1_settings_timezone_preview_get: {
+        parameters: {
+            query: {
+                timezone: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TimezonePreview"];
                 };
             };
             /** @description Validation Error */

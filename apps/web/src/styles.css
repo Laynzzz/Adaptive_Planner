@@ -5,6 +5,13 @@
   font-synthesis: none;
   text-rendering: optimizeLegibility;
 }
+.evidence-scroll { overflow-x: auto; }
+.evidence-panel table { border-collapse: collapse; width: 100%; font-size: 0.9rem; line-height: 1.5; }
+.evidence-panel th, .evidence-panel td { text-align: left; vertical-align: top; padding: 14px; border-bottom: 1px solid #d8e0ec; }
+.evidence-panel caption { text-align: left; padding: 16px 0; font-weight: 600; }
+.evidence-report { margin: 18px 0; }
+.evidence-report summary { cursor: pointer; font-weight: 600; margin-bottom: 14px; }
+.evidence-report pre { white-space: pre-wrap; overflow-wrap: anywhere; background: #f3f6fb; padding: 18px; font-size: 0.85rem; line-height: 1.6; }
 * {
   box-sizing: border-box;
 }

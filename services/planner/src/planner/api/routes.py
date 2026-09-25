@@ -208,6 +208,17 @@ def patch_task(
         validate_task(db, principal.owner_id, data, request.app.state.clock)
         apply_task_data(task, data)
         db.flush()
+        from planner.domain.task_rules import validate_tasks
+        from planner.jobs.dispatcher import capture_snapshot
+
+        after = capture_snapshot(db, principal.owner_id, request.app.state.clock())
+        for violation in validate_tasks(after):
+            if violation.code == "LOCK_EXCEEDS_REMAINING" and task_id in violation.related_ids:
+                raise APIError(
+                    violation.code,
+                    409,
+                    "Reserved work exceeds the new estimate. Unlock or correct it first.",
+                )
         return task_data(db, task)
 
     return transact(request, principal, payload, mutate)
@@ -223,6 +234,16 @@ def cancel_task(
     def mutate(db):
         task = owned_task(db, principal.owner_id, task_id)
         task.state = "CANCELLED"
+        from planner.db.adaptation_models import ProtectedWork
+
+        for protected in db.scalars(
+            select(ProtectedWork).where(
+                ProtectedWork.owner_id == principal.owner_id,
+                ProtectedWork.task_id == task_id,
+                ProtectedWork.active,
+            )
+        ):
+            protected.active = False
         return task_data(db, task)
 
     return transact(request, principal, body.model_dump(mode="json"), mutate)
@@ -400,3 +421,23 @@ def patch_event(
         return {"id": str(event.id), "title": event.title, **details}
 
     return transact(request, principal, payload, mutate)
+
+@router.delete("/fixed-events/{event_id}", response_model=RevisionResponse)
+def delete_event(
+    event_id: UUID,
+    body: RevisionCommand,
+    request: Request,
+    principal: Principal = Depends(require_mutation),
+):
+    def mutate(db):
+        event = db.scalar(
+            select(FixedEvent).where(
+                FixedEvent.id == event_id, FixedEvent.owner_id == principal.owner_id
+            )
+        )
+        if event is None:
+            raise APIError("NOT_FOUND", 404, "Resource not found.")
+        db.delete(event)
+        return {}
+
+    return transact(request, principal, body.model_dump(mode="json"), mutate)

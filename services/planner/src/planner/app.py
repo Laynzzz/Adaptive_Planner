@@ -6,6 +6,7 @@ from datetime import UTC, datetime
 
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
+from fastapi.staticfiles import StaticFiles
 
 from planner.api.adaptation import router as adaptation_router
 from planner.api.auth import router as auth_router
@@ -13,10 +14,13 @@ from planner.api.calendar import router as calendar_router
 from planner.api.errors import install_error_handlers
 from planner.api.interpretations import router as interpretation_router
 from planner.api.plans import router as plan_router
+from planner.api.preferences import router as preferences_router
 from planner.api.routes import router as input_router
 from planner.api.weekday_rules import router as weekday_router
 from planner.calendar.worker import config_from_environment
 from planner.db.session import create_db_engine, database_is_ready, migration_heads
+from planner.observability.http import TelemetryMiddleware
+from planner.observability.runtime import get_telemetry
 from planner.settings import Settings
 
 
@@ -27,6 +31,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
 
     @asynccontextmanager
     async def lifespan(app: FastAPI) -> AsyncIterator[None]:
+        app.state.telemetry.observe_database(engine)
         yield
         engine.dispose()
 
@@ -43,6 +48,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.state.calendar_config = config_from_environment()
     app.state.engine = engine
     app.state.clock = lambda: datetime.now(UTC)
+    app.state.telemetry = get_telemetry()
+    app.add_middleware(TelemetryMiddleware)
 
     @app.get("/health/live", tags=["health"])
     def live() -> dict[str, str]:
@@ -64,4 +71,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.include_router(adaptation_router)
     app.include_router(calendar_router)
     app.include_router(weekday_router)
+    app.include_router(preferences_router)
+    if config.static_dist_path is not None:
+        app.mount("/", StaticFiles(directory=config.static_dist_path, html=True), name="web")
     return app

@@ -1,0 +1,21 @@
+..F                                                                      [100%]
+================================== FAILURES ===================================
+_______ test_child_route_observation_returns_to_parent_without_payload ________
+
+    def test_child_route_observation_returns_to_parent_without_payload():
+        from planner.jobs.subprocesses import run_solver
+        from planner.observability.runtime import Telemetry, span, use
+        from tests.fixtures.builders import snapshot
+        exporter=InMemorySpanExporter()
+        telemetry=Telemetry(exporter=exporter)
+        with use(telemetry),span('job.solve'):
+            result=run_solver(snapshot())
+        assert result.candidate is not None
+>       route=next(s for s in exporter.get_finished_spans() if s.name=='solver.route')
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       StopIteration
+
+tests\unit\test_telemetry.py:52: StopIteration
+=========================== short test summary info ===========================
+FAILED tests/unit/test_telemetry.py::test_child_route_observation_returns_to_parent_without_payload
+1 failed, 2 passed in 1.07s

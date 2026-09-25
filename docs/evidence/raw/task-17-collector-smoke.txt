@@ -1,0 +1,2 @@
+{"event":"span","name":"incident.recovery","trace_id":"bc04982cb5f611cdfc8b64f47c119119","span_id":"12df12aa48541afc","parent_span_id":null,"start_unix_ns":1790373082101451500,"end_unix_ns":1790373082103453600,"status":"UNSET","attributes":{"reason.code":"SYNTHETIC_SMOKE"}}
+{"collector": "OTLP/HTTP", "database_gauge": 1, "api_histogram": true, "grafana_version": "12.4.0"}

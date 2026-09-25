@@ -1,0 +1,50 @@
+{"event":"span","name":"db.query","trace_id":"5e7df61da9f7e82f0e3388b059b9c6d4","span_id":"22e348498ad420b2","parent_span_id":"7c1e31a6e63cd8f5","start_unix_ns":1790372937160206300,"end_unix_ns":1790372937163259000,"status":"UNSET","attributes":{"db.operation":"SELECT"}}
+{"event":"span","name":"db.query","trace_id":"5e7df61da9f7e82f0e3388b059b9c6d4","span_id":"a152bf23f3f3ebf6","parent_span_id":"7c1e31a6e63cd8f5","start_unix_ns":1790372937164276700,"end_unix_ns":1790372937164876900,"status":"UNSET","attributes":{"db.operation":"DELETE"}}
+{"event":"span","name":"db.query","trace_id":"5e7df61da9f7e82f0e3388b059b9c6d4","span_id":"35b05d0a3ac9f186","parent_span_id":"7c1e31a6e63cd8f5","start_unix_ns":1790372937199156300,"end_unix_ns":1790372937201193800,"status":"UNSET","attributes":{"db.operation":"INSERT"}}
+{"event":"span","name":"db.query","trace_id":"5e7df61da9f7e82f0e3388b059b9c6d4","span_id":"241a355856b74070","parent_span_id":"7c1e31a6e63cd8f5","start_unix_ns":1790372937201701400,"end_unix_ns":1790372937202718100,"status":"UNSET","attributes":{"db.operation":"INSERT"}}
+{"event":"span","name":"db.query","trace_id":"5e7df61da9f7e82f0e3388b059b9c6d4","span_id":"396f46ff640d97af","parent_span_id":"7c1e31a6e63cd8f5","start_unix_ns":1790372937203227200,"end_unix_ns":1790372937203736200,"status":"UNSET","attributes":{"db.operation":"DELETE"}}
+{"event":"span","name":"db.query","trace_id":"5e7df61da9f7e82f0e3388b059b9c6d4","span_id":"54f555b3d8ad2476","parent_span_id":"7c1e31a6e63cd8f5","start_unix_ns":1790372937204248900,"end_unix_ns":1790372937205269100,"status":"UNSET","attributes":{"db.operation":"INSERT"}}
+{"event":"span","name":"api.request","trace_id":"5e7df61da9f7e82f0e3388b059b9c6d4","span_id":"7c1e31a6e63cd8f5","parent_span_id":null,"start_unix_ns":1790372937157139600,"end_unix_ns":1790372937206804300,"status":"UNSET","attributes":{"http.method":"GET","http.status_code":302,"http.route":"/api/v1/auth/callback"}}
+{"event":"span","name":"db.query","trace_id":"13e7772ca5ef6a8d1700bc85c6c03e31","span_id":"6ba5e62d0de3b65f","parent_span_id":"05d0bab312cc64af","start_unix_ns":1790372937908384300,"end_unix_ns":1790372937909404500,"status":"UNSET","attributes":{"db.operation":"SELECT"}}
+{"event":"span","name":"db.query","trace_id":"13e7772ca5ef6a8d1700bc85c6c03e31","span_id":"2549e4d038c6dfe5","parent_span_id":"05d0bab312cc64af","start_unix_ns":1790372937911445300,"end_unix_ns":1790372937912464800,"status":"UNSET","attributes":{"db.operation":"SELECT"}}
+{"event":"span","name":"db.query","trace_id":"13e7772ca5ef6a8d1700bc85c6c03e31","span_id":"e1183dc37fcce689","parent_span_id":"05d0bab312cc64af","start_unix_ns":1790372937912464800,"end_unix_ns":1790372937912969700,"status":"UNSET","attributes":{"db.operation":"SELECT"}}
+{"event":"span","name":"db.query","trace_id":"13e7772ca5ef6a8d1700bc85c6c03e31","span_id":"340830c27e8b986c","parent_span_id":"05d0bab312cc64af","start_unix_ns":1790372937913985900,"end_unix_ns":1790372937914494200,"status":"UNSET","attributes":{"db.operation":"SELECT"}}
+{"event":"span","name":"db.query","trace_id":"13e7772ca5ef6a8d1700bc85c6c03e31","span_id":"ab35808174177b5d","parent_span_id":"05d0bab312cc64af","start_unix_ns":1790372937915004900,"end_unix_ns":1790372937915004900,"status":"UNSET","attributes":{"db.operation":"SELECT"}}
+{"event":"span","name":"db.query","trace_id":"13e7772ca5ef6a8d1700bc85c6c03e31","span_id":"33725c3a00b6cfa3","parent_span_id":"05d0bab312cc64af","start_unix_ns":1790372937916022000,"end_unix_ns":1790372937916530300,"status":"UNSET","attributes":{"db.operation":"UPDATE"}}
+{"event":"span","name":"db.query","trace_id":"13e7772ca5ef6a8d1700bc85c6c03e31","span_id":"69985b2594a4bbc5","parent_span_id":"05d0bab312cc64af","start_unix_ns":1790372937917038400,"end_unix_ns":1790372937917546700,"status":"UNSET","attributes":{"db.operation":"SELECT"}}
+{"event":"span","name":"db.query","trace_id":"13e7772ca5ef6a8d1700bc85c6c03e31","span_id":"63f9d1c74dd2cc2a","parent_span_id":"05d0bab312cc64af","start_unix_ns":1790372937918082000,"end_unix_ns":1790372937918590700,"status":"UNSET","attributes":{"db.operation":"INSERT"}}
+{"event":"span","name":"db.query","trace_id":"13e7772ca5ef6a8d1700bc85c6c03e31","span_id":"d2613820d44fda85","parent_span_id":"05d0bab312cc64af","start_unix_ns":1790372937918590700,"end_unix_ns":1790372937919099000,"status":"UNSET","attributes":{"db.operation":"INSERT"}}
+{"event":"span","name":"db.query","trace_id":"13e7772ca5ef6a8d1700bc85c6c03e31","span_id":"923073fdf1a13abe","parent_span_id":"05d0bab312cc64af","start_unix_ns":1790372937919607500,"end_unix_ns":1790372937920115700,"status":"UNSET","attributes":{"db.operation":"INSERT"}}
+{"event":"span","name":"db.query","trace_id":"13e7772ca5ef6a8d1700bc85c6c03e31","span_id":"30e455d0255ce79c","parent_span_id":"05d0bab312cc64af","start_unix_ns":1790372937920115700,"end_unix_ns":1790372937920624200,"status":"UNSET","attributes":{"db.operation":"UPDATE"}}
+{"event":"span","name":"db.query","trace_id":"13e7772ca5ef6a8d1700bc85c6c03e31","span_id":"d6af39884c0f28f6","parent_span_id":"05d0bab312cc64af","start_unix_ns":1790372937921132600,"end_unix_ns":1790372937921641300,"status":"UNSET","attributes":{"db.operation":"INSERT"}}
+{"event":"span","name":"api.request","trace_id":"13e7772ca5ef6a8d1700bc85c6c03e31","span_id":"05d0bab312cc64af","parent_span_id":null,"start_unix_ns":1790372937906773600,"end_unix_ns":1790372937923219100,"status":"UNSET","attributes":{"http.method":"PATCH","http.status_code":200,"http.route":"/api/v1/tasks/{task_id}"}}
+.F                                                                       [100%]
+================================== FAILURES ===================================
+_________ test_task_patch_cannot_reduce_estimate_below_protected_work _________
+
+api_a = <conftest.AuthenticatedAPI object at 0x00000210CBF90290>
+app = <fastapi.applications.FastAPI object at 0x00000210CBEB2660>
+
+    def test_task_patch_cannot_reduce_estimate_below_protected_work(api_a, app):
+        from datetime import UTC, datetime, timedelta
+    
+        from planner.db.adaptation_models import ProtectedWork
+    
+        task = api_a.post('/api/v1/tasks', json={
+            'title': 'Protected synthetic task', 'remaining_minutes': 60, 'expected_revision': 0,
+        }).json()
+        now = datetime.now(UTC).replace(hour=0, minute=0, second=0, microsecond=0) + timedelta(days=1)
+        with Session(app.state.engine) as db, db.begin():
+            db.add(ProtectedWork(owner_id=UUID(task['owner_id']), id=uuid4(), task_id=UUID(task['id']),
+                                 start=now, end=now+timedelta(minutes=60), source='MANUAL', locked=True))
+        changed = api_a.patch('/api/v1/tasks/'+task['id'], json={
+            'title': 'Must roll back', 'remaining_minutes': 15, 'expected_revision': 1,
+        })
+>       assert changed.status_code == 409
+E       assert 200 == 409
+E        +  where 200 = <Response [200 OK]>.status_code
+
+tests\integration\test_fixed_events.py:66: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/integration/test_fixed_events.py::test_task_patch_cannot_reduce_estimate_below_protected_work
+1 failed, 1 passed in 1.45s

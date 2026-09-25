@@ -3,22 +3,23 @@
 from pathlib import Path
 
 from alembic.config import Config
-from alembic.runtime.migration import MigrationContext
 from alembic.script import ScriptDirectory
 from sqlalchemy import Engine, create_engine
-from sqlalchemy.exc import SQLAlchemyError
 
 from planner.settings import Settings
 
 
 def create_db_engine(settings: Settings) -> Engine:
-    return create_engine(
+    from planner.observability.database import instrument_engine
+
+    engine = create_engine(
         settings.database_url,
         hide_parameters=True,
         pool_pre_ping=True,
         pool_timeout=3,
         connect_args={"connect_timeout": 3, "options": "-c statement_timeout=3000"},
     )
+    return instrument_engine(engine)
 
 
 def migration_config() -> Config:
@@ -27,13 +28,9 @@ def migration_config() -> Config:
 
 
 def database_is_ready(engine: Engine, expected_heads: set[str]) -> bool:
-    try:
-        with engine.connect() as connection:
-            current_heads = set(MigrationContext.configure(connection).get_current_heads())
-            return bool(expected_heads) and current_heads == expected_heads
-    except SQLAlchemyError:
-        # Never return connection strings, credentials, or database errors to clients.
-        return False
+    from planner.db.compatibility import compatible_schema
+
+    return compatible_schema(engine, expected_heads)
 
 
 def migration_heads() -> set[str]:

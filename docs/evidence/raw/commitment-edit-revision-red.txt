@@ -1,0 +1,47 @@
+
+> @adaptive-planner/web@0.1.0 test
+> vitest --run src/features/tasks/Commitments.test.tsx
+
+
+ RUN  v5.0.2 C:/Users/tiany/.codex/worktrees/adaptive-planner-implementation/adaptive-planner/apps/web
+
+ ❯ src/features/tasks/Commitments.test.tsx (2 tests | 1 failed) 689ms
+   × an open commitment draft keeps its captured revision through refetch and conflict retry 508ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/features/tasks/Commitments.test.tsx > an open commitment draft keeps its captured revision through refetch and conflict retry
+AssertionError: expected { title: 'My retained draft', …(1) } to deeply equal { title: 'My retained draft', …(1) }
+
+- Expected
++ Received
+
+  {
+-   "expected_revision": 4,
++   "expected_revision": 5,
+    "title": "My retained draft",
+  }
+
+ ❯ src/features/tasks/Commitments.test.tsx:75:26
+     73|   await userEvent.click(screen.getByRole("button", { name: "Save commi…
+     74|   expect(await screen.findByRole("alert")).toHaveTextContent("Concurre…
+     75|   expect(writes[0].body).toEqual({ title: "My retained draft", expecte…
+       |                          ^
+     76|   expect(screen.getByLabelText("Commitment title")).toHaveValue("My re…
+     77|   await userEvent.click(screen.getByRole("button", { name: "Save commi…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 1 passed (2)
+   Start at  18:12:28
+   Duration  1.78s (tests 41%, environment 39%, setup 11%, import 6%, transform 3%)
+
+npm error Lifecycle script `test` failed with error:
+npm error code 1
+npm error path C:\Users\tiany\.codex\worktrees\adaptive-planner-implementation\adaptive-planner\apps\web
+npm error workspace @adaptive-planner/web@0.1.0
+npm error location C:\Users\tiany\.codex\worktrees\adaptive-planner-implementation\adaptive-planner\apps\web
+npm error command failed
+npm error command C:\WINDOWS\system32\cmd.exe /d /s /c vitest --run src/features/tasks/Commitments.test.tsx

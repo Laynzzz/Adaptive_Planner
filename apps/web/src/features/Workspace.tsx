@@ -22,6 +22,9 @@ import WhatIfPanel from "./comparison/WhatIfPanel";
 import ActivePlan from "./progress/ActivePlan";
 import CalendarPanel from "./integration/CalendarPanel";
 import WeekdayRules from "./tasks/WeekdayRules";
+import TimezoneSettings from "./settings/TimezoneSettings";
+import Commitments from "./tasks/Commitments";
+import TaskEditor from "./tasks/TaskEditor";
 
 export default function Workspace() {
   const cache = useQueryClient();
@@ -61,6 +64,7 @@ export default function Workspace() {
     void cache.invalidateQueries({ queryKey: ["active-plan"] });
     void cache.invalidateQueries({ queryKey: ["calendar"] });
     void cache.invalidateQueries({ queryKey: ["weekday-rules"] });
+    void cache.invalidateQueries({ queryKey: ["fixed-events"] });
   };
   if (identity.isPending)
     return (
@@ -131,7 +135,9 @@ export default function Workspace() {
       )}
       <div className="workspace-columns">
         <div>
-          <div id="manual-task-form"><TaskForm identity={me} onSaved={refresh} /></div>
+          <div id="manual-task-form">
+            <TaskForm identity={me} onSaved={refresh} />
+          </div>
           <InterpretationPanel identity={me} onChanged={refresh} />
           <WeekdayRules identity={me} onChanged={refresh} />
           <form
@@ -197,11 +203,11 @@ export default function Workspace() {
             </p>
             <label>
               Available from ({me.timezone})
-              <input name="start" type="datetime-local" step="900" required />
+              <input name="start" type="datetime-local" step="60" required />
             </label>
             <label>
               Available until ({me.timezone})
-              <input name="end" type="datetime-local" step="900" required />
+              <input name="end" type="datetime-local" step="60" required />
             </label>
             <button type="submit" disabled={saving || !availability.data}>
               {saving ? "Saving…" : "Add available time"}
@@ -220,6 +226,59 @@ export default function Workspace() {
               {availability.data?.windows.map((window, index) => (
                 <li key={index}>
                   {showInstant(window.start)} → {showInstant(window.end)}
+                  <button
+                    type="button"
+                    className="secondary"
+                    disabled={saving}
+                    aria-label={`Remove available window ${index + 1}`}
+                    onClick={async () => {
+                      if (!availability.data) return;
+                      const body = {
+                        windows: availability.data.windows.filter(
+                          (_, i) => i !== index,
+                        ),
+                        expected_revision: availability.data.revision,
+                      };
+                      const serialized = JSON.stringify(body);
+                      if (windowCommand.current.body !== serialized)
+                        windowCommand.current = {
+                          body: serialized,
+                          key: crypto.randomUUID(),
+                        };
+                      setSaving(true);
+                      setError("");
+                      setNotice("");
+                      try {
+                        await mutate(
+                          "/availability",
+                          "PUT",
+                          body,
+                          me.csrf_token,
+                          windowCommand.current.key,
+                        );
+                        windowCommand.current = { body: "", key: "" };
+                        setNotice("Available time removed");
+                        refresh();
+                      } catch (failure) {
+                        setError(
+                          failure instanceof Error
+                            ? failure.message
+                            : "Available time could not be removed.",
+                        );
+                        if (
+                          failure instanceof ApiError &&
+                          failure.status === 409
+                        ) {
+                          void availability.refetch();
+                          void identity.refetch();
+                        }
+                      } finally {
+                        setSaving(false);
+                      }
+                    }}
+                  >
+                    Remove
+                  </button>
                 </li>
               ))}
             </ul>
@@ -254,6 +313,7 @@ export default function Workspace() {
                       : "No deadline"}{" "}
                     · {task.state}
                   </p>
+                  <TaskEditor identity={me} task={task} onChanged={refresh} />
                 </div>
               </li>
             ))}
@@ -274,6 +334,7 @@ export default function Workspace() {
             )}
             onChanged={refresh}
           />
+          <Commitments identity={me} tasks={allTasks} onChanged={refresh} />
         </section>
       </div>
       <PlanPanel
@@ -284,9 +345,16 @@ export default function Workspace() {
         )}
       />
       <ProgressPanel identity={me} tasks={allTasks} onChanged={refresh} />
-      <ActivePlan identity={me} taskNames={Object.fromEntries(allTasks.map((task) => [task.id, task.title]))} onChanged={refresh} />
+      <ActivePlan
+        identity={me}
+        taskNames={Object.fromEntries(
+          allTasks.map((task) => [task.id, task.title]),
+        )}
+        onChanged={refresh}
+      />
       <WhatIfPanel identity={me} tasks={allTasks} onChanged={refresh} />
       <CalendarPanel identity={me} onChanged={refresh} />
+      <TimezoneSettings identity={me} onChanged={refresh} />
     </>
   );
 }
