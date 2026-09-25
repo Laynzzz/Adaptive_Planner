@@ -1,0 +1,17 @@
+
+> adaptive-planner@0.1.0 test
+> npm run test --workspace apps/web -- --run
+
+
+> @adaptive-planner/web@0.1.0 test
+> vitest --run
+
+
+ RUN  v5.0.2 C:/Users/tiany/.codex/worktrees/adaptive-planner-implementation/adaptive-planner/.runtime/release-checkout/apps/web
+
+
+ Test Files  16 passed (16)
+      Tests  30 passed (30)
+   Start at  18:20:19
+   Duration  3.13s (environment 44%, tests 28%, setup 16%, import 6%, transform 6%)
+

@@ -1,2 +1,10 @@
-...............................                                          [100%]
-31 passed in 8.09s
+.................................                                        [100%]
+33 passed in 9.25s
+{"event":"span","name":"db.query","trace_id":"8f212c7df48c90d8069e52e6bf74f7eb","span_id":"ec46a1ac5eb2334d","parent_span_id":"0936dd4e6e137ffe","start_unix_ns":1790372539780873800,"end_unix_ns":1790372539782948200,"status":"UNSET","attributes":{"db.operation":"INSERT"}}
+{"event":"span","name":"db.query","trace_id":"8f212c7df48c90d8069e52e6bf74f7eb","span_id":"233db9456c8f50cb","parent_span_id":"0936dd4e6e137ffe","start_unix_ns":1790372539783467500,"end_unix_ns":1790372539785026800,"status":"UNSET","attributes":{"db.operation":"INSERT"}}
+{"event":"span","name":"db.query","trace_id":"8f212c7df48c90d8069e52e6bf74f7eb","span_id":"ef67547089dc71d2","parent_span_id":"0936dd4e6e137ffe","start_unix_ns":1790372539785548600,"end_unix_ns":1790372539786613700,"status":"UNSET","attributes":{"db.operation":"DELETE"}}
+{"event":"span","name":"db.query","trace_id":"8f212c7df48c90d8069e52e6bf74f7eb","span_id":"9b6c0f49a7f79cd5","parent_span_id":"0936dd4e6e137ffe","start_unix_ns":1790372539787124600,"end_unix_ns":1790372539788163900,"status":"UNSET","attributes":{"db.operation":"INSERT"}}
+{"event":"span","name":"api.request","trace_id":"8f212c7df48c90d8069e52e6bf74f7eb","span_id":"0936dd4e6e137ffe","parent_span_id":null,"start_unix_ns":1790372539726570400,"end_unix_ns":1790372539789196900,"status":"UNSET","attributes":{"http.method":"GET","http.status_code":302,"http.route":"/api/v1/auth/callback"}}
+{"event":"span","name":"db.query","trace_id":"88823b9150df4e7a09ac9c8221e96ccc","span_id":"44ad5fd5de12a589","parent_span_id":"1741b47bc927009f","start_unix_ns":1790372540180741700,"end_unix_ns":1790372540181772700,"status":"UNSET","attributes":{"db.operation":"DELETE"}}
+{"event":"span","name":"db.query","trace_id":"88823b9150df4e7a09ac9c8221e96ccc","span_id":"9f0189f56fd949c5","parent_span_id":"1741b47bc927009f","start_unix_ns":1790372540182803400,"end_unix_ns":1790372540183317100,"status":"UNSET","attributes":{"db.operation":"INSERT"}}
+{"event":"span","name":"api.request","trace_id":"88823b9150df4e7a09ac9c8221e96ccc","span_id":"1741b47bc927009f","parent_span_id":null,"start_unix_ns":1790372540152770200,"end_unix_ns":1790372540185899100,"status":"UNSET","attributes":{"http.method":"GET","http.status_code":302,"http.route":"/api/v1/auth/login"}}

@@ -1,0 +1,13 @@
+
+> @adaptive-planner/web@0.1.0 test
+> vitest --run src/features/tasks/Commitments.test.tsx src/features/tasks/TaskEditor.test.tsx src/features/settings/TimezoneSettings.test.tsx src/features/Workspace.test.tsx src/features/proposals/TimeExplanation.test.tsx
+
+
+ RUN  v5.0.2 C:/Users/tiany/.codex/worktrees/adaptive-planner-implementation/adaptive-planner/apps/web
+
+
+ Test Files  5 passed (5)
+      Tests  10 passed (10)
+   Start at  18:14:50
+   Duration  2.03s (tests 49%, environment 32%, setup 10%, import 5%, transform 4%)
+

@@ -1,0 +1,11 @@
+{
+  "base_revision": "e8c51dd23f04ab612cb97bf6f2dc27338c9c160e",
+  "context": ".runtime\\prior-image-df0486ebe3434102aa778291c0d4af5b",
+  "bridge_changes": [
+    "db/compatibility.py additive exact-head reader policy",
+    "db/session.py database_is_ready delegation",
+    "settings.py optional static_dist_path",
+    "app.py static frontend mount after routes"
+  ],
+  "unchanged": "R2 business, auth, worker and solver code"
+}

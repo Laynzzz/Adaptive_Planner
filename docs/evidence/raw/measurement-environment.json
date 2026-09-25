@@ -1,0 +1,17 @@
+{
+  "captured_at": "2026-09-25",
+  "capture_commit": "e8c51dd23f04ab612cb97bf6f2dc27338c9c160e",
+  "capture_commit_is_not_frozen_source_identity": true,
+  "python": "3.12.14",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "packages": {
+    "ortools": "9.15.6755",
+    "pydantic": "2.13.5",
+    "sqlalchemy": "2.0.48",
+    "psycopg": "3.3.6",
+    "scikit-learn": "1.9.1",
+    "numpy": "2.5.3"
+  },
+  "uv_lock_sha256_at_capture": "5e3415dcc3e0dc98d0b10c458c0167f8e59b65b92de4385ee9ae6e1b61bdc9d0",
+  "source_identity": "Exact executable source zip plus every member SHA256 in benchmarks/manifests/source-releases.json; measurements occurred during parallel development on this host."
+}

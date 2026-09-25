@@ -1,0 +1,4 @@
+........................................................................ [ 53%]
+...............................................................          [100%]
+135 passed in 60.91s (0:01:00)
+{"event":"span","name":"api.request","trace_id":"cfba6d91e6fa7b01038783bc0f9e08bf","span_id":"14271a57fe7b35f4","parent_span_id":null,"start_unix_ns":1790374011667583900,"end_unix_ns":1790374011738480800,"status":"UNSET","attributes":{"http.method":"GET","http.status_code":200,"http.route":"unmatched"}}

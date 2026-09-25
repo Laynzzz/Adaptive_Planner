@@ -1,0 +1,77 @@
+{
+  "source": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonRDS/current/us-east-1/index.json",
+  "publicationDate": "2026-09-24T21:10:11Z",
+  "selected": [
+    {
+      "sku": "9HPEGXQTDDGH53C9",
+      "attributes": {
+        "servicecode": "AmazonRDS",
+        "location": "US East (N. Virginia)",
+        "locationType": "AWS Region",
+        "instanceType": "db.t4g.micro",
+        "currentGeneration": "Yes",
+        "instanceFamily": "General purpose",
+        "vcpu": "2",
+        "physicalProcessor": "AWS Graviton2",
+        "memory": "1 GiB",
+        "storage": "EBS Only",
+        "networkPerformance": "Up to 5 Gigabit",
+        "processorArchitecture": "64-bit",
+        "engineCode": "14",
+        "databaseEngine": "PostgreSQL",
+        "licenseModel": "No license required",
+        "deploymentOption": "Single-AZ",
+        "usagetype": "InstanceUsage:db.t4g.micro",
+        "operation": "CreateDBInstance:0014",
+        "instanceTypeFamily": "T4G",
+        "normalizationSizeFactor": "0.5",
+        "regionCode": "us-east-1",
+        "servicename": "Amazon Relational Database Service",
+        "unbundledLicensing": "FALSE"
+      },
+      "price": {
+        "rateCode": "9HPEGXQTDDGH53C9.JRTCKXETXF.6YS6EN2CT7",
+        "description": "$ 0.016 per RDS db.t4g.micro Single-AZ instance hour (or partial hour) running PostgreSQL",
+        "beginRange": "0",
+        "endRange": "Inf",
+        "unit": "Hrs",
+        "pricePerUnit": {
+          "USD": "0.0160000000"
+        },
+        "appliesTo": []
+      },
+      "effectiveDate": "2026-09-01T00:00:00Z"
+    },
+    {
+      "sku": "KYVYY29G957PKY3B",
+      "attributes": {
+        "servicecode": "AmazonRDS",
+        "location": "US East (N. Virginia)",
+        "locationType": "AWS Region",
+        "storageMedia": "SSD",
+        "volumeType": "General Purpose-GP3",
+        "minVolumeSize": "5 GB",
+        "maxVolumeSize": "16 TB",
+        "engineCode": "14",
+        "databaseEngine": "PostgreSQL",
+        "deploymentOption": "Single-AZ",
+        "usagetype": "RDS:GP3-Storage",
+        "operation": "CreateDBInstance:0014",
+        "regionCode": "us-east-1",
+        "servicename": "Amazon Relational Database Service"
+      },
+      "price": {
+        "rateCode": "KYVYY29G957PKY3B.JRTCKXETXF.6YS6EN2CT7",
+        "description": "$0.115 per GB-month of provisioned GP3 storage running PostgreSQL",
+        "beginRange": "0",
+        "endRange": "Inf",
+        "unit": "GB-Mo",
+        "pricePerUnit": {
+          "USD": "0.1150000000"
+        },
+        "appliesTo": []
+      },
+      "effectiveDate": "2026-09-01T00:00:00Z"
+    }
+  ]
+}

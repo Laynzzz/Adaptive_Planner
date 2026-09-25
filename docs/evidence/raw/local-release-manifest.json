@@ -1,0 +1,21 @@
+{
+  "recorded_at": "2026-09-25T22:27:25.753493+00:00",
+  "runtime_source_commit": "14422a69f6a709323b30318729caa1665c45f729",
+  "browser_source_commit": "937ace1",
+  "environment": "local Windows, PostgreSQL17.9 and Keycloak26.6.2 Docker, real Chromium",
+  "python_tests": 332,
+  "frontend_tests": 30,
+  "browser_journeys": 9,
+  "learned_policy_promoted": false,
+  "external_gates": "NOT_EXECUTED: AWS, hosted CI, live Google, paid AI, human evaluation",
+  "artifacts": {
+    "docs/evidence/raw/final-python.txt": "42a4bc40881a6741e32b3364c730fb071eff5440c346f0997f25f05ad444dc93",
+    "docs/evidence/raw/final-web-components.txt": "1ac3c38dcb4e58af026183920d4b1f904b0836b14a98b66a376e0581af66c13d",
+    "docs/evidence/raw/final-browser.txt": "26a8bbb1eb02fc8b37db6fadc55e777fed108fef8dc95dc1e3430f2e28f6822e",
+    "docs/evidence/raw/final-build.txt": "4878772378a22987333f6e6fb5f1d7b6d62d6515d10d9a3b5199a5d3355f6584",
+    "docs/evidence/raw/task-18-image-scan.json": "4b3a360865ea436f471c34890fa57583a3897044dc2f2a599793fac6eea24a6d",
+    "docs/evidence/raw/task-18-local-rehearsal.json": "7e495468763fbd31d4b377aca2ab691b0435da6ce99b607e9abbf77107626a86",
+    "docs/evidence/raw/ml-evaluation-corrected.json": "855cf0317aecfa068ab86a807273e3ba5cbcb3336b1f230fc0ba841e6800171f",
+    "training/artifacts/v2/selection.json": "4f7b0e0396150d8f1b2d6e4590b33131979f3ade97780b5493a7707f9bb4b35f"
+  }
+}

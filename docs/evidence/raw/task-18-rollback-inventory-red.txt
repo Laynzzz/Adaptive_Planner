@@ -1,0 +1,214 @@
+...FFFFF                                                                 [100%]
+================================== FAILURES ===================================
+_ test_rollback_verifies_complete_restored_inventory_before_workflow[revision] _
+
+mismatch = 'revision'
+
+    @pytest.mark.parametrize("mismatch", ["revision", "count", "missing", "duplicate", "failure"])
+    def test_rollback_verifies_complete_restored_inventory_before_workflow(mismatch):
+        class UnrestoredAWS(FakeAWS):
+            rollback_waited = False
+    
+            def __call__(self, args, payload=None):
+                result = super().__call__(args, payload)
+                if args[1:3] == ["wait", "services-stable"] and len(self.updates) == 4:
+                    self.rollback_waited = True
+                if args[1] == "describe-services" and self.rollback_waited:
+                    if mismatch == "revision":
+                        result["services"][0]["taskDefinition"] = "api:2"
+                    elif mismatch == "count":
+                        result["services"][0]["desiredCount"] = 0
+                    elif mismatch == "missing":
+                        result["services"].pop()
+                    elif mismatch == "duplicate":
+                        result["services"][1] = result["services"][0]
+                    else:
+                        result["failures"] = [{"arn": "worker", "reason": "MISSING"}]
+                return result
+    
+        aws = UnrestoredAWS()
+        attempts = []
+    
+        def smoke(origin):
+            attempts.append(origin)
+            if len(attempts) == 1:
+                raise RuntimeError("New image workflow failed")
+    
+>       with pytest.raises(RuntimeError, match="Rollback inventory verification failed"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'Rollback inventory verification failed'
+E         Actual message: 'Release failed; previous task definitions restored and workflow verified'
+
+tests\unit\test_release.py:138: AssertionError
+__ test_rollback_verifies_complete_restored_inventory_before_workflow[count] __
+
+mismatch = 'count'
+
+    @pytest.mark.parametrize("mismatch", ["revision", "count", "missing", "duplicate", "failure"])
+    def test_rollback_verifies_complete_restored_inventory_before_workflow(mismatch):
+        class UnrestoredAWS(FakeAWS):
+            rollback_waited = False
+    
+            def __call__(self, args, payload=None):
+                result = super().__call__(args, payload)
+                if args[1:3] == ["wait", "services-stable"] and len(self.updates) == 4:
+                    self.rollback_waited = True
+                if args[1] == "describe-services" and self.rollback_waited:
+                    if mismatch == "revision":
+                        result["services"][0]["taskDefinition"] = "api:2"
+                    elif mismatch == "count":
+                        result["services"][0]["desiredCount"] = 0
+                    elif mismatch == "missing":
+                        result["services"].pop()
+                    elif mismatch == "duplicate":
+                        result["services"][1] = result["services"][0]
+                    else:
+                        result["failures"] = [{"arn": "worker", "reason": "MISSING"}]
+                return result
+    
+        aws = UnrestoredAWS()
+        attempts = []
+    
+        def smoke(origin):
+            attempts.append(origin)
+            if len(attempts) == 1:
+                raise RuntimeError("New image workflow failed")
+    
+>       with pytest.raises(RuntimeError, match="Rollback inventory verification failed"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'Rollback inventory verification failed'
+E         Actual message: 'Release failed; previous task definitions restored and workflow verified'
+
+tests\unit\test_release.py:138: AssertionError
+_ test_rollback_verifies_complete_restored_inventory_before_workflow[missing] _
+
+mismatch = 'missing'
+
+    @pytest.mark.parametrize("mismatch", ["revision", "count", "missing", "duplicate", "failure"])
+    def test_rollback_verifies_complete_restored_inventory_before_workflow(mismatch):
+        class UnrestoredAWS(FakeAWS):
+            rollback_waited = False
+    
+            def __call__(self, args, payload=None):
+                result = super().__call__(args, payload)
+                if args[1:3] == ["wait", "services-stable"] and len(self.updates) == 4:
+                    self.rollback_waited = True
+                if args[1] == "describe-services" and self.rollback_waited:
+                    if mismatch == "revision":
+                        result["services"][0]["taskDefinition"] = "api:2"
+                    elif mismatch == "count":
+                        result["services"][0]["desiredCount"] = 0
+                    elif mismatch == "missing":
+                        result["services"].pop()
+                    elif mismatch == "duplicate":
+                        result["services"][1] = result["services"][0]
+                    else:
+                        result["failures"] = [{"arn": "worker", "reason": "MISSING"}]
+                return result
+    
+        aws = UnrestoredAWS()
+        attempts = []
+    
+        def smoke(origin):
+            attempts.append(origin)
+            if len(attempts) == 1:
+                raise RuntimeError("New image workflow failed")
+    
+>       with pytest.raises(RuntimeError, match="Rollback inventory verification failed"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'Rollback inventory verification failed'
+E         Actual message: 'Release failed; previous task definitions restored and workflow verified'
+
+tests\unit\test_release.py:138: AssertionError
+_ test_rollback_verifies_complete_restored_inventory_before_workflow[duplicate] _
+
+mismatch = 'duplicate'
+
+    @pytest.mark.parametrize("mismatch", ["revision", "count", "missing", "duplicate", "failure"])
+    def test_rollback_verifies_complete_restored_inventory_before_workflow(mismatch):
+        class UnrestoredAWS(FakeAWS):
+            rollback_waited = False
+    
+            def __call__(self, args, payload=None):
+                result = super().__call__(args, payload)
+                if args[1:3] == ["wait", "services-stable"] and len(self.updates) == 4:
+                    self.rollback_waited = True
+                if args[1] == "describe-services" and self.rollback_waited:
+                    if mismatch == "revision":
+                        result["services"][0]["taskDefinition"] = "api:2"
+                    elif mismatch == "count":
+                        result["services"][0]["desiredCount"] = 0
+                    elif mismatch == "missing":
+                        result["services"].pop()
+                    elif mismatch == "duplicate":
+                        result["services"][1] = result["services"][0]
+                    else:
+                        result["failures"] = [{"arn": "worker", "reason": "MISSING"}]
+                return result
+    
+        aws = UnrestoredAWS()
+        attempts = []
+    
+        def smoke(origin):
+            attempts.append(origin)
+            if len(attempts) == 1:
+                raise RuntimeError("New image workflow failed")
+    
+>       with pytest.raises(RuntimeError, match="Rollback inventory verification failed"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'Rollback inventory verification failed'
+E         Actual message: 'Release failed; previous task definitions restored and workflow verified'
+
+tests\unit\test_release.py:138: AssertionError
+_ test_rollback_verifies_complete_restored_inventory_before_workflow[failure] _
+
+mismatch = 'failure'
+
+    @pytest.mark.parametrize("mismatch", ["revision", "count", "missing", "duplicate", "failure"])
+    def test_rollback_verifies_complete_restored_inventory_before_workflow(mismatch):
+        class UnrestoredAWS(FakeAWS):
+            rollback_waited = False
+    
+            def __call__(self, args, payload=None):
+                result = super().__call__(args, payload)
+                if args[1:3] == ["wait", "services-stable"] and len(self.updates) == 4:
+                    self.rollback_waited = True
+                if args[1] == "describe-services" and self.rollback_waited:
+                    if mismatch == "revision":
+                        result["services"][0]["taskDefinition"] = "api:2"
+                    elif mismatch == "count":
+                        result["services"][0]["desiredCount"] = 0
+                    elif mismatch == "missing":
+                        result["services"].pop()
+                    elif mismatch == "duplicate":
+                        result["services"][1] = result["services"][0]
+                    else:
+                        result["failures"] = [{"arn": "worker", "reason": "MISSING"}]
+                return result
+    
+        aws = UnrestoredAWS()
+        attempts = []
+    
+        def smoke(origin):
+            attempts.append(origin)
+            if len(attempts) == 1:
+                raise RuntimeError("New image workflow failed")
+    
+>       with pytest.raises(RuntimeError, match="Rollback inventory verification failed"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'Rollback inventory verification failed'
+E         Actual message: 'Release failed; previous task definitions restored and workflow verified'
+
+tests\unit\test_release.py:138: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/unit/test_release.py::test_rollback_verifies_complete_restored_inventory_before_workflow[revision]
+FAILED tests/unit/test_release.py::test_rollback_verifies_complete_restored_inventory_before_workflow[count]
+FAILED tests/unit/test_release.py::test_rollback_verifies_complete_restored_inventory_before_workflow[missing]
+FAILED tests/unit/test_release.py::test_rollback_verifies_complete_restored_inventory_before_workflow[duplicate]
+FAILED tests/unit/test_release.py::test_rollback_verifies_complete_restored_inventory_before_workflow[failure]
+5 failed, 3 passed in 0.26s

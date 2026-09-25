@@ -1,0 +1,189 @@
+{
+  "database_scope": "two newly created disposable databases",
+  "steps": [
+    {
+      "step": "unmodified_prior_on_prior_schema",
+      "elapsed_seconds": 3.732,
+      "ready": true
+    },
+    {
+      "step": "unmodified_prior_after_additive_migration",
+      "elapsed_seconds": 6.538,
+      "ready": false,
+      "limitation": "Strict original head equality rejects additive schema"
+    },
+    {
+      "step": "bridge_prior_after_migration",
+      "elapsed_seconds": 15.969,
+      "ready": true,
+      "old_command_idempotency_solve_activation": true,
+      "single_origin_html": true,
+      "unauthorized_api_status": 401,
+      "nonroot_readonly": true
+    },
+    {
+      "step": "separate_database_backup_restore",
+      "elapsed_seconds": 16.545,
+      "tables": 35,
+      "rows": 15,
+      "logical_record_hashes_equal": true,
+      "backup_bytes": 85581
+    },
+    {
+      "step": "current_and_prior_bridge_against_restored_database",
+      "elapsed_seconds": 23.928,
+      "ready": true,
+      "html": true,
+      "unauthorized_api_status": 401
+    }
+  ],
+  "images": {
+    "adaptive-planner:prior-unmodified": "sha256:e04049239d9f75992d17ca490e3d380a09f75bd0bb5497ee87f3a628e8edb1bd",
+    "adaptive-planner:prior-bridge": "sha256:36276d6e5661082cf49ff8fd91709b517a730b9dac9659e417f810b9450dc7e2",
+    "adaptive-planner:local-r4": "sha256:f0969a7e55803b1089c58cd748e56894b70fea0bd9b4b522c36b5caf5a1d5cda"
+  },
+  "record_comparison": {
+    "ai_spend_budgets": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "ai_spend_reservations": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "alembic_version": {
+      "rows": 1,
+      "sha256": "da940590b8942997df3afda239aaafc5020f7ab392ed7733f8315ed56165c289"
+    },
+    "audit_events": {
+      "rows": 2,
+      "sha256": "4885ac8f0992b66955fd9e5af74fa97a229b79d09b1c79ad9076354655d5cfca"
+    },
+    "availability_rules": {
+      "rows": 1,
+      "sha256": "4d2a81d613e9799354d4e1b79072392fa9cfcdacd2701d3c101df7dcedbb8f68"
+    },
+    "block_event_mappings": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "browser_sessions": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "calendar_conflicts": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "calendar_connections": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "calendar_oauth_flows": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "calendar_staged_events": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "calendar_sync_generations": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "calendar_write_operations": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "command_receipts": {
+      "rows": 1,
+      "sha256": "b87885bb5dd5e629c61eab080fd0cda1593fded3bad02f350f9ddcf741b49f20"
+    },
+    "dependency_edges": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "event_mirrors": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "extraction_proposals": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "fixed_events": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "identities": {
+      "rows": 1,
+      "sha256": "bd4e05e3e6e497a081e3f8277521e99061cf01aa9a70ebf542675a3fa268d6dd"
+    },
+    "immutable_snapshots": {
+      "rows": 1,
+      "sha256": "f1863e7bb29314c8fc1718277a6bb67612d6156372411be16a262be304a74945"
+    },
+    "jobs": {
+      "rows": 1,
+      "sha256": "e638c7356d4bb74f286e26b4231633a04d32e42661d049a4cc33a41e770d932c"
+    },
+    "login_flows": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "operation_trace_links": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "owner_dispatch_state": {
+      "rows": 1,
+      "sha256": "d9a0edf28839b4c20825f17894911da3eb1108f1569599946c2837b678775a71"
+    },
+    "pending_replans": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "proposal_blocks": {
+      "rows": 1,
+      "sha256": "3c986ba1083e3587e01eef4442ed7700249496ae04308a048923039c6a89b605"
+    },
+    "proposals": {
+      "rows": 1,
+      "sha256": "f3cb7aae89e8ff89a57df66508068c7178675eeca5c2f9138d2b08f1d632f8e7"
+    },
+    "protected_work": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "publication_operations": {
+      "rows": 1,
+      "sha256": "17ea8c79f7ee75914af8a6335f16094d8fd768f40a735e5ffc0c1e52b74e7866"
+    },
+    "schema_compatibility": {
+      "rows": 1,
+      "sha256": "d1e48880dbf1d3ac8e138c4f256aa7b34132e2e910c1447df662d9a3fdc0a548"
+    },
+    "tasks": {
+      "rows": 1,
+      "sha256": "ccfcb728acecc36989c0ddb0a21cd6ac5113671abbc7ea733fe5ac20e7a8bf2c"
+    },
+    "user_planning_state": {
+      "rows": 1,
+      "sha256": "2498030fd49983325d53c9f7d754685cd309d99fc8b28a93a46c5b56e5c62c7a"
+    },
+    "weekday_rules": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "what_ifs": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "work_logs": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "status": "LOCAL_PASS",
+  "temporary_databases_removed": true
+}

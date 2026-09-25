@@ -1,0 +1,142 @@
+{
+  "version": "technical-walkthrough-v1",
+  "run": "technical-20260925220844733",
+  "final": true,
+  "ml_pending": false,
+  "operator": "agent-produced source-screen walkthrough",
+  "human_participants": 0,
+  "source_hashes": {
+    "docs/evidence/raw/sql-comparison-v4.json": "a558fd6fa755eeca05aec6ac422eaea455acf2144f30db102aaf07217b8fc92b",
+    "docs/evidence/sql-performance.md": "5caaa075577816aa0d65d1d6d2a200a89c62e7d868e4206027146f752afb3b6a",
+    "services/planner/src/planner/solver/validator.py": "187f7ecfcd7a013b059b1b19193a8df90dc6084f3b8e8aa040c7e445aa9b6922",
+    "docs/evidence/raw/task-4-green.txt": "084d5c2fdd737aea5510f59a85a214dce2212280135dc7300a2e9d12edfc27ca",
+    "services/planner/src/planner/jobs/handlers.py": "149833ad5ec5eca8e258f405b60366e6ec8a87a10685bca68988881a50c280ce",
+    "tests/integration/test_jobs.py": "28130cfe1af0cf9267677f5795a526623ffc472750a07336a736c894bbd1a380",
+    "services/planner/src/planner/jobs/windows_process.py": "334895a0e42d33d49e17f672fac5e1031c8c9d9673da2abc27ea4e350ac49c2a",
+    "docs/evidence/raw/process-tree-red.txt": "d5119dc32fd9a3a9851a83dcc7c7853c6583683a95f4447269ddd19bf0fe3b19",
+    "docs/evidence/raw/process-tree-green.txt": "04129e141a2c2244d73ec325bf0e564e5e3b46bfa959462412eaacbf9d8e9b44",
+    "docs/evidence/raw/process-tree-linux.txt": "351465a4b666549edfc407f3ab01cffe033255d78181e96cdfc3515a4ffd8e0d",
+    "services/planner/src/planner/db/queries.py": "55774a8f98eab83e229ddc5212741ef96b8b56a4deaec6b7a30d68a63d5b46f8"
+  },
+  "script_sha256": "88d568379fb51cc38ea339df570445da3f2190695bc2af0fc3efcb346844fc5d",
+  "git_commit": "e8c51dd23f04ab612cb97bf6f2dc27338c9c160e",
+  "source_tree_dirty": true,
+  "chapters": [
+    {
+      "chapter": 1,
+      "label": "Solver",
+      "caption": "Solver trade-off: bounded search may improve quality, but a quality score never substitutes for feasibility."
+    },
+    {
+      "chapter": 2,
+      "label": "Concurrency",
+      "caption": "The two checks solve different races. Explicit activation remains a separate owner-scoped command."
+    },
+    {
+      "chapter": 3,
+      "label": "Supervision",
+      "caption": "Fail closed: if Windows job containment cannot be configured, the command never starts."
+    },
+    {
+      "chapter": 4,
+      "label": "SQL",
+      "caption": "The comparison includes the downside: write p95 increased, and HTTP plan-readiness p95 regressed on the shared host."
+    },
+    {
+      "chapter": 5,
+      "label": "ML result",
+      "caption": "An audited baseline-name correction preserves the frozen model and other records. This is observational replay; serving stays fixed."
+    }
+  ],
+  "selection_path": ".runtime/training/v2/experiment/selection.json",
+  "evaluation_path": ".runtime/training/v2/experiment/test-evaluation-corrected.json",
+  "selection_sha256": "4f7b0e0396150d8f1b2d6e4590b33131979f3ade97780b5493a7707f9bb4b35f",
+  "evaluation_sha256": "855cf0317aecfa068ab86a807273e3ba5cbcb3336b1f230fc0ba841e6800171f",
+  "evaluation_correction": {
+    "reason": "Raw cp_sat is the cold_cp_sat baseline, previously counted as missing",
+    "original_report_sha256": "848fc8edab23a778544139aebe8661c3b87cba45d1dd8f7b5391693c18d80951",
+    "original_report": ".runtime\\training\\v2\\experiment\\test-evaluation.json",
+    "script_sha256": "2072c461822c2219591c9317539e0a63e432f2b631ef6c0cd247c02ec1bbb230",
+    "scope": "Cold baseline records and dependent statistics only; all other records unchanged",
+    "selection_changed": false,
+    "classifier_inference_repeated": false,
+    "original_report_and_marker_preserved": true
+  },
+  "success": true,
+  "workflow_seconds": 300.008,
+  "files": [
+    {
+      "path": ".runtime/demo/technical-20260925220844733/chapter-1-evidence.png",
+      "bytes": 116462,
+      "sha256": "07d00d6b27392ebb8615442eb8d5ea2bf3e2e8fd772fb012663cf7080eb0a72f"
+    },
+    {
+      "path": ".runtime/demo/technical-20260925220844733/chapter-1-source.png",
+      "bytes": 108684,
+      "sha256": "219cbd34eeac0c260aedf49eeb15a0287726d038941605772e5e837f2bf0ddc5"
+    },
+    {
+      "path": ".runtime/demo/technical-20260925220844733/chapter-2-evidence.png",
+      "bytes": 129509,
+      "sha256": "aad490d1499f7397ce6fef8ae3b4b14d60e49becc3be0a09ea87aba7c15234b0"
+    },
+    {
+      "path": ".runtime/demo/technical-20260925220844733/chapter-2-source.png",
+      "bytes": 112104,
+      "sha256": "ba99655602c17cb68d7c246e4be5a28bf7c543c5e4d651be047e92e9626451ad"
+    },
+    {
+      "path": ".runtime/demo/technical-20260925220844733/chapter-3-evidence.png",
+      "bytes": 105823,
+      "sha256": "400803266ef5e1f4a076669081372d8554710dd900067ad629c0adaef4bab2a2"
+    },
+    {
+      "path": ".runtime/demo/technical-20260925220844733/chapter-3-source.png",
+      "bytes": 115880,
+      "sha256": "7bb8056c0b5e617c8d82a13cbfb4211299dd0347d3489320212fe612b64f65bd"
+    },
+    {
+      "path": ".runtime/demo/technical-20260925220844733/chapter-4-evidence.png",
+      "bytes": 115584,
+      "sha256": "42bbd8b575b50b553385979f0a4669c7089e8fe8bd5d3305583126478ffbbb64"
+    },
+    {
+      "path": ".runtime/demo/technical-20260925220844733/chapter-4-source.png",
+      "bytes": 121194,
+      "sha256": "4de786da4b08a835ba5747d843972df84b13196a99e51f415ec9c247c324ef54"
+    },
+    {
+      "path": ".runtime/demo/technical-20260925220844733/chapter-5-evidence.png",
+      "bytes": 112773,
+      "sha256": "598a7ebe0fdf1ec7a4b323e557454ec9f16fab137bd78f9e3e9898862a4c4455"
+    },
+    {
+      "path": ".runtime/demo/technical-20260925220844733/chapter-5-source.png",
+      "bytes": 112653,
+      "sha256": "986802c84dae67c9b2987a2599a23bd19def861713f44f9745a5974fc7cdcd7a"
+    },
+    {
+      "path": ".runtime/demo/technical-20260925220844733/page@c60bb951412b84a1d11df9c4172801d5.webm",
+      "bytes": 32497819,
+      "sha256": "33b8891a85a6dcf05d0b2b2b7e8807a33d06f59b962ca97a56e8455cc9afc748"
+    },
+    {
+      "path": ".runtime/demo/technical-20260925220844733/walkthrough.html",
+      "bytes": 19508,
+      "sha256": "8646ff3e1882808fbe27804167e325a9af1362e13c147b7a30c72c2b4e8a532e"
+    }
+  ],
+  "inspection": {
+    "file": "page@c60bb951412b84a1d11df9c4172801d5.webm",
+    "duration": 313.84,
+    "frames": [
+      45,
+      105,
+      165,
+      225,
+      255,
+      285
+    ],
+    "readable_sources_metrics_and_limits": true
+  }
+}

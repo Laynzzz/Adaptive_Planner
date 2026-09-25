@@ -1,0 +1,47 @@
+{
+  "database_scope": "two newly created disposable databases",
+  "steps": [
+    {
+      "step": "unmodified_prior_on_prior_schema",
+      "elapsed_seconds": 3.732,
+      "ready": true
+    },
+    {
+      "step": "unmodified_prior_after_additive_migration",
+      "elapsed_seconds": 6.538,
+      "ready": false,
+      "limitation": "Strict original head equality rejects additive schema"
+    },
+    {
+      "step": "bridge_prior_after_migration",
+      "elapsed_seconds": 15.969,
+      "ready": true,
+      "old_command_idempotency_solve_activation": true,
+      "single_origin_html": true,
+      "unauthorized_api_status": 401,
+      "nonroot_readonly": true
+    },
+    {
+      "step": "separate_database_backup_restore",
+      "elapsed_seconds": 16.545,
+      "tables": 35,
+      "rows": 15,
+      "logical_record_hashes_equal": true,
+      "backup_bytes": 85581
+    },
+    {
+      "step": "current_and_prior_bridge_against_restored_database",
+      "elapsed_seconds": 23.928,
+      "ready": true,
+      "html": true,
+      "unauthorized_api_status": 401
+    }
+  ],
+  "images": {
+    "adaptive-planner:prior-unmodified": "sha256:e04049239d9f75992d17ca490e3d380a09f75bd0bb5497ee87f3a628e8edb1bd",
+    "adaptive-planner:prior-bridge": "sha256:36276d6e5661082cf49ff8fd91709b517a730b9dac9659e417f810b9450dc7e2",
+    "adaptive-planner:local-r4": "sha256:f0969a7e55803b1089c58cd748e56894b70fea0bd9b4b522c36b5caf5a1d5cda"
+  },
+  "status": "LOCAL_PASS",
+  "temporary_databases_removed": true
+}

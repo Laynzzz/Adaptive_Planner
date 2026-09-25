@@ -1,0 +1,50 @@
+FF.F                                                                     [100%]
+================================== FAILURES ===================================
+_________ test_same_origin_image_serves_assets_without_swallowing_api _________
+
+tmp_path = WindowsPath('C:/Users/tiany/AppData/Local/Temp/pytest-of-tiany/pytest-215/test_same_origin_image_serves_0')
+
+    def test_same_origin_image_serves_assets_without_swallowing_api(tmp_path):
+        (tmp_path/'index.html').write_text('<html><body>synthetic planner</body></html>')
+        (tmp_path/'asset.js').write_text('console.log("synthetic")')
+        with TestClient(create_app(Settings(static_dist_path=tmp_path))) as api:
+>           assert 'synthetic planner' in api.get('/').text
+E           assert 'synthetic planner' in '{"detail":"Not Found"}'
+E            +  where '{"detail":"Not Found"}' = <Response [404 Not Found]>.text
+E            +    where <Response [404 Not Found]> = get('/')
+E            +      where get = <starlette.testclient.TestClient object at 0x000001C0B6E91760>.get
+
+tests\unit\test_delivery.py:11: AssertionError
+__________ test_database_parts_quote_secrets_and_hide_password_repr ___________
+
+    def test_database_parts_quote_secrets_and_hide_password_repr():
+        settings=Settings(database_host='synthetic.invalid',database_username='planner_app',
+            database_password='private:@/password',database_name='planner',database_sslmode='require')
+        from sqlalchemy.engine import make_url
+        url=make_url(settings.database_url)
+>       assert url.password=='private:@/password'
+E       AssertionError: assert 'local-planner-only' == 'private:@/password'
+E         
+E         - private:@/password
+E         + local-planner-only
+
+tests\unit\test_delivery.py:22: AssertionError
+_______ test_explicit_reader_marker_accepts_only_reviewed_schema_heads ________
+
+migrated_database_url = 'postgresql+psycopg://planner:local-planner-only@127.0.0.1:25432/planner_test_e5dcde642304401dbe2e12b694c51241'
+
+    def test_explicit_reader_marker_accepts_only_reviewed_schema_heads(migrated_database_url):
+        from sqlalchemy import text
+        from planner.db.session import database_is_ready, create_db_engine
+        from planner.settings import Settings
+        engine=create_db_engine(Settings(database_url=migrated_database_url))
+>       assert database_is_ready(engine, {'0014_sql_indexes'})
+E       AssertionError: assert False
+E        +  where False = <function database_is_ready at 0x000001C0B6C623E0>(Engine(postgresql+psycopg://planner:***@127.0.0.1:25432/planner_test_e5dcde642304401dbe2e12b694c51241), {'0014_sql_indexes'})
+
+tests\integration\test_migration_compatibility.py:63: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/unit/test_delivery.py::test_same_origin_image_serves_assets_without_swallowing_api
+FAILED tests/unit/test_delivery.py::test_database_parts_quote_secrets_and_hide_password_repr
+FAILED tests/integration/test_migration_compatibility.py::test_explicit_reader_marker_accepts_only_reviewed_schema_heads
+3 failed, 1 passed in 0.96s

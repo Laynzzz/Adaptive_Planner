@@ -1,0 +1,22 @@
+TAP version 13
+# Subtest: final capture cannot silently use pending ML evidence
+ok 1 - final capture cannot silently use pending ML evidence
+  ---
+  duration_ms: 1.0985
+  type: 'test'
+  ...
+# Subtest: evaluation must belong to the exact frozen selection
+ok 2 - evaluation must belong to the exact frozen selection
+  ---
+  duration_ms: 4.7499
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 74.0368

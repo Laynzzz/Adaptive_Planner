@@ -32,13 +32,13 @@ See [evidence index](evidence-index.md) and [execution status](execution-status.
 
 **Describe the availability bug and correction.** Separate reads could pair old windows with a newer revision; that falsely authorized a subsequent replacement. A controlled second PostgreSQL connection reproduced the lost update. REPEATABLE READ provides a coherent response snapshot, and the UI submits the window snapshot's revision. See [Task 3](evidence/task-3-inputs.md) and [Task 7](evidence/task-7-web.md).
 
-**What if a worker dies or finishes late?** Jobs and leases are stored in PostgreSQL. Recovery retries expired claims with a higher fencing token. Finalization checks token, lease and planning revision before committing a proposal. Follow-up: does this guarantee exactly-once external writes? No; external provider reconciliation is a separate planned mechanism.
+**What if a worker dies or finishes late?** Jobs and leases are stored in PostgreSQL. Recovery retries expired claims with a higher fencing token. Finalization checks token, lease and planning revision before committing a proposal. Follow-up: does this guarantee exactly-once external writes? No; external provider reconciliation has separate durable operation and ETag checks.
 
-**Why PostgreSQL as the queue?** The workload benefits from atomic command-plus-job persistence and needs no separate broker at the current scale. The trade-off is database queue contention, which the plan requires measuring. No throughput claim is made before that study.
+**Why PostgreSQL as the queue?** The workload benefits from atomic command-plus-job persistence and needs no separate broker at the current scale. The trade-off is database queue contention; the measured study records plans, write cost, claim fairness and shared-host limits.
 
 ## Demonstration to practice later
 
-Sign in as demo A, create a task with a deadline, set an available window, generate and inspect a plan, then activate it. Explain why activation is separate, what happens if another edit occurs, and why Google sync is a distinct future state. Sign in separately as demo B to demonstrate isolation. This is a local synthetic demo, not a production-customer story.
+Sign in as demo A, create a task with a deadline, set an available window, generate and inspect a plan, then activate it. Explain why activation is separate, what happens if another edit occurs, and why calendar sync is a distinct state, currently verified with a local durable simulator. Sign in separately as demo B to demonstrate isolation. This is a local synthetic demo, not a production-customer story.
 
 ## Adaptation and reviewed input
 
@@ -55,3 +55,29 @@ Sign in as demo A, create a task with a deadline, set an available window, gener
 **Describe an uncovered race and its regression.** A manual move between a remote GET and conditional write was correctly rejected, but the conflict handler initially stored the earlier GET interval. Independent review reproduced the incorrect local reservation. The fix rereads the remote event after the conflict and preserves retryability if that reread fails. Tests also cover 11:07 off-grid moves, which now produce a visible durable failure instead of crashing snapshot capture. See [R2 review](evidence/r2-review.md).
 
 All answers describe agent-assisted implementation and local tests. Personal interview rehearsal, production operation and live Google verification have not been established.
+
+## SQL and measured trade-offs
+
+**What improved, and what got worse?** Batching task dependencies reduced large synthetic page query-count p95 from51 to2 and read p95 from46.93 to5.44ms. Three partial indexes improved queue access. Write-transaction p95 rose10.3%, and actual mixed-load plan-readiness p95 worsened from2.97s to3.13s. This is a local shared-host result, not a claim of universal speedup. See [SQL evidence](evidence/sql-performance.md).
+
+**Why did you reject an index?** The large query still used the existing composite primary key when a successor/covering index was added. Extra write/storage cost lacked demonstrated read value, so that candidate was not retained. Follow-up: how would results change with a different distribution? Rerun the frozen workloads on representative authorized data; do not extrapolate blindly.
+
+## ML formulation and negative result
+
+**What does the model predict?** Whether additional CP-SAT search is worthwhile after greedy planning, from18 features already available at decision time. Logistic regression and boosted trees compete with always-greedy, cold/warm CP and a simple utilization/slack rule. The model does not generate schedules or override validation.
+
+**How did you prevent leakage?** Base-scenario groups stay in one of600/200/200 train/validation/test partitions. Preprocessing fits training labels only; validation freezes model and thresholds before test access. Bootstrap resamples whole groups. Model, data and configuration hashes link the result. Follow-up: did all600 train cases have reliable labels? No, only67 did; unknown/censored labels were excluded from fit but retained in policy denominators.
+
+**Would you deploy it?** No. The chosen router completed167/400 test attempts, lost85 attempts where a valid reference/baseline was known, and missed tail-quality and latency gates. A20/20 classifier score involved only negative examples, with180 unknown groups, so it cannot establish positive-class ability. An old Windows process-supervision defect independently disqualifies the measurement for automatic promotion. See [ML report](evidence/ml-experiment.md).
+
+**Did the evaluation have any mistakes?** Yes. The initial evaluator expected cold_cp_sat while raw results used cp_sat, incorrectly counting400 missing baseline records. The original report remains available. A regression test and audited correction recomputed that baseline and dependent arithmetic without changing choices or rerunning model inference. This is disclosed as a correction, not called a new untouched test.
+
+**How is inference made safe to roll back?** Serving loads bounded JSON model artifacts from a trusted root with pinned hashes and feature versions. Shadow leaves the fixed decision unchanged; learned mode requires a promoted release. Corrupt, unavailable or unpromoted artifacts fall back to the fixed policy. The planner independently validates all accepted candidates.
+
+## Operational evidence and limits
+
+**Why is killing a child insufficient?** On Windows a virtualenv launcher can start another interpreter. A real descendant continued after the original deadline. Windows Job Objects now contain the tree atomically; POSIX uses process groups. Tests cover deadlines, parent exit and failing callbacks. Existing benchmark measurements retain the known flaw; a fix cannot retroactively make them sound.
+
+**What can you honestly claim about delivery?** Local containers, migrations, trace propagation, fault recovery and separate backup/restore have concrete reports. Terraform and hosted workflow definitions are reviewable. Hosted CI and AWS execution remain unexecuted until authorized access exists. Refer to per-capability evidence; successful local tests do not establish a production SLO.
+
+These are prepared explanations of agent-assisted work. The recorded demonstrations are automated synthetic walkthroughs. They are not volunteer usability feedback, personal interview practice or professional production experience.

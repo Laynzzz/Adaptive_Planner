@@ -8,9 +8,9 @@
 
 **Tech stack:** Python 3.12, FastAPI, Pydantic, SQLAlchemy, Alembic, PostgreSQL, OR-Tools CP-SAT, scikit-learn, React, TypeScript, Vite, TanStack Query, pytest, Hypothesis, Playwright, Docker, GitHub Actions, OpenTelemetry, AWS ECS/RDS/S3/ECR, Terraform.
 
-**Spec:** This document is the authoritative revised design and implementation plan. It incorporates [the original blueprint](../adaptive-planner-blueprint.md), preserving its product thesis while strengthening market-relevant delivery and correctness requirements. Where they differ, this document governs. The original blueprint remains unchanged.
+**Spec:** This document is the authoritative revised design and implementation plan. It incorporates the original external `adaptive-planner-blueprint.md` (provenance document, not a required checkout dependency), preserving its product thesis while strengthening market-relevant delivery and correctness requirements. Where they differ, this document governs. The original blueprint remains unchanged.
 
-**Date:** 2026-09-24. **Status:** implementation started 2026-09-25; no release gate complete. See [execution status](docs/execution-status.md) and [evidence index](docs/evidence-index.md) for implemented versus verified capabilities.
+**Date:** 2026-09-24. **Status:** local experimental implementation delivered 2026-09-25. R1 gate verified; R2 local workflows verified with live/human gates open; R3 has measured negative results and a disclosed supervision limitation; R4 local checks and recordings are documented, hosted gates remain open. See [execution status](docs/execution-status.md) and [evidence index](docs/evidence-index.md) for implemented versus verified capabilities.
 
 ## 1. Global constraints and execution authority
 
@@ -25,7 +25,7 @@
 - No approval or external calendar publication by an LLM. Users activate proposals; what-if results cannot alter the active plan.
 - Do not claim exactly-once external writes, human productivity gains, production adoption, or universal security from controlled tests.
 - Preserve the user's learn-while-build preference: explain unfamiliar tools and mechanisms briefly; show rerunnable commands and one or two relevant files after each task.
-- This turn creates planning documentation only. The future agent implements the application; no code or infrastructure is represented as already created.
+- The original planning-only turn has been superseded by explicit implementation authorization. Actual verification status is recorded per capability; this does not authorize paid/live resources.
 
 ## 2. Why this is a stronger portfolio project
 
@@ -494,10 +494,10 @@ def test_what_if_does_not_change_active_state(scenario):
     assert scenario.remote_write_count == 0
 ```
 
-- [ ] Test missed work, completed/in-progress preservation, locked conflict, append-only work correction and concurrent what-if application.
-- [ ] Implement deterministic block matching and reason codes, reviewed what-if application and replan through existing commands.
-- [ ] Run `uv run pytest tests/integration/test_adaptation.py tests/unit/test_plan_diff.py -q` and adaptation browser suite.
-- [ ] Acceptance: adjustments preserve work accounting; lock conflicts are surfaced, not silently resolved.
+- [x] Test missed work, completed/in-progress preservation, locked conflict, append-only work correction and concurrent what-if application.
+- [x] Implement deterministic block matching and reason codes, reviewed what-if application and replan through existing commands.
+- [x] Run `uv run pytest tests/integration/test_adaptation.py tests/unit/test_plan_diff.py -q` and adaptation browser suite.
+- [x] Acceptance: adjustments preserve work accounting; lock conflicts are surfaced, not silently resolved.
 
 ### Task 9: Interpreted input and manual fallback
 
@@ -510,20 +510,20 @@ def test_unresolved_deadline_cannot_be_accepted(scenario):
     assert scenario.accept_interpretation(p).code == "CLARIFICATION_REQUIRED"
 ```
 
-- [ ] Add fake-provider fixtures for malformed JSON, guessed duration, contradictory hard/soft constraints, timeout and injection-like text.
-- [ ] Implement bounded provider adapter and review UI showing source spans/inference labels; batch accept through revision/idempotency transaction.
-- [ ] Run `uv run pytest tests/unit/test_interpretation.py tests/integration/test_accept_interpretation.py -q` plus browser fallback flow.
-- [ ] Acceptance: model output alone causes no mutation/publication; failed calls leave forms usable; spend controls apply before live invocation.
+- [x] Add fake-provider fixtures for malformed JSON, guessed duration, contradictory hard/soft constraints, timeout and injection-like text.
+- [x] Implement bounded provider adapter and review UI showing source spans/inference labels; batch accept through revision/idempotency transaction.
+- [x] Run `uv run pytest tests/unit/test_interpretation.py tests/integration/test_accept_interpretation.py -q` plus browser fallback flow.
+- [x] Acceptance: model output alone causes no mutation/publication; failed calls leave forms usable; spend controls apply before live invocation.
 
 ### Task 10: Frozen extraction evaluation
 
 Files: evals/data/manifest.json, dev.jsonl, validation.jsonl, test.jsonl; evals/run/evaluate.py; evals/score/metrics.py; tests/unit/test_eval_metrics.py; docs/evidence/ai-evaluation.md.
 
 - [ ] Author 120 scenario-family grouped examples and independently check reference answers; mark annotation provenance.
-- [ ] Test scoring with known true/false/missing/invented values and assert exact denominators, not only aggregate percentages.
-- [ ] Implement runner recording model/prompt/schema/data hashes and failures; freeze validation-selected configuration before final test.
+- [x] Test scoring with known true/false/missing/invented values and assert exact denominators, not only aggregate percentages.
+- [x] Implement runner recording model/prompt/schema/data hashes and failures; freeze validation-selected configuration before final test.
 - [ ] Run `uv run python -m evals.run.evaluate --split test --mode mock` to verify pipeline; execute live test only with configured allowance.
-- [ ] Acceptance: mock pass proves pipeline only. Actual AI quality needs real predictions and reported small-sample limitations. Keep failed/unexecuted gates visible.
+- [x] Acceptance: mock pass proves pipeline only. Actual AI quality needs real predictions and reported small-sample limitations. Keep failed/unexecuted gates visible.
 
 ### Task 11: Calendar export and provider mirror
 
@@ -537,10 +537,10 @@ def test_incomplete_sync_does_not_advance_cursor(calendar_scenario):
     assert calendar_scenario.cursor == old
 ```
 
-- [ ] Test ICS timezone/escaping/stable UID, recurrence expansion, deletions, invalid tokens, paging, own-event exclusion and no-op revision stability.
-- [ ] Implement staged sync-generation commit and separate Google authorization; never mutate tasks during mirror rebuild.
-- [ ] Run `uv run pytest tests/unit/test_ics.py tests/integration/test_calendar_sync.py -q`.
-- [ ] Acceptance: busy changes increment revision once per effective snapshot; partial pages cannot erase current mirror.
+- [x] Test ICS timezone/escaping/stable UID, recurrence expansion, deletions, invalid tokens, paging, own-event exclusion and no-op revision stability.
+- [x] Implement staged sync-generation commit and separate Google authorization; never mutate tasks during mirror rebuild.
+- [x] Run `uv run pytest tests/unit/test_ics.py tests/integration/test_calendar_sync.py -q`.
+- [x] Acceptance: busy changes increment revision once per effective snapshot; partial pages cannot erase current mirror.
 
 ### Task 12: Recoverable publication and manual-edit conflicts
 
@@ -553,9 +553,9 @@ def test_timeout_after_remote_create_does_not_duplicate(calendar_scenario):
     assert calendar_scenario.remote_events_for_block() == 1
 ```
 
-- [ ] Test lost acknowledgments, conditional-update conflict, partial publication, old write after activation, manual deletion and expired authorization.
-- [ ] Implement deterministic IDs, durable operations, calendar serialization and reconciliation; require explicit conflict resolution in UI.
-- [ ] Run `uv run pytest tests/fault/test_calendar_publication.py -q` and calendar browser suite.
+- [x] Test lost acknowledgments, conditional-update conflict, partial publication, old write after activation, manual deletion and expired authorization.
+- [x] Implement deterministic IDs, durable operations, calendar serialization and reconciliation; require explicit conflict resolution in UI.
+- [x] Run `uv run pytest tests/fault/test_calendar_publication.py -q` and calendar browser suite.
 - [ ] Execute dedicated synthetic Google calendar journey when authorized; retain redacted confirmation and cleanup inventory.
 - [ ] R2 gate: local AI/manual/adaptation behavior and mock integration pass; live calendar/evaluation status recorded separately.
 
@@ -565,10 +565,10 @@ def test_timeout_after_remote_create_does_not_duplicate(calendar_scenario):
 
 Files: db/queries.py, benchmark migrations/indexes; benchmarks/sql.py, analyze.py; tests/integration/test_pagination.py; tests/load/workload.js; docs/evidence/sql-performance.md.
 
-- [ ] Write cursor/filter tests, N+1 query-count test, and dispatcher claim contention test on real PostgreSQL.
-- [ ] Generate section 14 fixtures; record correct baseline plans and timings, then add justified indexes/query changes.
-- [ ] Run `uv run python -m benchmarks.sql --manifest benchmarks/manifests/sql.json --compare` and frozen mixed-load run.
-- [ ] Acceptance: include before/after plans, write cost, small-data results, errors, queue age and fairness. SQL evidence is not replaceable by a solver benchmark.
+- [x] Write cursor/filter tests, N+1 query-count test, and dispatcher claim contention test on real PostgreSQL.
+- [x] Generate section 14 fixtures; record correct baseline plans and timings, then add justified indexes/query changes.
+- [x] Run `uv run python -m benchmarks.sql --manifest benchmarks/manifests/sql.json --compare` and frozen mixed-load run.
+- [x] Acceptance: include before/after plans, write cost, small-data results, errors, queue age and fairness. SQL evidence is not replaceable by a solver benchmark.
 
 ### Task 14: Scenario generator and scheduler baselines
 
@@ -582,11 +582,11 @@ def test_related_scenarios_never_cross_splits(dataset):
     assert groups["validation"].isdisjoint(groups["test"])
 ```
 
-- [ ] Create known-feasible generators with witness schedules, separate infeasible/unknown cases and tiny exhaustive references.
+- [x] Create known-feasible generators with witness schedules, separate infeasible/unknown cases and tiny exhaustive references.
 - [ ] Run all baselines with repeated seeded measurements, common resource budget and full timing breakdown.
-- [ ] Build grouped manifests and label provenance, retaining censored/unknown outcomes.
-- [ ] Run `uv run python -m benchmarks.run --manifest benchmarks/manifests/smoke.json` and split integrity tests; then full manifest.
-- [ ] Acceptance: no reported optimum without proof; missing/invalid results remain in result counts.
+- [x] Build grouped manifests and label provenance, retaining censored/unknown outcomes.
+- [x] Run `uv run python -m benchmarks.run --manifest benchmarks/manifests/smoke.json` and split integrity tests; then full manifest.
+- [x] Acceptance: no reported optimum without proof; missing/invalid results remain in result counts.
 
 ### Task 15: Features, training and honest promotion decision
 
@@ -601,19 +601,19 @@ def test_beating_only_always_solver_is_insufficient(metrics):
     assert evaluate_promotion(metrics).promote is False
 ```
 
-- [ ] Test serving-available features, finite/order validation, pipeline fitting and exact gate boundaries.
-- [ ] Train logistic/boosted candidates on train; select thresholds/model/simple-router baseline using validation only.
-- [ ] Freeze configuration, evaluate untouched test once, bootstrap by base scenario and report all baselines.
-- [ ] Run `uv run python -m training.evaluate --manifest training/manifests/final.json` and promotion tests.
-- [ ] Acceptance: section 13 gates control deployment; a negative result is completed evidence, not permission to repeatedly tune the test set.
+- [x] Test serving-available features, finite/order validation, pipeline fitting and exact gate boundaries.
+- [x] Train logistic/boosted candidates on train; select thresholds/model/simple-router baseline using validation only.
+- [x] Freeze configuration, evaluate untouched test once, bootstrap by base scenario and report all baselines.
+- [x] Run `uv run python -m training.evaluate --manifest training/artifacts/v2/selection.json` and promotion tests.
+- [x] Acceptance: section 13 gates control deployment; a negative result is completed evidence, not permission to repeatedly tune the test set.
 
 ### Task 16: Shadow serving and fixed-policy rollback
 
 Files: ml/router.py; jobs/handlers.py; tests/integration/test_routing.py; tests/fault/test_model_rollback.py; observability metrics.
 
-- [ ] Test hash/schema mismatch, untrusted artifact rejection, shadow-no-state-change and validator veto.
-- [ ] Integrate shared features into bounded solve pipeline; pin manifest in release config, default to fixed policy.
-- [ ] Run `uv run pytest tests/integration/test_routing.py tests/fault/test_model_rollback.py -q` and parity fixtures.
+- [x] Test hash/schema mismatch, untrusted artifact rejection, shadow-no-state-change and validator veto.
+- [x] Integrate shared features into bounded solve pipeline; pin manifest in release config, default to fixed policy.
+- [x] Run `uv run pytest tests/integration/test_routing.py tests/fault/test_model_rollback.py -q` and parity fixtures.
 - [ ] R3 gate: SQL/scheduler/ML reports reproducible; learned routing either passes gates and rollback test or remains disabled with reason.
 
 ## 20. R4 tasks — cloud, operations and portfolio
@@ -622,30 +622,30 @@ Files: ml/router.py; jobs/handlers.py; tests/integration/test_routing.py; tests/
 
 Files: observability modules, infra/observability; docs/runbooks; tests/fault/test_dependency_failures.py; docs/evidence/incident.md.
 
-- [ ] Add bounded smoke assertions for trace linkage and redaction; ensure model/calendar payloads do not enter logs.
-- [ ] Instrument stages and dashboards from section 15; configure actionable alerts and recovery commands.
-- [ ] Inject DB interruption, provider throttling and killed worker; diagnose one using emitted evidence and add regression coverage.
-- [ ] Acceptance: report actual recovery timeline, not hypothetical availability. Keep user/plan IDs out of metric label dimensions.
+- [x] Add bounded smoke assertions for trace linkage and redaction; ensure model/calendar payloads do not enter logs.
+- [x] Instrument stages and dashboards from section 15; configure actionable alerts and recovery commands.
+- [x] Inject DB interruption, provider throttling and killed worker; diagnose one using emitted evidence and add regression coverage.
+- [x] Acceptance: report actual recovery timeline, not hypothetical availability. Keep user/plan IDs out of metric label dimensions.
 
 ### Task 18: CI, Terraform and AWS rehearsal
 
 Files: workflows, Dockerfiles, infra/terraform, deployment scripts; tests/integration/test_migration_compatibility.py; docs/deployment.md, docs/evidence/cloud-release.md.
 
-- [ ] Build and test images locally; validate Terraform, migration-from-prior-schema and old-image compatibility.
+- [x] Build and test images locally; validate Terraform, migration-from-prior-schema and old-image compatibility.
 - [ ] Establish region/sizing/current cost estimate, tags, credentials and user-approved allowance before resource creation. Select OIDC provider and redirect/session configuration explicitly.
 - [ ] Deploy SHA-pinned images, run browser/workflow smoke, introduce controlled failed release and verify prior healthy deployment restoration.
 - [ ] Restore a backup to a separate DB, verify records and run smoke against restored instance; never test destructive restore on the original.
 - [ ] Teardown demo resources and inventory intentional retention/cost. Keep raw redacted hosted checks and commands.
-- [ ] Acceptance: local checks, hosted CI, AWS deploy, rollback and restore each have distinct status. External blockers do not stop independent local work.
+- [x] Acceptance: local checks, hosted CI, AWS deploy, rollback and restore each have distinct status. External blockers do not stop independent local work.
 
 ### Task 19: Usability, demonstration and resume handoff
 
 Files: docs/demo-script.md, teaching-guide.md, interview-prep.md, claim-to-evidence.md; evidence UI; README and release manifest.
 
 - [ ] Run 3–5 voluntary synthetic-task sessions where available, or a labeled author self-test. Compare entering constraints, understanding infeasibility and accepting a replan; record completion, mistakes and feedback.
-- [ ] Record five-minute product demo: initial plan, missed work, locked block, infeasible load, reviewed extraction, safe calendar recovery.
-- [ ] Record deeper walkthrough of a solver trade-off, concurrency race, SQL optimization and ML result (including negative result).
-- [ ] Link every claim to commit, fixture, command and raw result; replace resume placeholders only with actual observations.
+- [x] Record five-minute product demo: initial plan, missed work, locked block, infeasible load, reviewed extraction, safe calendar recovery.
+- [x] Record deeper walkthrough of a solver trade-off, concurrency race, SQL optimization and ML result (including negative result).
+- [x] Link every claim to commit, fixture, command and raw result; replace resume placeholders only with actual observations.
 - [ ] R4 gate: clean setup reproduced, evidence statuses correct, known limits visible and remaining billable resources listed.
 
 ## 21. Evidence matrix and final completion checklist
@@ -662,16 +662,16 @@ Files: docs/demo-script.md, teaching-guide.md, interview-prep.md, claim-to-evide
 | AWS/Terraform/CI | 18 | Executed deploy/smoke/rollback/restore/teardown |
 | Observability/debugging | 6, 12, 17 | Trace, dashboard, incident and regression |
 
-- [ ] Every candidate selected for activation passed independent validation and current revision/time checks.
-- [ ] Ownership is enforced by API and relational constraints.
-- [ ] Work logs, time rounding, DST, locks and horizon semantics match section 7.
-- [ ] Queue fairness, edit-storm cancellation and fencing have reproducible evidence.
-- [ ] Remote publication states distinguish local activation from provider convergence.
-- [ ] Extraction quality and ML promotion decisions are reported with denominators and actual status.
-- [ ] SQL AND solver performance include full measurement context and failures.
-- [ ] Cloud claims have executed evidence or are explicitly unexecuted.
-- [ ] Product demo is understandable without opening infrastructure dashboards.
-- [ ] Resume claims do not imply production adoption or human productivity from synthetic schedules.
+- [x] Every candidate selected for activation passed independent validation and current revision/time checks.
+- [x] Ownership is enforced by API and relational constraints.
+- [x] Work logs, time rounding, DST, locks and horizon semantics match section 7.
+- [x] Queue fairness, edit-storm cancellation and fencing have reproducible evidence.
+- [x] Remote publication states distinguish local activation from provider convergence.
+- [x] Extraction quality and ML promotion decisions are reported with denominators and actual status.
+- [x] SQL AND solver performance include full measurement context and failures.
+- [x] Cloud claims have executed evidence or are explicitly unexecuted.
+- [x] Product demo is understandable without opening infrastructure dashboards.
+- [x] Resume claims do not imply production adoption or human productivity from synthetic schedules.
 
 Future resume bullets should select two or three strongest verified outcomes: (1) full-stack planner plus constraint correctness, (2) concurrent replanning and calendar recovery, (3) measured SQL or routing improvement. If the model does not beat a simple router, say 'trained and evaluated' and explain why the simple policy shipped.
 
@@ -693,3 +693,7 @@ Market figures are from the previously analyzed workbook, not a new survey. The 
 Read the design/contracts before Task 1. Execute the numbered tasks in dependency order; keep a checklist and document the next reproducible command. Do not ask the user to relabel an entire dataset or resolve routine library choices before starting local work. Ask only when missing information changes product semantics, external authority or budget; continue unrelated authorized work.
 
 For each task: demonstrate the failing behavior, implement the smallest correct change, run meaningful verification, record evidence and explain the mechanism. A generated scaffold, a fake-provider test or a written runbook does not establish live integration success. Never suppress a failed quality gate or invent measurements to finish the plan.
+
+## Execution reconciliation (2026-09-25)
+
+Checked steps refer to executed local work, not blanket release approval. Task10 references are AI-assisted and need independent human review; live model and Google tests remain unexecuted. Task14 full v2 retains a child-supervision flaw; repaired v3 has a seven-group smoke only, so the full common-budget criterion remains open. The frozen ML experiment is negative, with an audited baseline-name arithmetic correction and no test-driven reselection. Task18 has local image, compatibility, scan and separate-database restore evidence; hosted CI/AWS/rollback/restore and allowance remain open. Task19 recordings are explicitly agent-operated synthetic walkthroughs; human sessions/personal rehearsal are unexecuted. See the current evidence index for commands, counts and precise scope.

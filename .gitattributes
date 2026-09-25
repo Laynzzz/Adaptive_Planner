@@ -30,3 +30,8 @@ benchmarks/artifacts/*.zip binary
 training/artifacts/** -text whitespace=cr-at-eol
 docs/evidence/raw/ml*.json -text whitespace=cr-at-eol
 
+docs/evidence/raw/final-*.txt -text whitespace=cr-at-eol
+docs/evidence/raw/task-18-image-scan.json -text whitespace=cr-at-eol
+docs/evidence/raw/task-18-local-rehearsal.json -text whitespace=cr-at-eol
+# Raw stdout retains terminal whitespace; source code checks remain unchanged.
+docs/evidence/raw/*.txt whitespace=cr-at-eol,-blank-at-eof,-blank-at-eol

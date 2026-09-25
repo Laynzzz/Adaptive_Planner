@@ -1,0 +1,19 @@
+
+> adaptive-planner@0.1.0 build
+> npm run build --workspace apps/web
+
+
+> @adaptive-planner/web@0.1.0 build
+> tsc --noEmit && vite build
+
+vite v8.3.1 building client environment for production...
+transforming...
+✓ 88 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                          0.44 kB │ gzip:  0.28 kB
+dist/assets/index-aRyH17Gz.css           7.27 kB │ gzip:  2.17 kB
+dist/assets/EvidencePanel-aRbY6gIm.js  245.69 kB │ gzip: 36.15 kB
+dist/assets/index-BlSTyLlc.js          319.13 kB │ gzip: 94.82 kB
+
+✓ built in 170ms

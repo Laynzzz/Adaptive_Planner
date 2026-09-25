@@ -1,10 +1,12 @@
 # Adaptive Planner
 
-A personal planner that builds reviewed schedules from tasks, deadlines and available time. The authoritative design is [plan.md](plan.md). Implementation is in progress; no release gate is claimed complete yet.
+A personal planner that builds reviewed schedules from tasks, deadlines and available time. The authoritative design is [plan.md](plan.md). The local experimental release includes adaptive workflows, measured SQL/scheduler studies, a rejected ML routing experiment and delivery rehearsal. External release gates remain explicit.
 
 ## Current status
 
-The initial FastAPI application, PostgreSQL migration harness and React workspace run locally. Health checks distinguish a live process from a database ready to serve requests. Domain rules and the R1 scheduling journey are being implemented. See [execution status](docs/execution-status.md) and [evidence](docs/evidence-index.md).
+The React workspace supports authenticated task entry, reviewed schedules, explicit progress, protected blocks, what-if previews, reviewed natural-language drafts and weekday preferences. ICS export and a persistent calendar simulator exercise recovery without external accounts. PostgreSQL owns revisioned inputs and durable jobs; independent validation checks every proposed schedule. See [execution status](docs/execution-status.md) and [evidence](docs/evidence-index.md).
+
+Live Google, paid AI evaluation, hosted CI and AWS deployment remain **not executed**. Learned routing was not promoted: completion, quality, latency and measurement gates failed. The fixed policy remains the default. Local and simulated results are labeled separately in the in-app **Evidence & limits** view. This is an agent-assisted project using synthetic data, without claims of production adoption or human productivity gains.
 
 ## Requirements
 
@@ -24,6 +26,8 @@ From the repository root with uv on PATH:
 # Separate terminals:
 ./scripts/dev.ps1 api
 ./scripts/dev.ps1 worker
+./scripts/dev.ps1 ai-worker
+./scripts/dev.ps1 calendar-worker
 ./scripts/dev.ps1 web
 ```
 
@@ -41,6 +45,8 @@ uv run alembic upgrade head
 # Separate terminals:
 uv run python -m planner.cli serve
 uv run python -m planner.jobs.worker
+uv run python -m planner.ai.worker
+uv run python -m planner.calendar.worker
 npm run dev
 ```
 
@@ -48,10 +54,11 @@ npm run dev
 
 Local demo sign-in uses `demo-a` / `local-demo-a-only` and `demo-b` / `local-demo-b-only`. These are intentionally public credentials for the loopback-only synthetic identity provider. They are never deployment credentials. After signing in once as each user, `uv run python -m planner.cli seed-demo` populates the synthetic demo tasks without inventing provider subject IDs.
 
-The worker must be running to compute plans. Login, task edits and work-hour changes use server-side sessions and revision checks. A changed-input conflict retains the form draft; refresh the workspace before retrying.
+The scheduling worker computes plans; the AI worker processes reviewed extraction drafts; the calendar worker performs synchronization and publication. All three are separate from the API. Local extraction and the calendar simulator require no paid keys. Login, task edits and work-hour changes use server-side sessions and revision checks. A changed-input conflict retains the form draft; refresh the workspace before retrying.
 
 ```bash
-uv run ruff check services tests db
+uv lock --check
+uv run ruff check services tests db training benchmarks evals
 uv run pytest -q
 npm run typecheck
 npm run api:check
@@ -61,7 +68,7 @@ npx playwright install chromium
 npm run test:e2e
 ```
 
-Windows convenience: `./scripts/verify.ps1 -Browser`. Real database integration tests create and drop only uniquely named test databases. The database and local OIDC provider must be running. Browser tests require the development database migrated to current head and a worker running; Playwright starts missing API/web processes automatically. After a new migration is added, apply it and restart the API so readiness compares against the current schema.
+Windows convenience: `./scripts/verify.ps1 -Browser`. Real database integration tests create and drop only uniquely named test databases. The database and local OIDC provider must be running. Browser tests require the development database migrated to current head and all three workers running; Playwright starts missing API/web processes automatically. After a new migration is added, apply it and restart the API and workers.
 
 ## Learning and evidence
 
@@ -70,4 +77,14 @@ Windows convenience: `./scripts/verify.ps1 -Browser`. Real database integration 
 - [Architecture decisions](docs/adr/0001-stack.md)
 - [Verification evidence index](docs/evidence-index.md)
 
-Stop local services with `docker compose stop`. This retains the project database volume. No cloud resources have been created, no paid calls have run, and no GPU workload is needed for the current increment.
+Stop local services with `docker compose stop`. This retains the project database volume. No AWS resources have been created and no paid model calls have run. The CPU-only scheduler and small tabular models do not benefit from the4090. Local containers, synthetic databases and ignored benchmark/video artifacts are intentionally retained; see the final release report for inventory.
+
+## Recorded results and recordings
+
+- [SQL measurements](docs/evidence/sql-performance.md): read improvement, write cost and end-to-end regression are all reported.
+- [Scheduler measurements](docs/evidence/scheduler-benchmarks.md):1,000 groups,7,000 runs, failures and the old supervision limitation retained.
+- [ML experiment](docs/evidence/ml-experiment.md): frozen selection, audited report correction, negative deployment decision.
+- [Local release verification](docs/evidence/local-release.md): clean checkout, tests, resources and limits.
+- [Product demo](docs/demo-script.md) and [technical walkthrough](docs/technical-walkthrough.md): agent-operated synthetic recordings, not human usability studies.
+
+The200-task maximum is an input boundary, not demonstrated successful scheduling capacity. Large cases frequently returnedUNKNOWN under the short benchmark budgets. Live provider, hosted CI and AWS deployment claims require separate executed evidence.

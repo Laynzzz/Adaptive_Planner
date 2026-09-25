@@ -1,0 +1,8 @@
+{
+  "training/artifacts/v2/selection.json": "4f7b0e0396150d8f1b2d6e4590b33131979f3ade97780b5493a7707f9bb4b35f",
+  "training/artifacts/v2/logistic.json": "04dded06f6470f51c895c25e36b34eadfd4f0dd24e921630b3f12570fab13a5e",
+  "training/artifacts/v2/gradient_boosted.json": "2fc4d352240147ef31160d7b6aa5fb9bc89317f9a8dd73fcdfa16834edcc65a4",
+  "training/artifacts/v2/correction-source.py.txt": "2072c461822c2219591c9317539e0a63e432f2b631ef6c0cd247c02ec1bbb230",
+  "docs/evidence/raw/ml-evaluation-corrected.json": "855cf0317aecfa068ab86a807273e3ba5cbcb3336b1f230fc0ba841e6800171f",
+  "benchmarks/manifests/full.json": "0f3fdb3616c2cf4fc9583d31079a1d8ecc934f36ff8c560af2bfd552a56f92c1"
+}

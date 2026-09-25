@@ -1,0 +1,6 @@
+tests\reference.tftest.hcl... in progress
+  run "reference_safety_boundaries"... pass
+tests\reference.tftest.hcl... tearing down
+tests\reference.tftest.hcl... pass
+
+Success! 1 passed, 0 failed.

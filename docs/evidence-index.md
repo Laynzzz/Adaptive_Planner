@@ -15,3 +15,12 @@ R1 local gate verified. Record local, mocked and live results separately.
 | Reviewed extraction | [AI evaluation](evidence/ai-evaluation.md), [R2 interface](evidence/r2-ui.md) | Frozen mock evaluation and reviewed task/rule acceptance; human/live gates unexecuted |
 | Calendar recovery | [Tasks 11–12](evidence/task-11-12-calendar.md), [independent review](evidence/r2-review.md) | Local durable simulator and failure tests; live Google unexecuted |
 | Live AI / Google / AWS | No credentials or spending allowance configured | Not executed |
+| Reviewed input editing | [Final input review](evidence/final-input-review.md), [local release](evidence/local-release.md) | Revision-captured drafts, timezone confirmation and original-time display verified |
+| SQL and real HTTP load | [SQL report](evidence/sql-performance.md) | Both600-second phases; read gains and write/readiness regressions retained |
+| Scheduler measurement | [Baseline report](evidence/scheduler-benchmarks.md) |1,000 groups/7,000 runs; full v2 supervision limitation; repaired v3 smoke only |
+| ML routing | [Negative experiment](evidence/ml-experiment.md), [corrected summary](evidence/raw/ml-test-summary.json) | Frozen selection; audited alias correction; six failed gates, no promotion |
+| Process containment | [Windows/Linux failures and repair](evidence/process-tree-recovery.md) | Actual descendant tests; cannot retroactively repair old measurements |
+| Telemetry and incidents | [Incident report](evidence/incident.md) | Local collector/dashboard and injected faults; no production SLO claim |
+| Delivery and restore | [Deployment instructions](deployment.md) | Local image/scan/compatibility/restore; AWS and hosted workflow execution remain open |
+| Product and technical recordings | [Usability scope](evidence/usability.md), [technical recording](technical-walkthrough.md) | Agent-operated synthetic videos; human sessions unexecuted |
+| Integrated local release | [Clean-checkout report](evidence/local-release.md) | Browser/component/backend counts and retained-resource inventory |

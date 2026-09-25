@@ -1,0 +1,43 @@
+[WebServer] {"event":"span","name":"api.request","trace_id":"dc9153acf6ab58cd0f8cecd4346e6b9b","span_id":"a7ebd3b6bfa84565","parent_span_id":null,"start_unix_ns":1790374640529264300,"end_unix_ns":1790374640538461500,"status":"UNSET","attributes":{"http.method":"GET","http.status_code":200,"http.route":"/api/v1/protected-work"}}
+[WebServer] {"event":"span","name":"db.query","trace_id":"99ac6c6b9f5c5fd416cbe917f1cab874","span_id":"680ee6a7db70b46e","parent_span_id":"03e254bffd246458","start_unix_ns":1790374640640158800,"end_unix_ns":1790374640643967200,"status":"UNSET","attributes":{"db.operation":"SELECT"}}
+[WebServer] {"event":"span","name":"db.query","trace_id":"99ac6c6b9f5c5fd416cbe917f1cab874","span_id":"377158a5d589db13","parent_span_id":"03e254bffd246458","start_unix_ns":1790374640649575500,"end_unix_ns":1790374640653039400,"status":"UNSET","attributes":{"db.operation":"SELECT"}}
+[WebServer] {"event":"span","name":"db.query","trace_id":"99ac6c6b9f5c5fd416cbe917f1cab874","span_id":"face1e053f571d55","parent_span_id":"03e254bffd246458","start_unix_ns":1790374640653557500,"end_unix_ns":1790374640654602600,"status":"UNSET","attributes":{"db.operation":"SELECT"}}
+[WebServer] {"event":"span","name":"api.request","trace_id":"99ac6c6b9f5c5fd416cbe917f1cab874","span_id":"03e254bffd246458","parent_span_id":null,"start_unix_ns":1790374640636568300,"end_unix_ns":1790374640660486400,"status":"UNSET","attributes":{"http.method":"GET","http.status_code":200,"http.route":"/api/v1/protected-work"}}
+  x  9 [chromium] › tests\e2e\weekday-rules.spec.ts:4:5 › weekday-only extraction needs confirmation and persists in manual preferences (7.2s)
+
+
+  1) [chromium] › tests\e2e\weekday-rules.spec.ts:4:5 › weekday-only extraction needs confirmation and persists in manual preferences 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByText('Weekly rule removed', { exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByText('Weekly rule removed', { exact: true }) with timeout 5000ms
+      - waiting for getByText('Weekly rule removed', { exact: true })
+
+
+      38 |   await expect(
+      39 |     page.getByText("Weekly rule removed", { exact: true }),
+    > 40 |   ).toBeVisible();
+         |     ^
+      41 | });
+      42 |
+        at C:\Users\tiany\.codex\worktrees\adaptive-planner-implementation\adaptive-planner\.runtime\release-checkout\tests\e2e\weekday-rules.spec.ts:40:5
+
+    Error Context: test-results\weekday-rules-weekday-only-fb3e4-sists-in-manual-preferences-chromium\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\weekday-rules-weekday-only-fb3e4-sists-in-manual-preferences-chromium\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\weekday-rules-weekday-only-fb3e4-sists-in-manual-preferences-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [chromium] › tests\e2e\weekday-rules.spec.ts:4:5 › weekday-only extraction needs confirmation and persists in manual preferences 
+  8 passed (42.0s)
