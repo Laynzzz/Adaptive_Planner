@@ -16,6 +16,12 @@ import {
 import TaskForm from "./tasks/TaskForm";
 import PlanPanel from "./proposals/PlanPanel";
 import Constraints from "./tasks/Constraints";
+import InterpretationPanel from "./interpretation/InterpretationPanel";
+import ProgressPanel from "./progress/ProgressPanel";
+import WhatIfPanel from "./comparison/WhatIfPanel";
+import ActivePlan from "./progress/ActivePlan";
+import CalendarPanel from "./integration/CalendarPanel";
+import WeekdayRules from "./tasks/WeekdayRules";
 
 export default function Workspace() {
   const cache = useQueryClient();
@@ -50,6 +56,11 @@ export default function Workspace() {
     void cache.invalidateQueries({ queryKey: ["availability"] });
     void cache.invalidateQueries({ queryKey: ["proposals"] });
     void cache.invalidateQueries({ queryKey: ["job"] });
+    void cache.invalidateQueries({ queryKey: ["protected-work"] });
+    void cache.invalidateQueries({ queryKey: ["work-logs"] });
+    void cache.invalidateQueries({ queryKey: ["active-plan"] });
+    void cache.invalidateQueries({ queryKey: ["calendar"] });
+    void cache.invalidateQueries({ queryKey: ["weekday-rules"] });
   };
   if (identity.isPending)
     return (
@@ -120,7 +131,9 @@ export default function Workspace() {
       )}
       <div className="workspace-columns">
         <div>
-          <TaskForm identity={me} onSaved={refresh} />
+          <div id="manual-task-form"><TaskForm identity={me} onSaved={refresh} /></div>
+          <InterpretationPanel identity={me} onChanged={refresh} />
+          <WeekdayRules identity={me} onChanged={refresh} />
           <form
             className="availability-form"
             aria-label="Available time"
@@ -270,6 +283,10 @@ export default function Workspace() {
           allTasks.map((task) => [task.id, task.title]),
         )}
       />
+      <ProgressPanel identity={me} tasks={allTasks} onChanged={refresh} />
+      <ActivePlan identity={me} taskNames={Object.fromEntries(allTasks.map((task) => [task.id, task.title]))} onChanged={refresh} />
+      <WhatIfPanel identity={me} tasks={allTasks} onChanged={refresh} />
+      <CalendarPanel identity={me} onChanged={refresh} />
     </>
   );
 }

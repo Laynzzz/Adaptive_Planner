@@ -48,6 +48,11 @@ export default function PlanPanel({
     }
   }, [job.data?.state, cache]);
   const latest = proposals.data?.items?.[0];
+  const diff = useQuery({
+    queryKey: ["plan-diff", latest?.id],
+    queryFn: () => request<components["schemas"]["PlanDiff"]>(`/proposals/${latest!.id}/diff`),
+    enabled: !!latest?.id,
+  });
   const running =
     !!jobId && (!job.data || runningStates.includes(job.data.state));
   const failedCandidate =
@@ -203,6 +208,13 @@ export default function PlanPanel({
             )}
             {blocks.length > 0 && (
               <>
+                {diff.data && <details>
+                  <summary>Changes from the previous plan</summary>
+                  <p>{diff.data.retained?.length ?? 0} retained · {diff.data.moved?.length ?? 0} moved · {diff.data.added?.length ?? 0} added · {diff.data.removed?.length ?? 0} removed</p>
+                  <ul>{diff.data.moved?.map((move) => <li key={move.new.id}>
+                    {taskNames[move.new.task_id] ?? "Task"}: {formatTime(move.old.start)} → {formatTime(move.new.start)}
+                  </li>)}</ul>
+                </details>}
                 <p className="field-help">
                   All times shown in {identity.timezone}. Scheduling uses
                   15-minute slots.

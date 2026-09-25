@@ -1,6 +1,97 @@
 {
   "components": {
     "schemas": {
+      "AcceptCommand": {
+        "additionalProperties": false,
+        "properties": {
+          "confirmed_fields": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Confirmed Fields",
+            "type": "array"
+          },
+          "expected_revision": {
+            "minimum": 0,
+            "title": "Expected Revision",
+            "type": "integer"
+          },
+          "overrides": {
+            "additionalProperties": true,
+            "default": {},
+            "title": "Overrides",
+            "type": "object"
+          },
+          "selected_constraint_keys": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "maxItems": 20,
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Selected Constraint Keys"
+          },
+          "selected_task_keys": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 20,
+            "title": "Selected Task Keys",
+            "type": "array"
+          }
+        },
+        "required": [
+          "expected_revision"
+        ],
+        "title": "AcceptCommand",
+        "type": "object"
+      },
+      "AcceptedView": {
+        "additionalProperties": false,
+        "properties": {
+          "interpretation_id": {
+            "format": "uuid",
+            "title": "Interpretation Id",
+            "type": "string"
+          },
+          "revision": {
+            "title": "Revision",
+            "type": "integer"
+          },
+          "task_ids": {
+            "items": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "title": "Task Ids",
+            "type": "array"
+          },
+          "weekday_rule_ids": {
+            "default": [],
+            "items": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "title": "Weekday Rule Ids",
+            "type": "array"
+          }
+        },
+        "required": [
+          "interpretation_id",
+          "task_ids",
+          "revision"
+        ],
+        "title": "AcceptedView",
+        "type": "object"
+      },
       "ActivationView": {
         "additionalProperties": false,
         "properties": {
@@ -29,6 +120,31 @@
           "planning_revision"
         ],
         "title": "ActivationView",
+        "type": "object"
+      },
+      "AppliedView": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "revision": {
+            "title": "Revision",
+            "type": "integer"
+          },
+          "state": {
+            "title": "State",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "state",
+          "revision"
+        ],
+        "title": "AppliedView",
         "type": "object"
       },
       "AvailabilityCommand": {
@@ -153,6 +269,213 @@
         "title": "Block",
         "type": "object"
       },
+      "BlockMove": {
+        "additionalProperties": false,
+        "properties": {
+          "new": {
+            "$ref": "#/components/schemas/Block"
+          },
+          "old": {
+            "$ref": "#/components/schemas/Block"
+          },
+          "reason_codes": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Reason Codes",
+            "type": "array"
+          }
+        },
+        "required": [
+          "old",
+          "new"
+        ],
+        "title": "BlockMove",
+        "type": "object"
+      },
+      "CalendarCommandView": {
+        "additionalProperties": false,
+        "properties": {
+          "authorization_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Authorization Url"
+          },
+          "revision": {
+            "title": "Revision",
+            "type": "integer"
+          },
+          "state": {
+            "title": "State",
+            "type": "string"
+          }
+        },
+        "required": [
+          "state",
+          "revision"
+        ],
+        "title": "CalendarCommandView",
+        "type": "object"
+      },
+      "CalendarConflictView": {
+        "additionalProperties": false,
+        "properties": {
+          "block_id": {
+            "format": "uuid",
+            "title": "Block Id",
+            "type": "string"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "reason": {
+            "title": "Reason",
+            "type": "string"
+          },
+          "remote_end": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Remote End"
+          },
+          "remote_start": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Remote Start"
+          }
+        },
+        "required": [
+          "id",
+          "block_id",
+          "reason"
+        ],
+        "title": "CalendarConflictView",
+        "type": "object"
+      },
+      "CalendarStatusView": {
+        "additionalProperties": false,
+        "properties": {
+          "calendar_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Calendar Id"
+          },
+          "conflicts": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/CalendarConflictView"
+            },
+            "title": "Conflicts",
+            "type": "array"
+          },
+          "error_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error Code"
+          },
+          "last_sync_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Sync At"
+          },
+          "live_configured": {
+            "title": "Live Configured",
+            "type": "boolean"
+          },
+          "mock_available": {
+            "default": true,
+            "title": "Mock Available",
+            "type": "boolean"
+          },
+          "pending_count": {
+            "default": 0,
+            "title": "Pending Count",
+            "type": "integer"
+          },
+          "provider": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Provider"
+          },
+          "publish_pending": {
+            "default": false,
+            "title": "Publish Pending",
+            "type": "boolean"
+          },
+          "published_count": {
+            "default": 0,
+            "title": "Published Count",
+            "type": "integer"
+          },
+          "revision": {
+            "title": "Revision",
+            "type": "integer"
+          },
+          "state": {
+            "title": "State",
+            "type": "string"
+          },
+          "sync_pending": {
+            "default": false,
+            "title": "Sync Pending",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "state",
+          "revision",
+          "live_configured"
+        ],
+        "title": "CalendarStatusView",
+        "type": "object"
+      },
       "Candidate": {
         "additionalProperties": false,
         "properties": {
@@ -219,6 +542,79 @@
         "title": "Candidate",
         "type": "object"
       },
+      "ConnectCalendar": {
+        "additionalProperties": false,
+        "properties": {
+          "calendar_id": {
+            "maxLength": 500,
+            "minLength": 1,
+            "title": "Calendar Id",
+            "type": "string"
+          },
+          "dedicated_synthetic_confirmed": {
+            "title": "Dedicated Synthetic Confirmed",
+            "type": "boolean"
+          },
+          "expected_revision": {
+            "minimum": 0,
+            "title": "Expected Revision",
+            "type": "integer"
+          },
+          "provider": {
+            "enum": [
+              "MOCK",
+              "GOOGLE"
+            ],
+            "title": "Provider",
+            "type": "string"
+          }
+        },
+        "required": [
+          "expected_revision",
+          "provider",
+          "calendar_id",
+          "dedicated_synthetic_confirmed"
+        ],
+        "title": "ConnectCalendar",
+        "type": "object"
+      },
+      "CreatedRule": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "SOFT_AVOID",
+              "HARD_UNAVAILABLE",
+              "HARD_NO_DEADLINE"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "revision": {
+            "title": "Revision",
+            "type": "integer"
+          },
+          "weekday": {
+            "maximum": 6,
+            "minimum": 0,
+            "title": "Weekday",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "revision",
+          "kind",
+          "weekday",
+          "id"
+        ],
+        "title": "CreatedRule",
+        "type": "object"
+      },
       "Deadline": {
         "additionalProperties": false,
         "properties": {
@@ -281,6 +677,320 @@
           "predecessor_id"
         ],
         "title": "DependencyCommand",
+        "type": "object"
+      },
+      "DisconnectCalendar": {
+        "additionalProperties": false,
+        "properties": {
+          "expected_revision": {
+            "minimum": 0,
+            "title": "Expected Revision",
+            "type": "integer"
+          },
+          "keep_remote_events": {
+            "title": "Keep Remote Events",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "expected_revision",
+          "keep_remote_events"
+        ],
+        "title": "DisconnectCalendar",
+        "type": "object"
+      },
+      "DraftConstraint": {
+        "additionalProperties": false,
+        "properties": {
+          "evidence": {
+            "items": {
+              "$ref": "#/components/schemas/EvidenceSpan"
+            },
+            "title": "Evidence",
+            "type": "array"
+          },
+          "key": {
+            "title": "Key",
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "SOFT_AVOID",
+              "HARD_UNAVAILABLE",
+              "HARD_NO_DEADLINE"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "label": {
+            "enum": [
+              "explicit",
+              "inferred",
+              "unknown"
+            ],
+            "title": "Label",
+            "type": "string"
+          },
+          "requires_confirmation": {
+            "default": true,
+            "title": "Requires Confirmation",
+            "type": "boolean"
+          },
+          "weekday": {
+            "maximum": 6,
+            "minimum": 0,
+            "title": "Weekday",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "key",
+          "kind",
+          "weekday",
+          "label",
+          "evidence"
+        ],
+        "title": "DraftConstraint",
+        "type": "object"
+      },
+      "DraftTask": {
+        "additionalProperties": false,
+        "properties": {
+          "deadline": {
+            "$ref": "#/components/schemas/Extracted_Deadline_"
+          },
+          "key": {
+            "pattern": "^task_[1-9][0-9]*$",
+            "title": "Key",
+            "type": "string"
+          },
+          "predecessor_keys": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Predecessor Keys",
+            "type": "array"
+          },
+          "priority": {
+            "$ref": "#/components/schemas/Extracted_int_"
+          },
+          "remaining_minutes": {
+            "$ref": "#/components/schemas/Extracted_int_"
+          },
+          "title": {
+            "$ref": "#/components/schemas/Extracted_str_"
+          }
+        },
+        "required": [
+          "key",
+          "title",
+          "remaining_minutes",
+          "deadline",
+          "priority"
+        ],
+        "title": "DraftTask",
+        "type": "object"
+      },
+      "EvidenceSpan": {
+        "additionalProperties": false,
+        "properties": {
+          "end": {
+            "minimum": 0,
+            "title": "End",
+            "type": "integer"
+          },
+          "start": {
+            "minimum": 0,
+            "title": "Start",
+            "type": "integer"
+          },
+          "text": {
+            "title": "Text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "start",
+          "end",
+          "text"
+        ],
+        "title": "EvidenceSpan",
+        "type": "object"
+      },
+      "Extracted_Deadline_": {
+        "additionalProperties": false,
+        "properties": {
+          "evidence": {
+            "items": {
+              "$ref": "#/components/schemas/EvidenceSpan"
+            },
+            "title": "Evidence",
+            "type": "array"
+          },
+          "label": {
+            "enum": [
+              "explicit",
+              "inferred",
+              "unknown"
+            ],
+            "title": "Label",
+            "type": "string"
+          },
+          "requires_confirmation": {
+            "title": "Requires Confirmation",
+            "type": "boolean"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Deadline"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "value",
+          "label",
+          "evidence",
+          "requires_confirmation"
+        ],
+        "title": "Extracted[Deadline]",
+        "type": "object"
+      },
+      "Extracted_int_": {
+        "additionalProperties": false,
+        "properties": {
+          "evidence": {
+            "items": {
+              "$ref": "#/components/schemas/EvidenceSpan"
+            },
+            "title": "Evidence",
+            "type": "array"
+          },
+          "label": {
+            "enum": [
+              "explicit",
+              "inferred",
+              "unknown"
+            ],
+            "title": "Label",
+            "type": "string"
+          },
+          "requires_confirmation": {
+            "title": "Requires Confirmation",
+            "type": "boolean"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value"
+          }
+        },
+        "required": [
+          "value",
+          "label",
+          "evidence",
+          "requires_confirmation"
+        ],
+        "title": "Extracted[int]",
+        "type": "object"
+      },
+      "Extracted_str_": {
+        "additionalProperties": false,
+        "properties": {
+          "evidence": {
+            "items": {
+              "$ref": "#/components/schemas/EvidenceSpan"
+            },
+            "title": "Evidence",
+            "type": "array"
+          },
+          "label": {
+            "enum": [
+              "explicit",
+              "inferred",
+              "unknown"
+            ],
+            "title": "Label",
+            "type": "string"
+          },
+          "requires_confirmation": {
+            "title": "Requires Confirmation",
+            "type": "boolean"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value"
+          }
+        },
+        "required": [
+          "value",
+          "label",
+          "evidence",
+          "requires_confirmation"
+        ],
+        "title": "Extracted[str]",
+        "type": "object"
+      },
+      "ExtractionDraft": {
+        "additionalProperties": false,
+        "properties": {
+          "abstained": {
+            "default": false,
+            "title": "Abstained",
+            "type": "boolean"
+          },
+          "constraints": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/DraftConstraint"
+            },
+            "maxItems": 20,
+            "title": "Constraints",
+            "type": "array"
+          },
+          "schema_version": {
+            "const": "extraction-v1",
+            "default": "extraction-v1",
+            "title": "Schema Version",
+            "type": "string"
+          },
+          "tasks": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/DraftTask"
+            },
+            "maxItems": 20,
+            "title": "Tasks",
+            "type": "array"
+          },
+          "unresolved_fields": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Unresolved Fields",
+            "type": "array"
+          }
+        },
+        "title": "ExtractionDraft",
         "type": "object"
       },
       "FixedEventCreate": {
@@ -494,6 +1204,137 @@
         "title": "HTTPValidationError",
         "type": "object"
       },
+      "InterpretCommand": {
+        "additionalProperties": false,
+        "properties": {
+          "expected_revision": {
+            "minimum": 0,
+            "title": "Expected Revision",
+            "type": "integer"
+          },
+          "mode": {
+            "default": "mock",
+            "enum": [
+              "mock",
+              "openai"
+            ],
+            "title": "Mode",
+            "type": "string"
+          },
+          "text": {
+            "maxLength": 8000,
+            "minLength": 1,
+            "title": "Text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "expected_revision",
+          "text"
+        ],
+        "title": "InterpretCommand",
+        "type": "object"
+      },
+      "InterpretationQueued": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "planning_revision": {
+            "title": "Planning Revision",
+            "type": "integer"
+          },
+          "state": {
+            "title": "State",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "state",
+          "planning_revision"
+        ],
+        "title": "InterpretationQueued",
+        "type": "object"
+      },
+      "InterpretationView": {
+        "additionalProperties": false,
+        "properties": {
+          "error_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error Code"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "metadata": {
+            "additionalProperties": true,
+            "default": {},
+            "title": "Metadata",
+            "type": "object"
+          },
+          "planning_revision": {
+            "title": "Planning Revision",
+            "type": "integer"
+          },
+          "proposal": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ExtractionDraft"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "reference_now": {
+            "format": "date-time",
+            "title": "Reference Now",
+            "type": "string"
+          },
+          "source_text": {
+            "title": "Source Text",
+            "type": "string"
+          },
+          "state": {
+            "enum": [
+              "QUEUED",
+              "RUNNING",
+              "READY",
+              "FAILED",
+              "ACCEPTED"
+            ],
+            "title": "State",
+            "type": "string"
+          },
+          "timezone": {
+            "title": "Timezone",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "state",
+          "planning_revision",
+          "source_text",
+          "reference_now",
+          "timezone"
+        ],
+        "title": "InterpretationView",
+        "type": "object"
+      },
       "Interval": {
         "additionalProperties": false,
         "properties": {
@@ -619,6 +1460,43 @@
         "title": "LocalTime",
         "type": "object"
       },
+      "LockCommand": {
+        "additionalProperties": false,
+        "properties": {
+          "expected_end": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expected End"
+          },
+          "expected_revision": {
+            "minimum": 0,
+            "title": "Expected Revision",
+            "type": "integer"
+          },
+          "in_progress": {
+            "default": false,
+            "title": "In Progress",
+            "type": "boolean"
+          },
+          "locked": {
+            "title": "Locked",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "expected_revision",
+          "locked"
+        ],
+        "title": "LockCommand",
+        "type": "object"
+      },
       "MeResponse": {
         "additionalProperties": false,
         "properties": {
@@ -660,6 +1538,80 @@
           "capabilities"
         ],
         "title": "MeResponse",
+        "type": "object"
+      },
+      "MoveCommand": {
+        "additionalProperties": false,
+        "properties": {
+          "end": {
+            "format": "date-time",
+            "title": "End",
+            "type": "string"
+          },
+          "expected_revision": {
+            "minimum": 0,
+            "title": "Expected Revision",
+            "type": "integer"
+          },
+          "start": {
+            "format": "date-time",
+            "title": "Start",
+            "type": "string"
+          }
+        },
+        "required": [
+          "expected_revision",
+          "start",
+          "end"
+        ],
+        "title": "MoveCommand",
+        "type": "object"
+      },
+      "PlanDiff": {
+        "additionalProperties": false,
+        "properties": {
+          "added": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/Block"
+            },
+            "title": "Added",
+            "type": "array"
+          },
+          "moved": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/BlockMove"
+            },
+            "title": "Moved",
+            "type": "array"
+          },
+          "reason_codes": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Reason Codes",
+            "type": "array"
+          },
+          "removed": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/Block"
+            },
+            "title": "Removed",
+            "type": "array"
+          },
+          "retained": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/Block"
+            },
+            "title": "Retained",
+            "type": "array"
+          }
+        },
+        "title": "PlanDiff",
         "type": "object"
       },
       "ProposalList": {
@@ -725,6 +1677,162 @@
         "title": "ProposalView",
         "type": "object"
       },
+      "ProtectedItem": {
+        "additionalProperties": false,
+        "properties": {
+          "active": {
+            "title": "Active",
+            "type": "boolean"
+          },
+          "end": {
+            "format": "date-time",
+            "title": "End",
+            "type": "string"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "locked": {
+            "title": "Locked",
+            "type": "boolean"
+          },
+          "source": {
+            "title": "Source",
+            "type": "string"
+          },
+          "start": {
+            "format": "date-time",
+            "title": "Start",
+            "type": "string"
+          },
+          "task_id": {
+            "format": "uuid",
+            "title": "Task Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "task_id",
+          "start",
+          "end",
+          "locked",
+          "source",
+          "active"
+        ],
+        "title": "ProtectedItem",
+        "type": "object"
+      },
+      "ProtectedList": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ProtectedItem"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "revision": {
+            "title": "Revision",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "revision"
+        ],
+        "title": "ProtectedList",
+        "type": "object"
+      },
+      "ProtectedView": {
+        "additionalProperties": false,
+        "properties": {
+          "end": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "locked": {
+            "title": "Locked",
+            "type": "boolean"
+          },
+          "revision": {
+            "title": "Revision",
+            "type": "integer"
+          },
+          "source": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source"
+          },
+          "start": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start"
+          }
+        },
+        "required": [
+          "id",
+          "locked",
+          "revision"
+        ],
+        "title": "ProtectedView",
+        "type": "object"
+      },
+      "ResolveCalendarConflict": {
+        "additionalProperties": false,
+        "properties": {
+          "action": {
+            "enum": [
+              "RESTORE",
+              "ACCEPT_DELETION",
+              "REMOVE_COMMITMENT",
+              "DISCONNECT"
+            ],
+            "title": "Action",
+            "type": "string"
+          },
+          "expected_revision": {
+            "minimum": 0,
+            "title": "Expected Revision",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "expected_revision",
+          "action"
+        ],
+        "title": "ResolveCalendarConflict",
+        "type": "object"
+      },
       "RevisionCommand": {
         "additionalProperties": false,
         "properties": {
@@ -752,6 +1860,97 @@
           "revision"
         ],
         "title": "RevisionResponse",
+        "type": "object"
+      },
+      "RuleCommand": {
+        "additionalProperties": false,
+        "properties": {
+          "expected_revision": {
+            "minimum": 0,
+            "title": "Expected Revision",
+            "type": "integer"
+          },
+          "kind": {
+            "enum": [
+              "SOFT_AVOID",
+              "HARD_UNAVAILABLE",
+              "HARD_NO_DEADLINE"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "weekday": {
+            "maximum": 6,
+            "minimum": 0,
+            "title": "Weekday",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "expected_revision",
+          "kind",
+          "weekday"
+        ],
+        "title": "RuleCommand",
+        "type": "object"
+      },
+      "RuleList": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/RuleView"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "revision": {
+            "title": "Revision",
+            "type": "integer"
+          },
+          "timezone": {
+            "title": "Timezone",
+            "type": "string"
+          }
+        },
+        "required": [
+          "items",
+          "timezone",
+          "revision"
+        ],
+        "title": "RuleList",
+        "type": "object"
+      },
+      "RuleView": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "SOFT_AVOID",
+              "HARD_UNAVAILABLE",
+              "HARD_NO_DEADLINE"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "weekday": {
+            "maximum": 6,
+            "minimum": 0,
+            "title": "Weekday",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "kind",
+          "weekday",
+          "id"
+        ],
+        "title": "RuleView",
         "type": "object"
       },
       "Score": {
@@ -872,6 +2071,44 @@
           }
         },
         "title": "SolverMetadata",
+        "type": "object"
+      },
+      "TaskChange": {
+        "additionalProperties": false,
+        "properties": {
+          "deadline": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Deadline"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "remaining_minutes": {
+            "anyOf": [
+              {
+                "maximum": 2147483647,
+                "minimum": 0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Remaining Minutes"
+          },
+          "task_id": {
+            "format": "uuid",
+            "title": "Task Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "task_id"
+        ],
+        "title": "TaskChange",
         "type": "object"
       },
       "TaskCreate": {
@@ -1329,6 +2566,265 @@
         ],
         "title": "Violation",
         "type": "object"
+      },
+      "WhatIfCommand": {
+        "additionalProperties": false,
+        "properties": {
+          "additional_availability": {
+            "items": {
+              "$ref": "#/components/schemas/Interval"
+            },
+            "maxItems": 200,
+            "title": "Additional Availability",
+            "type": "array"
+          },
+          "expected_revision": {
+            "minimum": 0,
+            "title": "Expected Revision",
+            "type": "integer"
+          },
+          "task_changes": {
+            "items": {
+              "$ref": "#/components/schemas/TaskChange"
+            },
+            "maxItems": 200,
+            "title": "Task Changes",
+            "type": "array"
+          }
+        },
+        "required": [
+          "expected_revision"
+        ],
+        "title": "WhatIfCommand",
+        "type": "object"
+      },
+      "WhatIfCreated": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "job_id": {
+            "format": "uuid",
+            "title": "Job Id",
+            "type": "string"
+          },
+          "state": {
+            "title": "State",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "job_id",
+          "state"
+        ],
+        "title": "WhatIfCreated",
+        "type": "object"
+      },
+      "WhatIfView": {
+        "additionalProperties": false,
+        "properties": {
+          "base_revision": {
+            "title": "Base Revision",
+            "type": "integer"
+          },
+          "candidate": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Candidate"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "diff": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PlanDiff"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "job_id": {
+            "format": "uuid",
+            "title": "Job Id",
+            "type": "string"
+          },
+          "state": {
+            "title": "State",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "job_id",
+          "state",
+          "base_revision"
+        ],
+        "title": "WhatIfView",
+        "type": "object"
+      },
+      "WorkCommand": {
+        "additionalProperties": false,
+        "properties": {
+          "block_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Block Id"
+          },
+          "complete": {
+            "default": false,
+            "title": "Complete",
+            "type": "boolean"
+          },
+          "expected_revision": {
+            "minimum": 0,
+            "title": "Expected Revision",
+            "type": "integer"
+          },
+          "new_remaining_minutes": {
+            "anyOf": [
+              {
+                "maximum": 2147483647,
+                "minimum": 0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "New Remaining Minutes"
+          },
+          "observed_minutes": {
+            "maximum": 2147483647,
+            "minimum": 0,
+            "title": "Observed Minutes",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "expected_revision",
+          "observed_minutes"
+        ],
+        "title": "WorkCommand",
+        "type": "object"
+      },
+      "WorkLogList": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/WorkLogView"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "revision": {
+            "title": "Revision",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "revision"
+        ],
+        "title": "WorkLogList",
+        "type": "object"
+      },
+      "WorkLogView": {
+        "additionalProperties": false,
+        "properties": {
+          "block_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Block Id"
+          },
+          "complete": {
+            "title": "Complete",
+            "type": "boolean"
+          },
+          "correction_of": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Correction Of"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "new_remaining_minutes": {
+            "title": "New Remaining Minutes",
+            "type": "integer"
+          },
+          "observed_minutes": {
+            "title": "Observed Minutes",
+            "type": "integer"
+          },
+          "revision": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Revision"
+          },
+          "task_id": {
+            "format": "uuid",
+            "title": "Task Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "task_id",
+          "observed_minutes",
+          "new_remaining_minutes",
+          "complete",
+          "created_at"
+        ],
+        "title": "WorkLogView",
+        "type": "object"
       }
     }
   },
@@ -1338,6 +2834,35 @@
   },
   "openapi": "3.1.0",
   "paths": {
+    "/api/v1/active-plan": {
+      "get": {
+        "operationId": "active_plan_api_v1_active_plan_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/ProposalView"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "title": "Response Active Plan Api V1 Active Plan Get"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Active Plan",
+        "tags": [
+          "plans"
+        ]
+      }
+    },
     "/api/v1/auth/callback": {
       "get": {
         "operationId": "callback_api_v1_auth_callback_get",
@@ -1467,6 +2992,418 @@
         "summary": "Set Availability"
       }
     },
+    "/api/v1/blocks/{block_id}/lock": {
+      "post": {
+        "operationId": "lock_api_v1_blocks__block_id__lock_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "block_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Block Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LockCommand"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProtectedView"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Lock",
+        "tags": [
+          "adaptation"
+        ]
+      }
+    },
+    "/api/v1/blocks/{block_id}/move": {
+      "post": {
+        "operationId": "move_api_v1_blocks__block_id__move_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "block_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Block Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MoveCommand"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProtectedView"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Move",
+        "tags": [
+          "adaptation"
+        ]
+      }
+    },
+    "/api/v1/calendar/callback": {
+      "get": {
+        "operationId": "calendar_callback_api_v1_calendar_callback_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "state",
+            "required": true,
+            "schema": {
+              "title": "State",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "code",
+            "required": true,
+            "schema": {
+              "title": "Code",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Calendar Callback",
+        "tags": [
+          "calendar"
+        ]
+      }
+    },
+    "/api/v1/calendar/conflicts/{conflict_id}/resolve": {
+      "post": {
+        "operationId": "resolve_calendar_conflict_api_v1_calendar_conflicts__conflict_id__resolve_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "conflict_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Conflict Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResolveCalendarConflict"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CalendarCommandView"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Resolve Calendar Conflict",
+        "tags": [
+          "calendar"
+        ]
+      }
+    },
+    "/api/v1/calendar/connect": {
+      "post": {
+        "operationId": "connect_calendar_api_v1_calendar_connect_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConnectCalendar"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CalendarCommandView"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Connect Calendar",
+        "tags": [
+          "calendar"
+        ]
+      }
+    },
+    "/api/v1/calendar/disconnect": {
+      "post": {
+        "operationId": "disconnect_calendar_api_v1_calendar_disconnect_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DisconnectCalendar"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CalendarCommandView"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Disconnect Calendar",
+        "tags": [
+          "calendar"
+        ]
+      }
+    },
+    "/api/v1/calendar/publish": {
+      "post": {
+        "operationId": "publish_calendar_api_v1_calendar_publish_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RevisionCommand"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CalendarCommandView"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Publish Calendar",
+        "tags": [
+          "calendar"
+        ]
+      }
+    },
+    "/api/v1/calendar/status": {
+      "get": {
+        "operationId": "calendar_status_api_v1_calendar_status_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CalendarStatusView"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Calendar Status",
+        "tags": [
+          "calendar"
+        ]
+      }
+    },
+    "/api/v1/calendar/sync": {
+      "post": {
+        "operationId": "sync_calendar_api_v1_calendar_sync_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RevisionCommand"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CalendarCommandView"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Sync Calendar",
+        "tags": [
+          "calendar"
+        ]
+      }
+    },
+    "/api/v1/exports/calendar.ics": {
+      "get": {
+        "operationId": "calendar_export_api_v1_exports_calendar_ics_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Calendar Export",
+        "tags": [
+          "calendar"
+        ]
+      }
+    },
     "/api/v1/fixed-events": {
       "get": {
         "operationId": "list_events_api_v1_fixed_events_get",
@@ -1569,6 +3506,143 @@
           }
         },
         "summary": "Patch Event"
+      }
+    },
+    "/api/v1/interpretations": {
+      "post": {
+        "operationId": "enqueue_api_v1_interpretations_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InterpretCommand"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InterpretationQueued"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Enqueue",
+        "tags": [
+          "interpretations"
+        ]
+      }
+    },
+    "/api/v1/interpretations/{interpretation_id}": {
+      "get": {
+        "operationId": "get_interpretation_api_v1_interpretations__interpretation_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "interpretation_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Interpretation Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InterpretationView"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Interpretation",
+        "tags": [
+          "interpretations"
+        ]
+      }
+    },
+    "/api/v1/interpretations/{interpretation_id}/accept": {
+      "post": {
+        "operationId": "accept_api_v1_interpretations__interpretation_id__accept_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "interpretation_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Interpretation Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AcceptCommand"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AcceptedView"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Accept",
+        "tags": [
+          "interpretations"
+        ]
       }
     },
     "/api/v1/jobs/{job_id}": {
@@ -1746,6 +3820,70 @@
         "summary": "Activate",
         "tags": [
           "plans"
+        ]
+      }
+    },
+    "/api/v1/proposals/{proposal_id}/diff": {
+      "get": {
+        "operationId": "proposal_diff_api_v1_proposals__proposal_id__diff_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "proposal_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Proposal Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlanDiff"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Proposal Diff",
+        "tags": [
+          "adaptation"
+        ]
+      }
+    },
+    "/api/v1/protected-work": {
+      "get": {
+        "operationId": "protected_list_api_v1_protected_work_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProtectedList"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Protected List",
+        "tags": [
+          "adaptation"
         ]
       }
     },
@@ -2132,6 +4270,403 @@
           }
         },
         "summary": "Add Dependency"
+      }
+    },
+    "/api/v1/tasks/{task_id}/work-logs": {
+      "get": {
+        "operationId": "history_api_v1_tasks__task_id__work_logs_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "task_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Task Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkLogList"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "History",
+        "tags": [
+          "adaptation"
+        ]
+      },
+      "post": {
+        "operationId": "observe_api_v1_tasks__task_id__work_logs_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "task_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Task Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkCommand"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkLogView"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Observe",
+        "tags": [
+          "adaptation"
+        ]
+      }
+    },
+    "/api/v1/weekday-rules": {
+      "get": {
+        "operationId": "list_rules_api_v1_weekday_rules_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RuleList"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "List Rules",
+        "tags": [
+          "weekday-rules"
+        ]
+      },
+      "post": {
+        "operationId": "create_rule_api_v1_weekday_rules_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RuleCommand"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreatedRule"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Create Rule",
+        "tags": [
+          "weekday-rules"
+        ]
+      }
+    },
+    "/api/v1/weekday-rules/{rule_id}": {
+      "delete": {
+        "operationId": "delete_rule_api_v1_weekday_rules__rule_id__delete",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "rule_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Rule Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RevisionCommand"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RevisionResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Delete Rule",
+        "tags": [
+          "weekday-rules"
+        ]
+      }
+    },
+    "/api/v1/what-ifs": {
+      "post": {
+        "operationId": "preview_api_v1_what_ifs_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WhatIfCommand"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WhatIfCreated"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Preview",
+        "tags": [
+          "adaptation"
+        ]
+      }
+    },
+    "/api/v1/what-ifs/{preview_id}": {
+      "get": {
+        "operationId": "get_preview_api_v1_what_ifs__preview_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "preview_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Preview Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WhatIfView"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Preview",
+        "tags": [
+          "adaptation"
+        ]
+      }
+    },
+    "/api/v1/what-ifs/{preview_id}/apply": {
+      "post": {
+        "operationId": "apply_preview_api_v1_what_ifs__preview_id__apply_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "preview_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Preview Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RevisionCommand"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppliedView"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Apply Preview",
+        "tags": [
+          "adaptation"
+        ]
+      }
+    },
+    "/api/v1/work-logs/{log_id}/corrections": {
+      "post": {
+        "operationId": "correct_api_v1_work_logs__log_id__corrections_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "log_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Log Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkCommand"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkLogView"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Correct",
+        "tags": [
+          "adaptation"
+        ]
       }
     },
     "/health/live": {

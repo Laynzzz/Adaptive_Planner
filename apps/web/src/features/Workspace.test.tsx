@@ -27,6 +27,8 @@ test("unauthenticated visitor can start OIDC sign-in", async () => {
 test("workspace Refresh loads proposals produced by background replanning", async () => {
   let proposalReads = 0;
   vi.stubGlobal("fetch", async (url: string) => {
+    if (url.endsWith("/active-plan")) return new Response("null");
+    if (url.endsWith("/calendar/status")) return new Response(JSON.stringify({ state: "DISCONNECTED", revision: 4, conflicts: [] }));
     if (url.endsWith("/me")) return new Response(JSON.stringify({
       id: "u1", name: "Demo A", timezone: "UTC", revision: 4,
       csrf_token: "test", capabilities: [],
@@ -44,6 +46,8 @@ test("workspace Refresh loads proposals produced by background replanning", asyn
 test("availability replacement uses its own snapshot revision when identity is newer", async () => {
   let update: Record<string, unknown> | undefined;
   vi.stubGlobal("fetch", async (url: string, options: RequestInit) => {
+    if (url.endsWith("/active-plan")) return new Response("null");
+    if (url.endsWith("/calendar/status")) return new Response(JSON.stringify({ state: "DISCONNECTED", revision: 4, conflicts: [] }));
     if (url.endsWith("/me"))
       return new Response(
         JSON.stringify({
@@ -81,7 +85,7 @@ test("availability replacement uses its own snapshot revision when identity is n
     return new Response(JSON.stringify({ items: [], revision: 3 }));
   });
   mount();
-  expect(await screen.findByText("Prepare exam")).toBeInTheDocument();
+  expect(await screen.findByText("Prepare exam", { selector: "strong" })).toBeInTheDocument();
   await userEvent.type(
     screen.getByLabelText("Available from (UTC)"),
     "2026-10-01T09:00",

@@ -16,8 +16,9 @@ Authoritative design: `../plan.md`. Started 2026-09-25. Local implementation is 
 - Task 6 independently reviewed and verified after dispatcher contention, revision-scoped retries and child-wall-time corrections.
 - Task 7 generated client checks, 12 component tests and four real browser journeys pass; fresh-source setup reproduced with a dedicated synthetic DB.
 - R1 integrated Python suite: 144 passed; an additional populated prior-schema migration compatibility test passed.
-- Tasks 8–12 adaptation, reviewed extraction/evaluation and calendar integration are in development. R2 remains open.
-- Tasks 13–19 pending; live external gates remain unexecuted.
+- Tasks 8–12 implemented locally: adaptation, reviewed task/weekday-rule acceptance, frozen mock evaluation, ICS and durable calendar simulator. Four R2 browser journeys and 19 component tests pass; independent calendar review findings resolved. R2 remains open for the plan's independent human/live-provider evaluation gates.
+- Tasks 13–16 in progress: measured SQL batching, full frozen scheduler benchmark, train/validation-only selection and conservative model routing. Learned routing remains disabled pending evidence.
+- Tasks 17–18 in progress: local telemetry, incident rehearsal and deployment preparation. Task 19 learning notes and usability handoff continue afterward; external gates remain unexecuted.
 
 ## Decisions and prerequisites
 
