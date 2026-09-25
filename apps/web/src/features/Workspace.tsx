@@ -48,6 +48,8 @@ export default function Workspace() {
     void cache.invalidateQueries({ queryKey: ["me"] });
     void cache.invalidateQueries({ queryKey: ["tasks"] });
     void cache.invalidateQueries({ queryKey: ["availability"] });
+    void cache.invalidateQueries({ queryKey: ["proposals"] });
+    void cache.invalidateQueries({ queryKey: ["job"] });
   };
   if (identity.isPending)
     return (

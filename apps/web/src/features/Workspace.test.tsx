@@ -24,6 +24,23 @@ test("unauthenticated visitor can start OIDC sign-in", async () => {
     "/api/v1/auth/login",
   );
 });
+test("workspace Refresh loads proposals produced by background replanning", async () => {
+  let proposalReads = 0;
+  vi.stubGlobal("fetch", async (url: string) => {
+    if (url.endsWith("/me")) return new Response(JSON.stringify({
+      id: "u1", name: "Demo A", timezone: "UTC", revision: 4,
+      csrf_token: "test", capabilities: [],
+    }));
+    if (url.endsWith("/proposals")) proposalReads += 1;
+    return new Response(JSON.stringify({ items: [], windows: [], revision: 4 }));
+  });
+  mount();
+  await screen.findByRole("button", { name: "Generate plan" });
+  await screen.findByText(/Once your tasks and available hours are ready/);
+  expect(proposalReads).toBe(1);
+  await userEvent.click(screen.getByRole("button", { name: "Refresh" }));
+  expect(proposalReads).toBe(2);
+});
 test("availability replacement uses its own snapshot revision when identity is newer", async () => {
   let update: Record<string, unknown> | undefined;
   vi.stubGlobal("fetch", async (url: string, options: RequestInit) => {
