@@ -1,0 +1,152 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+___ test_off_grid_manual_move_is_visible_invalid_input_without_worker_crash ___
+
+calendar_scenario = (Engine(postgresql+psycopg://planner:***@127.0.0.1:25432/planner_test_30d35ab039694a5c8b24e74979f648c7), UUID('459440e8-dd5d-4c57-889e-c2522aabeb74'), <planner.calendar.fake.FakeCalendarProvider object at 0x000001C1AE0B98E0>)
+
+    def test_off_grid_manual_move_is_visible_invalid_input_without_worker_crash(calendar_scenario):
+        from planner.jobs.dispatcher import capture_snapshot
+        from planner.solver.cp_sat import solve_cp_sat
+        engine, owner, provider = calendar_scenario
+        activate(calendar_scenario)
+        publish(calendar_scenario)
+        remote = next(iter(provider.events.values()))
+        moved_start, moved_end = NOW + timedelta(hours=2, minutes=7), NOW + timedelta(hours=3, minutes=7)
+        provider.put_external({**remote, 'start': {'dateTime': moved_start.isoformat()},
+                               'end': {'dateTime': moved_end.isoformat()}})
+        sync(calendar_scenario)
+        with Session(engine) as db:
+>           captured = capture_snapshot(db, owner, NOW)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\fault\test_calendar_publication.py:270: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+services\planner\src\planner\jobs\dispatcher.py:132: in capture_snapshot
+    return normalize_time_inputs(raw, now)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+raw = {'owner_id': UUID('459440e8-dd5d-4c57-889e-c2522aabeb74'), 'timezone': 'UTC', 'planning_revision': 1, 'tasks': [{'dead...-d210-49d2-bb4f-eacd58f58e49'), 'owner_id': UUID('459440e8-dd5d-4c57-889e-c2522aabeb74'), 'title': 'Draft', ...}], ...}
+now = datetime.datetime(2026, 9, 25, 9, 0, tzinfo=datetime.timezone.utc)
+
+    def normalize_time_inputs(raw: dict, now: datetime) -> InputSnapshot:
+        """Build a content-addressed snapshot; slot zero is this UTC date's midnight.
+    
+        Raw intervals have start/end instants. Local instants may be supplied as
+        {local, timezone, fold}; all original deadline intent and rounding losses
+        remain visible. Availability is not invented when none is entered.
+        """
+        now = utc_instant(now)
+        timezone = raw.get("timezone", "UTC")
+        zone = ZoneInfo(timezone)
+        origin = datetime.combine(now.date(), time.min, UTC)
+        end_date = now.astimezone(zone).date() + timedelta(days=14)
+        horizon_end = resolve_local_time(datetime.combine(end_date, time.min), timezone)
+        losses = []
+        originals = []
+    
+        def entered(value, field):
+            local = value.get("local") if isinstance(value, dict) else value
+            originals.append(
+                OriginalTimeInput(
+                    field=field,
+                    value=local.isoformat() if isinstance(local, datetime) else str(local),
+                    timezone=value.get("timezone", timezone) if isinstance(value, dict) else timezone,
+                    fold=value.get("fold") if isinstance(value, dict) else None,
+                )
+            )
+            return _instant(value, timezone)
+    
+        def slot(instant, direction, field):
+            quotient = (instant - origin) / SLOT
+            index = math.ceil(quotient) if direction == "up" else math.floor(quotient)
+            rounded = origin + index * SLOT
+            if rounded != instant:
+                losses.append(
+                    RoundingLoss(
+                        field=field,
+                        original=instant,
+                        rounded=rounded,
+                        seconds=abs((rounded - instant).total_seconds()),
+                    )
+                )
+            return index
+    
+        cutoff = slot(now, "up", "reference_now")
+        end_slot = slot(horizon_end, "down", "horizon_end")
+    
+        def intervals(items, outward, field):
+            ranges = []
+            for index, item in enumerate(items):
+                start = entered(item["start"], f"{field}.{index}.start")
+                end = entered(item["end"], f"{field}.{index}.end")
+                if start >= end:
+                    raise ValueError("interval end must follow start")
+                a = slot(start, "down" if outward else "up", f"{field}.{index}.start")
+                b = slot(end, "up" if outward else "down", f"{field}.{index}.end")
+                ranges.append((max(cutoff, a), min(end_slot, b)))
+            return _union(ranges)
+    
+        availability = intervals(raw.get("availability", ()), False, "availability")
+        busy = intervals(raw.get("fixed_events", ()), True, "fixed_events")
+        preferred = intervals(raw.get("preferred_windows", ()), False, "preferred_windows")
+        first = end_slot
+        for a, b in availability:
+            point = a
+            for busy_a, busy_b in busy:
+                if busy_a <= point < busy_b:
+                    point = busy_b
+            if point < b:
+                first = point
+                break
+        owner = UUID(str(raw["owner_id"]))
+        tasks = []
+        for item in raw.get("tasks", ()):
+            data = dict(item)
+            if "required_slots" in data:
+                raise ValueError("required_slots is derived and cannot be supplied")
+            if {"release_slot", "deadline_slot", "deadline_at"}.intersection(data):
+                raise ValueError("raw forms cannot supply derived solver fields")
+            data.setdefault("owner_id", owner)
+            release = (
+                entered(data["release_at"], f"task.{data['id']}.release_at")
+                if data.get("release_at")
+                else None
+            )
+            data["release_at"] = release
+            data["release_slot"] = (
+                max(cutoff, slot(release, "up", f"task.{data['id']}.release_at")) if release else cutoff
+            )
+            if data.get("deadline"):
+                deadline_data = dict(data["deadline"])
+                deadline_data.setdefault("timezone", timezone)
+                deadline = Deadline(**deadline_data)
+                if deadline.kind == "DATE":
+                    next_day = date.fromisoformat(deadline.value) + timedelta(days=1)
+                    due = resolve_local_time(
+                        datetime.combine(next_day, time.min), deadline.timezone, deadline.fold
+                    )
+                else:
+                    due = _instant(deadline.value, deadline.timezone, deadline.fold)
+                data.update(
+                    deadline=deadline,
+                    deadline_at=due,
+                    deadline_slot=slot(due, "down", f"task.{data['id']}.deadline"),
+                )
+            tasks.append(TaskSpec(**data))
+        protected = []
+        for item in raw.get("protected_blocks", ()):
+            if item.get("source") == "COMPLETED":
+                continue
+            if not item.get("end"):
+                raise ValueError("EXPECTED_END_REQUIRED")
+            start = entered(item["start"], f"protected.{item['id']}.start")
+            end = entered(item["end"], f"protected.{item['id']}.end")
+            if item.get("locked") and ((start - origin) % SLOT or (end - origin) % SLOT):
+>               raise ValueError("LOCK_NOT_GRID_ALIGNED")
+E               ValueError: LOCK_NOT_GRID_ALIGNED
+
+services\planner\src\planner\domain\time_rules.py:179: ValueError
+=========================== short test summary info ===========================
+FAILED tests/fault/test_calendar_publication.py::test_off_grid_manual_move_is_visible_invalid_input_without_worker_crash
+1 failed, 12 deselected in 1.40s

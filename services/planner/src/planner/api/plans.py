@@ -155,6 +155,21 @@ def proposal_view(proposal):
     )
 
 
+@router.get("/active-plan", response_model=ProposalView | None)
+def active_plan(request: Request, principal: Principal = Depends(require_session)):
+    with Session(
+        request.app.state.engine.execution_options(isolation_level="REPEATABLE READ")
+    ) as db:
+        state = db.get(PlanningState, principal.owner_id)
+        proposal = db.scalar(
+            select(ProposalRecord).where(
+                ProposalRecord.id == state.active_proposal_id,
+                ProposalRecord.owner_id == principal.owner_id,
+            )
+        )
+        return proposal_view(proposal) if proposal else None
+
+
 @router.get("/proposals", response_model=ProposalList)
 def list_proposals(request: Request, principal: Principal = Depends(require_session)):
     with Session(request.app.state.engine) as db:

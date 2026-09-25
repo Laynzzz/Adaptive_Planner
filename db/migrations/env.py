@@ -3,7 +3,11 @@
 from alembic import context
 from sqlalchemy import create_engine, pool
 
+from planner.db import adaptation_models  # noqa: F401 - register adaptation metadata
+from planner.db import ai_models  # noqa: F401 - register interpretation metadata
+from planner.db import calendar_models  # noqa: F401 - register calendar metadata
 from planner.db import job_models  # noqa: F401 - register dispatcher metadata
+from planner.db import weekday_models  # noqa: F401 - register reviewed weekday rules
 from planner.db.models import Base
 from planner.settings import Settings
 

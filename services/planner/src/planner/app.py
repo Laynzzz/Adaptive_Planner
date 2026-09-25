@@ -7,10 +7,15 @@ from datetime import UTC, datetime
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 
+from planner.api.adaptation import router as adaptation_router
 from planner.api.auth import router as auth_router
+from planner.api.calendar import router as calendar_router
 from planner.api.errors import install_error_handlers
+from planner.api.interpretations import router as interpretation_router
 from planner.api.plans import router as plan_router
 from planner.api.routes import router as input_router
+from planner.api.weekday_rules import router as weekday_router
+from planner.calendar.worker import config_from_environment
 from planner.db.session import create_db_engine, database_is_ready, migration_heads
 from planner.settings import Settings
 
@@ -35,6 +40,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         return response
 
     app.state.settings = config
+    app.state.calendar_config = config_from_environment()
     app.state.engine = engine
     app.state.clock = lambda: datetime.now(UTC)
 
@@ -54,4 +60,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.include_router(auth_router)
     app.include_router(input_router)
     app.include_router(plan_router)
+    app.include_router(interpretation_router)
+    app.include_router(adaptation_router)
+    app.include_router(calendar_router)
+    app.include_router(weekday_router)
     return app

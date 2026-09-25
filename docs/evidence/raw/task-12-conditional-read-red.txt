@@ -1,0 +1,40 @@
+........F..                                                              [100%]
+================================== FAILURES ===================================
+_____ test_manual_change_between_read_and_conditional_write_is_preserved ______
+
+calendar_scenario = (Engine(postgresql+psycopg://planner:***@127.0.0.1:25432/planner_test_2999a23cede84a9d876b284d1ca9d01b), UUID('66160061-cf42-4d00-8b9d-a39e8ebbc04c'), <planner.calendar.fake.FakeCalendarProvider object at 0x000002B67FD1E600>)
+
+    def test_manual_change_between_read_and_conditional_write_is_preserved(calendar_scenario):
+        engine, owner, provider = calendar_scenario
+        activate(calendar_scenario)
+        publish(calendar_scenario)
+        with Session(engine) as db, db.begin():
+            from planner.db.models import Task
+    
+            db.scalar(select(Task)).title = "Changed title"
+        activate(calendar_scenario)
+        original = provider.update_event
+    
+        def racing_update(calendar_id, remote_id, payload, *, etag):
+            provider.put_external({**provider.events[remote_id], "summary": "Manual title",
+                'start': {'dateTime': (NOW + timedelta(hours=2)).isoformat()},
+                'end': {'dateTime': (NOW + timedelta(hours=3)).isoformat()}})
+            return original(calendar_id, remote_id, payload, etag=etag)
+    
+        provider.update_event = racing_update
+        assert publish(calendar_scenario).state == "CONFLICT"
+        assert next(iter(provider.events.values()))["summary"] == "Manual title"
+        with Session(engine) as db:
+            mapping = db.scalar(select(BlockEventMapping))
+>           assert mapping.commitment['start'] == (NOW + timedelta(hours=2)).isoformat()
+E           AssertionError: assert '2026-09-25T09:00:00+00:00' == '2026-09-25T11:00:00+00:00'
+E             
+E             - 2026-09-25T11:00:00+00:00
+E             ?            ^^
+E             + 2026-09-25T09:00:00+00:00
+E             ?            ^^
+
+tests\fault\test_calendar_publication.py:186: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/fault/test_calendar_publication.py::test_manual_change_between_read_and_conditional_write_is_preserved
+1 failed, 10 passed in 7.22s

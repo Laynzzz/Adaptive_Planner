@@ -1,0 +1,4271 @@
+{
+  "run_at": "2026-09-25T20:51:26.676313+00:00",
+  "mode": "mock",
+  "split": "validation",
+  "python": "3.12.14",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "manifest_hash": "b655379ec2b3c686ad433e8dd60afcdcefbf653f915edecb47a24fb52b24ca15",
+  "prompt_hash": "6ab9ed52196cd297c1362d0e7924e91aa4589cb50e4969ed12942170cd23420e",
+  "schema_hash": "044778b16b34387e8deb0f41bd83363ba7dbacd7331bbb305b15b7098deb9d0c",
+  "model_config_hash": "dc76940a282ebb319148b31e6a1646bdad5d667e5c6abae8c903df477d029a07",
+  "data_hash": "5922f1c978fa044e65e1b7d697fd5244ff1f051f1c759efa5bfcb38a486417b5",
+  "quality_claim": "MOCK PIPELINE ONLY; real AI quality and independent human reference review unexecuted",
+  "metrics": {
+    "critical_fields": {
+      "correct": 69,
+      "total": 72,
+      "accuracy": 0.9583333333333334,
+      "wilson_95": [
+        0.8845072325868389,
+        0.9857291925330748
+      ]
+    },
+    "all_fields": {
+      "correct": 117,
+      "total": 120,
+      "missing": 0
+    },
+    "full_proposals": {
+      "correct": 27,
+      "total": 30
+    },
+    "hard_soft": {
+      "correct": 9,
+      "total": 9,
+      "unmatched_predicted_constraints": 0
+    },
+    "unknown_fields": {
+      "correct": 9,
+      "reference_total": 12
+    },
+    "invented_fields": {
+      "count": 3,
+      "predicted_nonnull_fields": 102
+    },
+    "clarification": {
+      "true_positive": 39,
+      "false_positive": 0,
+      "false_negative": 3
+    },
+    "abstention": {
+      "correct": 30,
+      "total": 30,
+      "predicted": 3,
+      "required": 3
+    },
+    "schema_failures": {
+      "count": 0,
+      "total": 30
+    },
+    "latency_ms": {
+      "measured_examples": 30,
+      "median": 0.052749994210898876,
+      "p95_nearest_rank": 0.19910000264644623
+    },
+    "cost": {
+      "known_microusd": 0,
+      "unknown_examples": 0,
+      "known_examples": 30
+    }
+  },
+  "family_bootstrap_95": [
+    0.8571428571428571,
+    1.0
+  ],
+  "by_category": {
+    "adversarial_system": {
+      "critical_fields": {
+        "correct": 0,
+        "total": 0,
+        "accuracy": null,
+        "wilson_95": null
+      },
+      "all_fields": {
+        "correct": 0,
+        "total": 0,
+        "missing": 0
+      },
+      "full_proposals": {
+        "correct": 3,
+        "total": 3
+      },
+      "hard_soft": {
+        "correct": 0,
+        "total": 0,
+        "unmatched_predicted_constraints": 0
+      },
+      "unknown_fields": {
+        "correct": 0,
+        "reference_total": 0
+      },
+      "invented_fields": {
+        "count": 0,
+        "predicted_nonnull_fields": 0
+      },
+      "clarification": {
+        "true_positive": 3,
+        "false_positive": 0,
+        "false_negative": 0
+      },
+      "abstention": {
+        "correct": 3,
+        "total": 3,
+        "predicted": 3,
+        "required": 3
+      },
+      "schema_failures": {
+        "count": 0,
+        "total": 3
+      },
+      "latency_ms": {
+        "measured_examples": 3,
+        "median": 0.019200029782950878,
+        "p95_nearest_rank": 0.019300030544400215
+      },
+      "cost": {
+        "known_microusd": 0,
+        "unknown_examples": 0,
+        "known_examples": 3
+      }
+    },
+    "ambiguous_time": {
+      "critical_fields": {
+        "correct": 9,
+        "total": 9,
+        "accuracy": 1.0,
+        "wilson_95": [
+          0.7008549515804559,
+          1
+        ]
+      },
+      "all_fields": {
+        "correct": 15,
+        "total": 15,
+        "missing": 0
+      },
+      "full_proposals": {
+        "correct": 3,
+        "total": 3
+      },
+      "hard_soft": {
+        "correct": 0,
+        "total": 0,
+        "unmatched_predicted_constraints": 0
+      },
+      "unknown_fields": {
+        "correct": 3,
+        "reference_total": 3
+      },
+      "invented_fields": {
+        "count": 0,
+        "predicted_nonnull_fields": 12
+      },
+      "clarification": {
+        "true_positive": 6,
+        "false_positive": 0,
+        "false_negative": 0
+      },
+      "abstention": {
+        "correct": 3,
+        "total": 3,
+        "predicted": 0,
+        "required": 0
+      },
+      "schema_failures": {
+        "count": 0,
+        "total": 3
+      },
+      "latency_ms": {
+        "measured_examples": 3,
+        "median": 0.049400026910007,
+        "p95_nearest_rank": 0.055999960750341415
+      },
+      "cost": {
+        "known_microusd": 0,
+        "unknown_examples": 0,
+        "known_examples": 3
+      }
+    },
+    "conflicting_duration_range": {
+      "critical_fields": {
+        "correct": 6,
+        "total": 9,
+        "accuracy": 0.6666666666666666,
+        "wilson_95": [
+          0.3542021355803963,
+          0.879416181613089
+        ]
+      },
+      "all_fields": {
+        "correct": 12,
+        "total": 15,
+        "missing": 0
+      },
+      "full_proposals": {
+        "correct": 0,
+        "total": 3
+      },
+      "hard_soft": {
+        "correct": 0,
+        "total": 0,
+        "unmatched_predicted_constraints": 0
+      },
+      "unknown_fields": {
+        "correct": 0,
+        "reference_total": 3
+      },
+      "invented_fields": {
+        "count": 3,
+        "predicted_nonnull_fields": 12
+      },
+      "clarification": {
+        "true_positive": 6,
+        "false_positive": 0,
+        "false_negative": 3
+      },
+      "abstention": {
+        "correct": 3,
+        "total": 3,
+        "predicted": 0,
+        "required": 0
+      },
+      "schema_failures": {
+        "count": 0,
+        "total": 3
+      },
+      "latency_ms": {
+        "measured_examples": 3,
+        "median": 0.04449998959898949,
+        "p95_nearest_rank": 0.05139992572367191
+      },
+      "cost": {
+        "known_microusd": 0,
+        "unknown_examples": 0,
+        "known_examples": 3
+      }
+    },
+    "dependencies_with_priority": {
+      "critical_fields": {
+        "correct": 18,
+        "total": 18,
+        "accuracy": 1.0,
+        "wilson_95": [
+          0.8241207763533425,
+          1
+        ]
+      },
+      "all_fields": {
+        "correct": 30,
+        "total": 30,
+        "missing": 0
+      },
+      "full_proposals": {
+        "correct": 3,
+        "total": 3
+      },
+      "hard_soft": {
+        "correct": 0,
+        "total": 0,
+        "unmatched_predicted_constraints": 0
+      },
+      "unknown_fields": {
+        "correct": 0,
+        "reference_total": 0
+      },
+      "invented_fields": {
+        "count": 0,
+        "predicted_nonnull_fields": 24
+      },
+      "clarification": {
+        "true_positive": 6,
+        "false_positive": 0,
+        "false_negative": 0
+      },
+      "abstention": {
+        "correct": 3,
+        "total": 3,
+        "predicted": 0,
+        "required": 0
+      },
+      "schema_failures": {
+        "count": 0,
+        "total": 3
+      },
+      "latency_ms": {
+        "measured_examples": 3,
+        "median": 0.08370005525648594,
+        "p95_nearest_rank": 0.09829993359744549
+      },
+      "cost": {
+        "known_microusd": 0,
+        "unknown_examples": 0,
+        "known_examples": 3
+      }
+    },
+    "explicit_by": {
+      "critical_fields": {
+        "correct": 9,
+        "total": 9,
+        "accuracy": 1.0,
+        "wilson_95": [
+          0.7008549515804559,
+          1
+        ]
+      },
+      "all_fields": {
+        "correct": 15,
+        "total": 15,
+        "missing": 0
+      },
+      "full_proposals": {
+        "correct": 3,
+        "total": 3
+      },
+      "hard_soft": {
+        "correct": 0,
+        "total": 0,
+        "unmatched_predicted_constraints": 0
+      },
+      "unknown_fields": {
+        "correct": 0,
+        "reference_total": 0
+      },
+      "invented_fields": {
+        "count": 0,
+        "predicted_nonnull_fields": 15
+      },
+      "clarification": {
+        "true_positive": 3,
+        "false_positive": 0,
+        "false_negative": 0
+      },
+      "abstention": {
+        "correct": 3,
+        "total": 3,
+        "predicted": 0,
+        "required": 0
+      },
+      "schema_failures": {
+        "count": 0,
+        "total": 3
+      },
+      "latency_ms": {
+        "measured_examples": 3,
+        "median": 0.054900068789720535,
+        "p95_nearest_rank": 4.838999942876399
+      },
+      "cost": {
+        "known_microusd": 0,
+        "unknown_examples": 0,
+        "known_examples": 3
+      }
+    },
+    "hard_busy_on": {
+      "critical_fields": {
+        "correct": 0,
+        "total": 0,
+        "accuracy": null,
+        "wilson_95": null
+      },
+      "all_fields": {
+        "correct": 0,
+        "total": 0,
+        "missing": 0
+      },
+      "full_proposals": {
+        "correct": 3,
+        "total": 3
+      },
+      "hard_soft": {
+        "correct": 3,
+        "total": 3,
+        "unmatched_predicted_constraints": 0
+      },
+      "unknown_fields": {
+        "correct": 0,
+        "reference_total": 0
+      },
+      "invented_fields": {
+        "count": 0,
+        "predicted_nonnull_fields": 0
+      },
+      "clarification": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0
+      },
+      "abstention": {
+        "correct": 3,
+        "total": 3,
+        "predicted": 0,
+        "required": 0
+      },
+      "schema_failures": {
+        "count": 0,
+        "total": 3
+      },
+      "latency_ms": {
+        "measured_examples": 3,
+        "median": 0.02529995981603861,
+        "p95_nearest_rank": 0.038400059565901756
+      },
+      "cost": {
+        "known_microusd": 0,
+        "unknown_examples": 0,
+        "known_examples": 3
+      }
+    },
+    "hard_soft_same_weekday": {
+      "critical_fields": {
+        "correct": 0,
+        "total": 0,
+        "accuracy": null,
+        "wilson_95": null
+      },
+      "all_fields": {
+        "correct": 0,
+        "total": 0,
+        "missing": 0
+      },
+      "full_proposals": {
+        "correct": 3,
+        "total": 3
+      },
+      "hard_soft": {
+        "correct": 6,
+        "total": 6,
+        "unmatched_predicted_constraints": 0
+      },
+      "unknown_fields": {
+        "correct": 0,
+        "reference_total": 0
+      },
+      "invented_fields": {
+        "count": 0,
+        "predicted_nonnull_fields": 0
+      },
+      "clarification": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0
+      },
+      "abstention": {
+        "correct": 3,
+        "total": 3,
+        "predicted": 0,
+        "required": 0
+      },
+      "schema_failures": {
+        "count": 0,
+        "total": 3
+      },
+      "latency_ms": {
+        "measured_examples": 3,
+        "median": 0.038800062611699104,
+        "p95_nearest_rank": 0.19910000264644623
+      },
+      "cost": {
+        "known_microusd": 0,
+        "unknown_examples": 0,
+        "known_examples": 3
+      }
+    },
+    "locale_words": {
+      "critical_fields": {
+        "correct": 9,
+        "total": 9,
+        "accuracy": 1.0,
+        "wilson_95": [
+          0.7008549515804559,
+          1
+        ]
+      },
+      "all_fields": {
+        "correct": 15,
+        "total": 15,
+        "missing": 0
+      },
+      "full_proposals": {
+        "correct": 3,
+        "total": 3
+      },
+      "hard_soft": {
+        "correct": 0,
+        "total": 0,
+        "unmatched_predicted_constraints": 0
+      },
+      "unknown_fields": {
+        "correct": 3,
+        "reference_total": 3
+      },
+      "invented_fields": {
+        "count": 0,
+        "predicted_nonnull_fields": 12
+      },
+      "clarification": {
+        "true_positive": 6,
+        "false_positive": 0,
+        "false_negative": 0
+      },
+      "abstention": {
+        "correct": 3,
+        "total": 3,
+        "predicted": 0,
+        "required": 0
+      },
+      "schema_failures": {
+        "count": 0,
+        "total": 3
+      },
+      "latency_ms": {
+        "measured_examples": 3,
+        "median": 0.05249993409961462,
+        "p95_nearest_rank": 0.06160000339150429
+      },
+      "cost": {
+        "known_microusd": 0,
+        "unknown_examples": 0,
+        "known_examples": 3
+      }
+    },
+    "missing_duration_priority": {
+      "critical_fields": {
+        "correct": 9,
+        "total": 9,
+        "accuracy": 1.0,
+        "wilson_95": [
+          0.7008549515804559,
+          1
+        ]
+      },
+      "all_fields": {
+        "correct": 15,
+        "total": 15,
+        "missing": 0
+      },
+      "full_proposals": {
+        "correct": 3,
+        "total": 3
+      },
+      "hard_soft": {
+        "correct": 0,
+        "total": 0,
+        "unmatched_predicted_constraints": 0
+      },
+      "unknown_fields": {
+        "correct": 3,
+        "reference_total": 3
+      },
+      "invented_fields": {
+        "count": 0,
+        "predicted_nonnull_fields": 12
+      },
+      "clarification": {
+        "true_positive": 3,
+        "false_positive": 0,
+        "false_negative": 0
+      },
+      "abstention": {
+        "correct": 3,
+        "total": 3,
+        "predicted": 0,
+        "required": 0
+      },
+      "schema_failures": {
+        "count": 0,
+        "total": 3
+      },
+      "latency_ms": {
+        "measured_examples": 3,
+        "median": 0.0836000544950366,
+        "p95_nearest_rank": 0.10030006524175406
+      },
+      "cost": {
+        "known_microusd": 0,
+        "unknown_examples": 0,
+        "known_examples": 3
+      }
+    },
+    "relative_by": {
+      "critical_fields": {
+        "correct": 9,
+        "total": 9,
+        "accuracy": 1.0,
+        "wilson_95": [
+          0.7008549515804559,
+          1
+        ]
+      },
+      "all_fields": {
+        "correct": 15,
+        "total": 15,
+        "missing": 0
+      },
+      "full_proposals": {
+        "correct": 3,
+        "total": 3
+      },
+      "hard_soft": {
+        "correct": 0,
+        "total": 0,
+        "unmatched_predicted_constraints": 0
+      },
+      "unknown_fields": {
+        "correct": 0,
+        "reference_total": 0
+      },
+      "invented_fields": {
+        "count": 0,
+        "predicted_nonnull_fields": 15
+      },
+      "clarification": {
+        "true_positive": 6,
+        "false_positive": 0,
+        "false_negative": 0
+      },
+      "abstention": {
+        "correct": 3,
+        "total": 3,
+        "predicted": 0,
+        "required": 0
+      },
+      "schema_failures": {
+        "count": 0,
+        "total": 3
+      },
+      "latency_ms": {
+        "measured_examples": 3,
+        "median": 0.0985999358817935,
+        "p95_nearest_rank": 0.1647999742999673
+      },
+      "cost": {
+        "known_microusd": 0,
+        "unknown_examples": 0,
+        "known_examples": 3
+      }
+    }
+  },
+  "records": [
+    {
+      "id": "family_21_variant_1",
+      "family": "family_21",
+      "category": "explicit_by",
+      "reference": {
+        "abstained": false,
+        "constraints": [],
+        "fields": {
+          "tasks.task_1.deadline": {
+            "label": "explicit",
+            "value": {
+              "fold": null,
+              "kind": "DATE",
+              "timezone": "UTC",
+              "value": "2026-10-01"
+            }
+          },
+          "tasks.task_1.predecessor_keys": {
+            "label": "explicit",
+            "value": []
+          },
+          "tasks.task_1.priority": {
+            "label": "inferred",
+            "value": 3
+          },
+          "tasks.task_1.remaining_minutes": {
+            "label": "explicit",
+            "value": 30
+          },
+          "tasks.task_1.title": {
+            "label": "explicit",
+            "value": "Outline algebra"
+          }
+        },
+        "required_clarifications": [
+          "tasks.task_1.priority"
+        ]
+      },
+      "prediction": {
+        "fields": {
+          "tasks.task_1.title": {
+            "value": "Outline algebra",
+            "label": "explicit"
+          },
+          "tasks.task_1.remaining_minutes": {
+            "value": 30,
+            "label": "explicit"
+          },
+          "tasks.task_1.deadline": {
+            "value": {
+              "kind": "DATE",
+              "value": "2026-10-01",
+              "timezone": "UTC",
+              "fold": null
+            },
+            "label": "explicit"
+          },
+          "tasks.task_1.priority": {
+            "value": 3,
+            "label": "inferred"
+          },
+          "tasks.task_1.predecessor_keys": {
+            "value": [],
+            "label": "explicit"
+          }
+        },
+        "constraints": [],
+        "required_clarifications": [
+          "tasks.task_1.priority"
+        ],
+        "abstained": false
+      },
+      "proposal": {
+        "schema_version": "extraction-v1",
+        "tasks": [
+          {
+            "key": "task_1",
+            "title": {
+              "value": "Outline algebra",
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 0,
+                  "end": 15,
+                  "text": "Outline algebra"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "remaining_minutes": {
+              "value": 30,
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 20,
+                  "end": 27,
+                  "text": "30 mins"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "deadline": {
+              "value": {
+                "kind": "DATE",
+                "value": "2026-10-01",
+                "timezone": "UTC",
+                "fold": null
+              },
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 31,
+                  "end": 41,
+                  "text": "2026-10-01"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "priority": {
+              "value": 3,
+              "label": "inferred",
+              "evidence": [],
+              "requires_confirmation": true
+            },
+            "predecessor_keys": []
+          }
+        ],
+        "constraints": [],
+        "unresolved_fields": [],
+        "abstained": false
+      },
+      "schema_valid": true,
+      "error": null,
+      "latency_ms": 4.838999942876399,
+      "cost_microusd": 0,
+      "provider": "mock",
+      "model": "deterministic-demo-v1",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "attempts": 1
+    },
+    {
+      "id": "family_22_variant_1",
+      "family": "family_22",
+      "category": "relative_by",
+      "reference": {
+        "abstained": false,
+        "constraints": [],
+        "fields": {
+          "tasks.task_1.deadline": {
+            "label": "inferred",
+            "value": {
+              "fold": null,
+              "kind": "DATE",
+              "timezone": "UTC",
+              "value": "2026-09-26"
+            }
+          },
+          "tasks.task_1.predecessor_keys": {
+            "label": "explicit",
+            "value": []
+          },
+          "tasks.task_1.priority": {
+            "label": "inferred",
+            "value": 3
+          },
+          "tasks.task_1.remaining_minutes": {
+            "label": "explicit",
+            "value": 30
+          },
+          "tasks.task_1.title": {
+            "label": "explicit",
+            "value": "Outline algebra"
+          }
+        },
+        "required_clarifications": [
+          "tasks.task_1.deadline",
+          "tasks.task_1.priority"
+        ]
+      },
+      "prediction": {
+        "fields": {
+          "tasks.task_1.title": {
+            "value": "Outline algebra",
+            "label": "explicit"
+          },
+          "tasks.task_1.remaining_minutes": {
+            "value": 30,
+            "label": "explicit"
+          },
+          "tasks.task_1.deadline": {
+            "value": {
+              "kind": "DATE",
+              "value": "2026-09-26",
+              "timezone": "UTC",
+              "fold": null
+            },
+            "label": "inferred"
+          },
+          "tasks.task_1.priority": {
+            "value": 3,
+            "label": "inferred"
+          },
+          "tasks.task_1.predecessor_keys": {
+            "value": [],
+            "label": "explicit"
+          }
+        },
+        "constraints": [],
+        "required_clarifications": [
+          "tasks.task_1.deadline",
+          "tasks.task_1.priority"
+        ],
+        "abstained": false
+      },
+      "proposal": {
+        "schema_version": "extraction-v1",
+        "tasks": [
+          {
+            "key": "task_1",
+            "title": {
+              "value": "Outline algebra",
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 0,
+                  "end": 15,
+                  "text": "Outline algebra"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "remaining_minutes": {
+              "value": 30,
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 20,
+                  "end": 30,
+                  "text": "30 minutes"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "deadline": {
+              "value": {
+                "kind": "DATE",
+                "value": "2026-09-26",
+                "timezone": "UTC",
+                "fold": null
+              },
+              "label": "inferred",
+              "evidence": [
+                {
+                  "start": 34,
+                  "end": 42,
+                  "text": "tomorrow"
+                }
+              ],
+              "requires_confirmation": true
+            },
+            "priority": {
+              "value": 3,
+              "label": "inferred",
+              "evidence": [],
+              "requires_confirmation": true
+            },
+            "predecessor_keys": []
+          }
+        ],
+        "constraints": [],
+        "unresolved_fields": [],
+        "abstained": false
+      },
+      "schema_valid": true,
+      "error": null,
+      "latency_ms": 0.1647999742999673,
+      "cost_microusd": 0,
+      "provider": "mock",
+      "model": "deterministic-demo-v1",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "attempts": 1
+    },
+    {
+      "id": "family_23_variant_1",
+      "family": "family_23",
+      "category": "missing_duration_priority",
+      "reference": {
+        "abstained": false,
+        "constraints": [],
+        "fields": {
+          "tasks.task_1.deadline": {
+            "label": "explicit",
+            "value": {
+              "fold": null,
+              "kind": "DATE",
+              "timezone": "UTC",
+              "value": "2026-10-01"
+            }
+          },
+          "tasks.task_1.predecessor_keys": {
+            "label": "explicit",
+            "value": []
+          },
+          "tasks.task_1.priority": {
+            "label": "explicit",
+            "value": 2
+          },
+          "tasks.task_1.remaining_minutes": {
+            "label": "unknown",
+            "value": null
+          },
+          "tasks.task_1.title": {
+            "label": "explicit",
+            "value": "Outline algebra"
+          }
+        },
+        "required_clarifications": [
+          "tasks.task_1.remaining_minutes"
+        ]
+      },
+      "prediction": {
+        "fields": {
+          "tasks.task_1.title": {
+            "value": "Outline algebra",
+            "label": "explicit"
+          },
+          "tasks.task_1.remaining_minutes": {
+            "value": null,
+            "label": "unknown"
+          },
+          "tasks.task_1.deadline": {
+            "value": {
+              "kind": "DATE",
+              "value": "2026-10-01",
+              "timezone": "UTC",
+              "fold": null
+            },
+            "label": "explicit"
+          },
+          "tasks.task_1.priority": {
+            "value": 2,
+            "label": "explicit"
+          },
+          "tasks.task_1.predecessor_keys": {
+            "value": [],
+            "label": "explicit"
+          }
+        },
+        "constraints": [],
+        "required_clarifications": [
+          "tasks.task_1.remaining_minutes"
+        ],
+        "abstained": false
+      },
+      "proposal": {
+        "schema_version": "extraction-v1",
+        "tasks": [
+          {
+            "key": "task_1",
+            "title": {
+              "value": "Outline algebra",
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 0,
+                  "end": 15,
+                  "text": "Outline algebra"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "remaining_minutes": {
+              "value": null,
+              "label": "unknown",
+              "evidence": [],
+              "requires_confirmation": true
+            },
+            "deadline": {
+              "value": {
+                "kind": "DATE",
+                "value": "2026-10-01",
+                "timezone": "UTC",
+                "fold": null
+              },
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 20,
+                  "end": 30,
+                  "text": "2026-10-01"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "priority": {
+              "value": 2,
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 31,
+                  "end": 41,
+                  "text": "priority 2"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "predecessor_keys": []
+          }
+        ],
+        "constraints": [],
+        "unresolved_fields": [
+          "tasks.task_1.remaining_minutes"
+        ],
+        "abstained": false
+      },
+      "schema_valid": true,
+      "error": null,
+      "latency_ms": 0.0836000544950366,
+      "cost_microusd": 0,
+      "provider": "mock",
+      "model": "deterministic-demo-v1",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "attempts": 1
+    },
+    {
+      "id": "family_24_variant_1",
+      "family": "family_24",
+      "category": "locale_words",
+      "reference": {
+        "abstained": false,
+        "constraints": [],
+        "fields": {
+          "tasks.task_1.deadline": {
+            "label": "unknown",
+            "value": null
+          },
+          "tasks.task_1.predecessor_keys": {
+            "label": "explicit",
+            "value": []
+          },
+          "tasks.task_1.priority": {
+            "label": "inferred",
+            "value": 3
+          },
+          "tasks.task_1.remaining_minutes": {
+            "label": "explicit",
+            "value": 30
+          },
+          "tasks.task_1.title": {
+            "label": "explicit",
+            "value": "Outline algebra"
+          }
+        },
+        "required_clarifications": [
+          "tasks.task_1.deadline",
+          "tasks.task_1.priority"
+        ]
+      },
+      "prediction": {
+        "fields": {
+          "tasks.task_1.title": {
+            "value": "Outline algebra",
+            "label": "explicit"
+          },
+          "tasks.task_1.remaining_minutes": {
+            "value": 30,
+            "label": "explicit"
+          },
+          "tasks.task_1.deadline": {
+            "value": null,
+            "label": "unknown"
+          },
+          "tasks.task_1.priority": {
+            "value": 3,
+            "label": "inferred"
+          },
+          "tasks.task_1.predecessor_keys": {
+            "value": [],
+            "label": "explicit"
+          }
+        },
+        "constraints": [],
+        "required_clarifications": [
+          "tasks.task_1.deadline",
+          "tasks.task_1.priority"
+        ],
+        "abstained": false
+      },
+      "proposal": {
+        "schema_version": "extraction-v1",
+        "tasks": [
+          {
+            "key": "task_1",
+            "title": {
+              "value": "Outline algebra",
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 0,
+                  "end": 15,
+                  "text": "Outline algebra"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "remaining_minutes": {
+              "value": 30,
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 20,
+                  "end": 30,
+                  "text": "30 minutes"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "deadline": {
+              "value": null,
+              "label": "unknown",
+              "evidence": [
+                {
+                  "start": 35,
+                  "end": 51,
+                  "text": "October eleventh"
+                }
+              ],
+              "requires_confirmation": true
+            },
+            "priority": {
+              "value": 3,
+              "label": "inferred",
+              "evidence": [],
+              "requires_confirmation": true
+            },
+            "predecessor_keys": []
+          }
+        ],
+        "constraints": [],
+        "unresolved_fields": [
+          "tasks.task_1.deadline"
+        ],
+        "abstained": false
+      },
+      "schema_valid": true,
+      "error": null,
+      "latency_ms": 0.06160000339150429,
+      "cost_microusd": 0,
+      "provider": "mock",
+      "model": "deterministic-demo-v1",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "attempts": 1
+    },
+    {
+      "id": "family_25_variant_1",
+      "family": "family_25",
+      "category": "conflicting_duration_range",
+      "reference": {
+        "abstained": false,
+        "constraints": [],
+        "fields": {
+          "tasks.task_1.deadline": {
+            "label": "inferred",
+            "value": null
+          },
+          "tasks.task_1.predecessor_keys": {
+            "label": "explicit",
+            "value": []
+          },
+          "tasks.task_1.priority": {
+            "label": "inferred",
+            "value": 3
+          },
+          "tasks.task_1.remaining_minutes": {
+            "label": "unknown",
+            "value": null
+          },
+          "tasks.task_1.title": {
+            "label": "explicit",
+            "value": "Outline algebra"
+          }
+        },
+        "required_clarifications": [
+          "tasks.task_1.deadline",
+          "tasks.task_1.priority",
+          "tasks.task_1.remaining_minutes"
+        ]
+      },
+      "prediction": {
+        "fields": {
+          "tasks.task_1.title": {
+            "value": "Outline algebra",
+            "label": "explicit"
+          },
+          "tasks.task_1.remaining_minutes": {
+            "value": 60,
+            "label": "explicit"
+          },
+          "tasks.task_1.deadline": {
+            "value": null,
+            "label": "inferred"
+          },
+          "tasks.task_1.priority": {
+            "value": 3,
+            "label": "inferred"
+          },
+          "tasks.task_1.predecessor_keys": {
+            "value": [],
+            "label": "explicit"
+          }
+        },
+        "constraints": [],
+        "required_clarifications": [
+          "tasks.task_1.deadline",
+          "tasks.task_1.priority"
+        ],
+        "abstained": false
+      },
+      "proposal": {
+        "schema_version": "extraction-v1",
+        "tasks": [
+          {
+            "key": "task_1",
+            "title": {
+              "value": "Outline algebra",
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 0,
+                  "end": 15,
+                  "text": "Outline algebra"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "remaining_minutes": {
+              "value": 60,
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 23,
+                  "end": 33,
+                  "text": "60 minutes"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "deadline": {
+              "value": null,
+              "label": "inferred",
+              "evidence": [],
+              "requires_confirmation": true
+            },
+            "priority": {
+              "value": 3,
+              "label": "inferred",
+              "evidence": [],
+              "requires_confirmation": true
+            },
+            "predecessor_keys": []
+          }
+        ],
+        "constraints": [],
+        "unresolved_fields": [],
+        "abstained": false
+      },
+      "schema_valid": true,
+      "error": null,
+      "latency_ms": 0.05139992572367191,
+      "cost_microusd": 0,
+      "provider": "mock",
+      "model": "deterministic-demo-v1",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "attempts": 1
+    },
+    {
+      "id": "family_26_variant_1",
+      "family": "family_26",
+      "category": "hard_soft_same_weekday",
+      "reference": {
+        "abstained": false,
+        "constraints": [
+          {
+            "kind": "SOFT_AVOID",
+            "weekday": 2
+          },
+          {
+            "kind": "HARD_NO_DEADLINE",
+            "weekday": 2
+          }
+        ],
+        "fields": {},
+        "required_clarifications": []
+      },
+      "prediction": {
+        "fields": {},
+        "constraints": [
+          {
+            "kind": "SOFT_AVOID",
+            "weekday": 2
+          },
+          {
+            "kind": "HARD_NO_DEADLINE",
+            "weekday": 2
+          }
+        ],
+        "required_clarifications": [],
+        "abstained": false
+      },
+      "proposal": {
+        "schema_version": "extraction-v1",
+        "tasks": [],
+        "constraints": [
+          {
+            "key": "constraint_1",
+            "kind": "SOFT_AVOID",
+            "weekday": 2,
+            "label": "explicit",
+            "evidence": [
+              {
+                "start": 0,
+                "end": 17,
+                "text": "dislike Wednesday"
+              }
+            ],
+            "requires_confirmation": true
+          },
+          {
+            "key": "constraint_2",
+            "kind": "HARD_NO_DEADLINE",
+            "weekday": 2,
+            "label": "explicit",
+            "evidence": [
+              {
+                "start": 18,
+                "end": 40,
+                "text": "no deadlines Wednesday"
+              }
+            ],
+            "requires_confirmation": true
+          }
+        ],
+        "unresolved_fields": [],
+        "abstained": false
+      },
+      "schema_valid": true,
+      "error": null,
+      "latency_ms": 0.19910000264644623,
+      "cost_microusd": 0,
+      "provider": "mock",
+      "model": "deterministic-demo-v1",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "attempts": 1
+    },
+    {
+      "id": "family_27_variant_1",
+      "family": "family_27",
+      "category": "hard_busy_on",
+      "reference": {
+        "abstained": false,
+        "constraints": [
+          {
+            "kind": "HARD_UNAVAILABLE",
+            "weekday": 6
+          }
+        ],
+        "fields": {},
+        "required_clarifications": []
+      },
+      "prediction": {
+        "fields": {},
+        "constraints": [
+          {
+            "kind": "HARD_UNAVAILABLE",
+            "weekday": 6
+          }
+        ],
+        "required_clarifications": [],
+        "abstained": false
+      },
+      "proposal": {
+        "schema_version": "extraction-v1",
+        "tasks": [],
+        "constraints": [
+          {
+            "key": "constraint_1",
+            "kind": "HARD_UNAVAILABLE",
+            "weekday": 6,
+            "label": "explicit",
+            "evidence": [
+              {
+                "start": 0,
+                "end": 21,
+                "text": "cannot work on Sunday"
+              }
+            ],
+            "requires_confirmation": true
+          }
+        ],
+        "unresolved_fields": [],
+        "abstained": false
+      },
+      "schema_valid": true,
+      "error": null,
+      "latency_ms": 0.038400059565901756,
+      "cost_microusd": 0,
+      "provider": "mock",
+      "model": "deterministic-demo-v1",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "attempts": 1
+    },
+    {
+      "id": "family_28_variant_1",
+      "family": "family_28",
+      "category": "dependencies_with_priority",
+      "reference": {
+        "abstained": false,
+        "constraints": [],
+        "fields": {
+          "tasks.task_1.deadline": {
+            "label": "inferred",
+            "value": null
+          },
+          "tasks.task_1.predecessor_keys": {
+            "label": "explicit",
+            "value": []
+          },
+          "tasks.task_1.priority": {
+            "label": "explicit",
+            "value": 1
+          },
+          "tasks.task_1.remaining_minutes": {
+            "label": "explicit",
+            "value": 30
+          },
+          "tasks.task_1.title": {
+            "label": "explicit",
+            "value": "Study algebra"
+          },
+          "tasks.task_2.deadline": {
+            "label": "inferred",
+            "value": null
+          },
+          "tasks.task_2.predecessor_keys": {
+            "label": "explicit",
+            "value": [
+              "task_1"
+            ]
+          },
+          "tasks.task_2.priority": {
+            "label": "explicit",
+            "value": 5
+          },
+          "tasks.task_2.remaining_minutes": {
+            "label": "explicit",
+            "value": 30
+          },
+          "tasks.task_2.title": {
+            "label": "explicit",
+            "value": "Outline algebra"
+          }
+        },
+        "required_clarifications": [
+          "tasks.task_1.deadline",
+          "tasks.task_2.deadline"
+        ]
+      },
+      "prediction": {
+        "fields": {
+          "tasks.task_1.title": {
+            "value": "Study algebra",
+            "label": "explicit"
+          },
+          "tasks.task_1.remaining_minutes": {
+            "value": 30,
+            "label": "explicit"
+          },
+          "tasks.task_1.deadline": {
+            "value": null,
+            "label": "inferred"
+          },
+          "tasks.task_1.priority": {
+            "value": 1,
+            "label": "explicit"
+          },
+          "tasks.task_1.predecessor_keys": {
+            "value": [],
+            "label": "explicit"
+          },
+          "tasks.task_2.title": {
+            "value": "Outline algebra",
+            "label": "explicit"
+          },
+          "tasks.task_2.remaining_minutes": {
+            "value": 30,
+            "label": "explicit"
+          },
+          "tasks.task_2.deadline": {
+            "value": null,
+            "label": "inferred"
+          },
+          "tasks.task_2.priority": {
+            "value": 5,
+            "label": "explicit"
+          },
+          "tasks.task_2.predecessor_keys": {
+            "value": [
+              "task_1"
+            ],
+            "label": "explicit"
+          }
+        },
+        "constraints": [],
+        "required_clarifications": [
+          "tasks.task_1.deadline",
+          "tasks.task_2.deadline"
+        ],
+        "abstained": false
+      },
+      "proposal": {
+        "schema_version": "extraction-v1",
+        "tasks": [
+          {
+            "key": "task_1",
+            "title": {
+              "value": "Study algebra",
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 0,
+                  "end": 13,
+                  "text": "Study algebra"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "remaining_minutes": {
+              "value": 30,
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 18,
+                  "end": 28,
+                  "text": "30 minutes"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "deadline": {
+              "value": null,
+              "label": "inferred",
+              "evidence": [],
+              "requires_confirmation": true
+            },
+            "priority": {
+              "value": 1,
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 29,
+                  "end": 39,
+                  "text": "priority 1"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "predecessor_keys": []
+          },
+          {
+            "key": "task_2",
+            "title": {
+              "value": "Outline algebra",
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 40,
+                  "end": 55,
+                  "text": "Outline algebra"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "remaining_minutes": {
+              "value": 30,
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 60,
+                  "end": 70,
+                  "text": "30 minutes"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "deadline": {
+              "value": null,
+              "label": "inferred",
+              "evidence": [],
+              "requires_confirmation": true
+            },
+            "priority": {
+              "value": 5,
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 84,
+                  "end": 94,
+                  "text": "priority 5"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "predecessor_keys": [
+              "task_1"
+            ]
+          }
+        ],
+        "constraints": [],
+        "unresolved_fields": [],
+        "abstained": false
+      },
+      "schema_valid": true,
+      "error": null,
+      "latency_ms": 0.09829993359744549,
+      "cost_microusd": 0,
+      "provider": "mock",
+      "model": "deterministic-demo-v1",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "attempts": 1
+    },
+    {
+      "id": "family_29_variant_1",
+      "family": "family_29",
+      "category": "adversarial_system",
+      "reference": {
+        "abstained": true,
+        "constraints": [],
+        "fields": {},
+        "required_clarifications": [
+          "unsupported_request"
+        ]
+      },
+      "prediction": {
+        "fields": {},
+        "constraints": [],
+        "required_clarifications": [
+          "unsupported_request"
+        ],
+        "abstained": true
+      },
+      "proposal": {
+        "schema_version": "extraction-v1",
+        "tasks": [],
+        "constraints": [],
+        "unresolved_fields": [
+          "unsupported_request"
+        ],
+        "abstained": true
+      },
+      "schema_valid": true,
+      "error": null,
+      "latency_ms": 0.019300030544400215,
+      "cost_microusd": 0,
+      "provider": "mock",
+      "model": "deterministic-demo-v1",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "attempts": 1
+    },
+    {
+      "id": "family_30_variant_1",
+      "family": "family_30",
+      "category": "ambiguous_time",
+      "reference": {
+        "abstained": false,
+        "constraints": [],
+        "fields": {
+          "tasks.task_1.deadline": {
+            "label": "unknown",
+            "value": null
+          },
+          "tasks.task_1.predecessor_keys": {
+            "label": "explicit",
+            "value": []
+          },
+          "tasks.task_1.priority": {
+            "label": "inferred",
+            "value": 3
+          },
+          "tasks.task_1.remaining_minutes": {
+            "label": "explicit",
+            "value": 30
+          },
+          "tasks.task_1.title": {
+            "label": "explicit",
+            "value": "Outline algebra"
+          }
+        },
+        "required_clarifications": [
+          "tasks.task_1.deadline",
+          "tasks.task_1.priority"
+        ]
+      },
+      "prediction": {
+        "fields": {
+          "tasks.task_1.title": {
+            "value": "Outline algebra",
+            "label": "explicit"
+          },
+          "tasks.task_1.remaining_minutes": {
+            "value": 30,
+            "label": "explicit"
+          },
+          "tasks.task_1.deadline": {
+            "value": null,
+            "label": "unknown"
+          },
+          "tasks.task_1.priority": {
+            "value": 3,
+            "label": "inferred"
+          },
+          "tasks.task_1.predecessor_keys": {
+            "value": [],
+            "label": "explicit"
+          }
+        },
+        "constraints": [],
+        "required_clarifications": [
+          "tasks.task_1.deadline",
+          "tasks.task_1.priority"
+        ],
+        "abstained": false
+      },
+      "proposal": {
+        "schema_version": "extraction-v1",
+        "tasks": [
+          {
+            "key": "task_1",
+            "title": {
+              "value": "Outline algebra",
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 0,
+                  "end": 15,
+                  "text": "Outline algebra"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "remaining_minutes": {
+              "value": 30,
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 20,
+                  "end": 30,
+                  "text": "30 minutes"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "deadline": {
+              "value": null,
+              "label": "unknown",
+              "evidence": [
+                {
+                  "start": 35,
+                  "end": 51,
+                  "text": "2026-11-01 01:30"
+                }
+              ],
+              "requires_confirmation": true
+            },
+            "priority": {
+              "value": 3,
+              "label": "inferred",
+              "evidence": [],
+              "requires_confirmation": true
+            },
+            "predecessor_keys": []
+          }
+        ],
+        "constraints": [],
+        "unresolved_fields": [
+          "tasks.task_1.deadline"
+        ],
+        "abstained": false
+      },
+      "schema_valid": true,
+      "error": null,
+      "latency_ms": 0.055999960750341415,
+      "cost_microusd": 0,
+      "provider": "mock",
+      "model": "deterministic-demo-v1",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "attempts": 1
+    },
+    {
+      "id": "family_21_variant_2",
+      "family": "family_21",
+      "category": "explicit_by",
+      "reference": {
+        "abstained": false,
+        "constraints": [],
+        "fields": {
+          "tasks.task_1.deadline": {
+            "label": "explicit",
+            "value": {
+              "fold": null,
+              "kind": "DATE",
+              "timezone": "UTC",
+              "value": "2026-10-01"
+            }
+          },
+          "tasks.task_1.predecessor_keys": {
+            "label": "explicit",
+            "value": []
+          },
+          "tasks.task_1.priority": {
+            "label": "inferred",
+            "value": 3
+          },
+          "tasks.task_1.remaining_minutes": {
+            "label": "explicit",
+            "value": 60
+          },
+          "tasks.task_1.title": {
+            "label": "explicit",
+            "value": "Outline biology"
+          }
+        },
+        "required_clarifications": [
+          "tasks.task_1.priority"
+        ]
+      },
+      "prediction": {
+        "fields": {
+          "tasks.task_1.title": {
+            "value": "Outline biology",
+            "label": "explicit"
+          },
+          "tasks.task_1.remaining_minutes": {
+            "value": 60,
+            "label": "explicit"
+          },
+          "tasks.task_1.deadline": {
+            "value": {
+              "kind": "DATE",
+              "value": "2026-10-01",
+              "timezone": "UTC",
+              "fold": null
+            },
+            "label": "explicit"
+          },
+          "tasks.task_1.priority": {
+            "value": 3,
+            "label": "inferred"
+          },
+          "tasks.task_1.predecessor_keys": {
+            "value": [],
+            "label": "explicit"
+          }
+        },
+        "constraints": [],
+        "required_clarifications": [
+          "tasks.task_1.priority"
+        ],
+        "abstained": false
+      },
+      "proposal": {
+        "schema_version": "extraction-v1",
+        "tasks": [
+          {
+            "key": "task_1",
+            "title": {
+              "value": "Outline biology",
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 0,
+                  "end": 15,
+                  "text": "Outline biology"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "remaining_minutes": {
+              "value": 60,
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 20,
+                  "end": 27,
+                  "text": "60 mins"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "deadline": {
+              "value": {
+                "kind": "DATE",
+                "value": "2026-10-01",
+                "timezone": "UTC",
+                "fold": null
+              },
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 31,
+                  "end": 41,
+                  "text": "2026-10-01"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "priority": {
+              "value": 3,
+              "label": "inferred",
+              "evidence": [],
+              "requires_confirmation": true
+            },
+            "predecessor_keys": []
+          }
+        ],
+        "constraints": [],
+        "unresolved_fields": [],
+        "abstained": false
+      },
+      "schema_valid": true,
+      "error": null,
+      "latency_ms": 0.054900068789720535,
+      "cost_microusd": 0,
+      "provider": "mock",
+      "model": "deterministic-demo-v1",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "attempts": 1
+    },
+    {
+      "id": "family_22_variant_2",
+      "family": "family_22",
+      "category": "relative_by",
+      "reference": {
+        "abstained": false,
+        "constraints": [],
+        "fields": {
+          "tasks.task_1.deadline": {
+            "label": "inferred",
+            "value": {
+              "fold": null,
+              "kind": "DATE",
+              "timezone": "UTC",
+              "value": "2026-09-26"
+            }
+          },
+          "tasks.task_1.predecessor_keys": {
+            "label": "explicit",
+            "value": []
+          },
+          "tasks.task_1.priority": {
+            "label": "inferred",
+            "value": 3
+          },
+          "tasks.task_1.remaining_minutes": {
+            "label": "explicit",
+            "value": 60
+          },
+          "tasks.task_1.title": {
+            "label": "explicit",
+            "value": "Outline biology"
+          }
+        },
+        "required_clarifications": [
+          "tasks.task_1.deadline",
+          "tasks.task_1.priority"
+        ]
+      },
+      "prediction": {
+        "fields": {
+          "tasks.task_1.title": {
+            "value": "Outline biology",
+            "label": "explicit"
+          },
+          "tasks.task_1.remaining_minutes": {
+            "value": 60,
+            "label": "explicit"
+          },
+          "tasks.task_1.deadline": {
+            "value": {
+              "kind": "DATE",
+              "value": "2026-09-26",
+              "timezone": "UTC",
+              "fold": null
+            },
+            "label": "inferred"
+          },
+          "tasks.task_1.priority": {
+            "value": 3,
+            "label": "inferred"
+          },
+          "tasks.task_1.predecessor_keys": {
+            "value": [],
+            "label": "explicit"
+          }
+        },
+        "constraints": [],
+        "required_clarifications": [
+          "tasks.task_1.deadline",
+          "tasks.task_1.priority"
+        ],
+        "abstained": false
+      },
+      "proposal": {
+        "schema_version": "extraction-v1",
+        "tasks": [
+          {
+            "key": "task_1",
+            "title": {
+              "value": "Outline biology",
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 0,
+                  "end": 15,
+                  "text": "Outline biology"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "remaining_minutes": {
+              "value": 60,
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 20,
+                  "end": 30,
+                  "text": "60 minutes"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "deadline": {
+              "value": {
+                "kind": "DATE",
+                "value": "2026-09-26",
+                "timezone": "UTC",
+                "fold": null
+              },
+              "label": "inferred",
+              "evidence": [
+                {
+                  "start": 34,
+                  "end": 42,
+                  "text": "tomorrow"
+                }
+              ],
+              "requires_confirmation": true
+            },
+            "priority": {
+              "value": 3,
+              "label": "inferred",
+              "evidence": [],
+              "requires_confirmation": true
+            },
+            "predecessor_keys": []
+          }
+        ],
+        "constraints": [],
+        "unresolved_fields": [],
+        "abstained": false
+      },
+      "schema_valid": true,
+      "error": null,
+      "latency_ms": 0.06599992047995329,
+      "cost_microusd": 0,
+      "provider": "mock",
+      "model": "deterministic-demo-v1",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "attempts": 1
+    },
+    {
+      "id": "family_23_variant_2",
+      "family": "family_23",
+      "category": "missing_duration_priority",
+      "reference": {
+        "abstained": false,
+        "constraints": [],
+        "fields": {
+          "tasks.task_1.deadline": {
+            "label": "explicit",
+            "value": {
+              "fold": null,
+              "kind": "DATE",
+              "timezone": "UTC",
+              "value": "2026-10-01"
+            }
+          },
+          "tasks.task_1.predecessor_keys": {
+            "label": "explicit",
+            "value": []
+          },
+          "tasks.task_1.priority": {
+            "label": "explicit",
+            "value": 2
+          },
+          "tasks.task_1.remaining_minutes": {
+            "label": "unknown",
+            "value": null
+          },
+          "tasks.task_1.title": {
+            "label": "explicit",
+            "value": "Outline biology"
+          }
+        },
+        "required_clarifications": [
+          "tasks.task_1.remaining_minutes"
+        ]
+      },
+      "prediction": {
+        "fields": {
+          "tasks.task_1.title": {
+            "value": "Outline biology",
+            "label": "explicit"
+          },
+          "tasks.task_1.remaining_minutes": {
+            "value": null,
+            "label": "unknown"
+          },
+          "tasks.task_1.deadline": {
+            "value": {
+              "kind": "DATE",
+              "value": "2026-10-01",
+              "timezone": "UTC",
+              "fold": null
+            },
+            "label": "explicit"
+          },
+          "tasks.task_1.priority": {
+            "value": 2,
+            "label": "explicit"
+          },
+          "tasks.task_1.predecessor_keys": {
+            "value": [],
+            "label": "explicit"
+          }
+        },
+        "constraints": [],
+        "required_clarifications": [
+          "tasks.task_1.remaining_minutes"
+        ],
+        "abstained": false
+      },
+      "proposal": {
+        "schema_version": "extraction-v1",
+        "tasks": [
+          {
+            "key": "task_1",
+            "title": {
+              "value": "Outline biology",
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 0,
+                  "end": 15,
+                  "text": "Outline biology"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "remaining_minutes": {
+              "value": null,
+              "label": "unknown",
+              "evidence": [],
+              "requires_confirmation": true
+            },
+            "deadline": {
+              "value": {
+                "kind": "DATE",
+                "value": "2026-10-01",
+                "timezone": "UTC",
+                "fold": null
+              },
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 20,
+                  "end": 30,
+                  "text": "2026-10-01"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "priority": {
+              "value": 2,
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 31,
+                  "end": 41,
+                  "text": "priority 2"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "predecessor_keys": []
+          }
+        ],
+        "constraints": [],
+        "unresolved_fields": [
+          "tasks.task_1.remaining_minutes"
+        ],
+        "abstained": false
+      },
+      "schema_valid": true,
+      "error": null,
+      "latency_ms": 0.10030006524175406,
+      "cost_microusd": 0,
+      "provider": "mock",
+      "model": "deterministic-demo-v1",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "attempts": 1
+    },
+    {
+      "id": "family_24_variant_2",
+      "family": "family_24",
+      "category": "locale_words",
+      "reference": {
+        "abstained": false,
+        "constraints": [],
+        "fields": {
+          "tasks.task_1.deadline": {
+            "label": "unknown",
+            "value": null
+          },
+          "tasks.task_1.predecessor_keys": {
+            "label": "explicit",
+            "value": []
+          },
+          "tasks.task_1.priority": {
+            "label": "inferred",
+            "value": 3
+          },
+          "tasks.task_1.remaining_minutes": {
+            "label": "explicit",
+            "value": 60
+          },
+          "tasks.task_1.title": {
+            "label": "explicit",
+            "value": "Outline biology"
+          }
+        },
+        "required_clarifications": [
+          "tasks.task_1.deadline",
+          "tasks.task_1.priority"
+        ]
+      },
+      "prediction": {
+        "fields": {
+          "tasks.task_1.title": {
+            "value": "Outline biology",
+            "label": "explicit"
+          },
+          "tasks.task_1.remaining_minutes": {
+            "value": 60,
+            "label": "explicit"
+          },
+          "tasks.task_1.deadline": {
+            "value": null,
+            "label": "unknown"
+          },
+          "tasks.task_1.priority": {
+            "value": 3,
+            "label": "inferred"
+          },
+          "tasks.task_1.predecessor_keys": {
+            "value": [],
+            "label": "explicit"
+          }
+        },
+        "constraints": [],
+        "required_clarifications": [
+          "tasks.task_1.deadline",
+          "tasks.task_1.priority"
+        ],
+        "abstained": false
+      },
+      "proposal": {
+        "schema_version": "extraction-v1",
+        "tasks": [
+          {
+            "key": "task_1",
+            "title": {
+              "value": "Outline biology",
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 0,
+                  "end": 15,
+                  "text": "Outline biology"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "remaining_minutes": {
+              "value": 60,
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 20,
+                  "end": 30,
+                  "text": "60 minutes"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "deadline": {
+              "value": null,
+              "label": "unknown",
+              "evidence": [
+                {
+                  "start": 35,
+                  "end": 51,
+                  "text": "October eleventh"
+                }
+              ],
+              "requires_confirmation": true
+            },
+            "priority": {
+              "value": 3,
+              "label": "inferred",
+              "evidence": [],
+              "requires_confirmation": true
+            },
+            "predecessor_keys": []
+          }
+        ],
+        "constraints": [],
+        "unresolved_fields": [
+          "tasks.task_1.deadline"
+        ],
+        "abstained": false
+      },
+      "schema_valid": true,
+      "error": null,
+      "latency_ms": 0.05249993409961462,
+      "cost_microusd": 0,
+      "provider": "mock",
+      "model": "deterministic-demo-v1",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "attempts": 1
+    },
+    {
+      "id": "family_25_variant_2",
+      "family": "family_25",
+      "category": "conflicting_duration_range",
+      "reference": {
+        "abstained": false,
+        "constraints": [],
+        "fields": {
+          "tasks.task_1.deadline": {
+            "label": "inferred",
+            "value": null
+          },
+          "tasks.task_1.predecessor_keys": {
+            "label": "explicit",
+            "value": []
+          },
+          "tasks.task_1.priority": {
+            "label": "inferred",
+            "value": 3
+          },
+          "tasks.task_1.remaining_minutes": {
+            "label": "unknown",
+            "value": null
+          },
+          "tasks.task_1.title": {
+            "label": "explicit",
+            "value": "Outline biology"
+          }
+        },
+        "required_clarifications": [
+          "tasks.task_1.deadline",
+          "tasks.task_1.priority",
+          "tasks.task_1.remaining_minutes"
+        ]
+      },
+      "prediction": {
+        "fields": {
+          "tasks.task_1.title": {
+            "value": "Outline biology",
+            "label": "explicit"
+          },
+          "tasks.task_1.remaining_minutes": {
+            "value": 90,
+            "label": "explicit"
+          },
+          "tasks.task_1.deadline": {
+            "value": null,
+            "label": "inferred"
+          },
+          "tasks.task_1.priority": {
+            "value": 3,
+            "label": "inferred"
+          },
+          "tasks.task_1.predecessor_keys": {
+            "value": [],
+            "label": "explicit"
+          }
+        },
+        "constraints": [],
+        "required_clarifications": [
+          "tasks.task_1.deadline",
+          "tasks.task_1.priority"
+        ],
+        "abstained": false
+      },
+      "proposal": {
+        "schema_version": "extraction-v1",
+        "tasks": [
+          {
+            "key": "task_1",
+            "title": {
+              "value": "Outline biology",
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 0,
+                  "end": 15,
+                  "text": "Outline biology"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "remaining_minutes": {
+              "value": 90,
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 23,
+                  "end": 33,
+                  "text": "90 minutes"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "deadline": {
+              "value": null,
+              "label": "inferred",
+              "evidence": [],
+              "requires_confirmation": true
+            },
+            "priority": {
+              "value": 3,
+              "label": "inferred",
+              "evidence": [],
+              "requires_confirmation": true
+            },
+            "predecessor_keys": []
+          }
+        ],
+        "constraints": [],
+        "unresolved_fields": [],
+        "abstained": false
+      },
+      "schema_valid": true,
+      "error": null,
+      "latency_ms": 0.04339998122304678,
+      "cost_microusd": 0,
+      "provider": "mock",
+      "model": "deterministic-demo-v1",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "attempts": 1
+    },
+    {
+      "id": "family_26_variant_2",
+      "family": "family_26",
+      "category": "hard_soft_same_weekday",
+      "reference": {
+        "abstained": false,
+        "constraints": [
+          {
+            "kind": "SOFT_AVOID",
+            "weekday": 2
+          },
+          {
+            "kind": "HARD_NO_DEADLINE",
+            "weekday": 2
+          }
+        ],
+        "fields": {},
+        "required_clarifications": []
+      },
+      "prediction": {
+        "fields": {},
+        "constraints": [
+          {
+            "kind": "SOFT_AVOID",
+            "weekday": 2
+          },
+          {
+            "kind": "HARD_NO_DEADLINE",
+            "weekday": 2
+          }
+        ],
+        "required_clarifications": [],
+        "abstained": false
+      },
+      "proposal": {
+        "schema_version": "extraction-v1",
+        "tasks": [],
+        "constraints": [
+          {
+            "key": "constraint_1",
+            "kind": "SOFT_AVOID",
+            "weekday": 2,
+            "label": "explicit",
+            "evidence": [
+              {
+                "start": 0,
+                "end": 17,
+                "text": "dislike Wednesday"
+              }
+            ],
+            "requires_confirmation": true
+          },
+          {
+            "key": "constraint_2",
+            "kind": "HARD_NO_DEADLINE",
+            "weekday": 2,
+            "label": "explicit",
+            "evidence": [
+              {
+                "start": 18,
+                "end": 40,
+                "text": "no deadlines Wednesday"
+              }
+            ],
+            "requires_confirmation": true
+          }
+        ],
+        "unresolved_fields": [],
+        "abstained": false
+      },
+      "schema_valid": true,
+      "error": null,
+      "latency_ms": 0.038800062611699104,
+      "cost_microusd": 0,
+      "provider": "mock",
+      "model": "deterministic-demo-v1",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "attempts": 1
+    },
+    {
+      "id": "family_27_variant_2",
+      "family": "family_27",
+      "category": "hard_busy_on",
+      "reference": {
+        "abstained": false,
+        "constraints": [
+          {
+            "kind": "HARD_UNAVAILABLE",
+            "weekday": 6
+          }
+        ],
+        "fields": {},
+        "required_clarifications": []
+      },
+      "prediction": {
+        "fields": {},
+        "constraints": [
+          {
+            "kind": "HARD_UNAVAILABLE",
+            "weekday": 6
+          }
+        ],
+        "required_clarifications": [],
+        "abstained": false
+      },
+      "proposal": {
+        "schema_version": "extraction-v1",
+        "tasks": [],
+        "constraints": [
+          {
+            "key": "constraint_1",
+            "kind": "HARD_UNAVAILABLE",
+            "weekday": 6,
+            "label": "explicit",
+            "evidence": [
+              {
+                "start": 0,
+                "end": 21,
+                "text": "cannot work on Sunday"
+              }
+            ],
+            "requires_confirmation": true
+          }
+        ],
+        "unresolved_fields": [],
+        "abstained": false
+      },
+      "schema_valid": true,
+      "error": null,
+      "latency_ms": 0.024799956008791924,
+      "cost_microusd": 0,
+      "provider": "mock",
+      "model": "deterministic-demo-v1",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "attempts": 1
+    },
+    {
+      "id": "family_28_variant_2",
+      "family": "family_28",
+      "category": "dependencies_with_priority",
+      "reference": {
+        "abstained": false,
+        "constraints": [],
+        "fields": {
+          "tasks.task_1.deadline": {
+            "label": "inferred",
+            "value": null
+          },
+          "tasks.task_1.predecessor_keys": {
+            "label": "explicit",
+            "value": []
+          },
+          "tasks.task_1.priority": {
+            "label": "explicit",
+            "value": 1
+          },
+          "tasks.task_1.remaining_minutes": {
+            "label": "explicit",
+            "value": 60
+          },
+          "tasks.task_1.title": {
+            "label": "explicit",
+            "value": "Study biology"
+          },
+          "tasks.task_2.deadline": {
+            "label": "inferred",
+            "value": null
+          },
+          "tasks.task_2.predecessor_keys": {
+            "label": "explicit",
+            "value": [
+              "task_1"
+            ]
+          },
+          "tasks.task_2.priority": {
+            "label": "explicit",
+            "value": 5
+          },
+          "tasks.task_2.remaining_minutes": {
+            "label": "explicit",
+            "value": 30
+          },
+          "tasks.task_2.title": {
+            "label": "explicit",
+            "value": "Outline biology"
+          }
+        },
+        "required_clarifications": [
+          "tasks.task_1.deadline",
+          "tasks.task_2.deadline"
+        ]
+      },
+      "prediction": {
+        "fields": {
+          "tasks.task_1.title": {
+            "value": "Study biology",
+            "label": "explicit"
+          },
+          "tasks.task_1.remaining_minutes": {
+            "value": 60,
+            "label": "explicit"
+          },
+          "tasks.task_1.deadline": {
+            "value": null,
+            "label": "inferred"
+          },
+          "tasks.task_1.priority": {
+            "value": 1,
+            "label": "explicit"
+          },
+          "tasks.task_1.predecessor_keys": {
+            "value": [],
+            "label": "explicit"
+          },
+          "tasks.task_2.title": {
+            "value": "Outline biology",
+            "label": "explicit"
+          },
+          "tasks.task_2.remaining_minutes": {
+            "value": 30,
+            "label": "explicit"
+          },
+          "tasks.task_2.deadline": {
+            "value": null,
+            "label": "inferred"
+          },
+          "tasks.task_2.priority": {
+            "value": 5,
+            "label": "explicit"
+          },
+          "tasks.task_2.predecessor_keys": {
+            "value": [
+              "task_1"
+            ],
+            "label": "explicit"
+          }
+        },
+        "constraints": [],
+        "required_clarifications": [
+          "tasks.task_1.deadline",
+          "tasks.task_2.deadline"
+        ],
+        "abstained": false
+      },
+      "proposal": {
+        "schema_version": "extraction-v1",
+        "tasks": [
+          {
+            "key": "task_1",
+            "title": {
+              "value": "Study biology",
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 0,
+                  "end": 13,
+                  "text": "Study biology"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "remaining_minutes": {
+              "value": 60,
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 18,
+                  "end": 28,
+                  "text": "60 minutes"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "deadline": {
+              "value": null,
+              "label": "inferred",
+              "evidence": [],
+              "requires_confirmation": true
+            },
+            "priority": {
+              "value": 1,
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 29,
+                  "end": 39,
+                  "text": "priority 1"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "predecessor_keys": []
+          },
+          {
+            "key": "task_2",
+            "title": {
+              "value": "Outline biology",
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 40,
+                  "end": 55,
+                  "text": "Outline biology"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "remaining_minutes": {
+              "value": 30,
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 60,
+                  "end": 70,
+                  "text": "30 minutes"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "deadline": {
+              "value": null,
+              "label": "inferred",
+              "evidence": [],
+              "requires_confirmation": true
+            },
+            "priority": {
+              "value": 5,
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 84,
+                  "end": 94,
+                  "text": "priority 5"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "predecessor_keys": [
+              "task_1"
+            ]
+          }
+        ],
+        "constraints": [],
+        "unresolved_fields": [],
+        "abstained": false
+      },
+      "schema_valid": true,
+      "error": null,
+      "latency_ms": 0.08370005525648594,
+      "cost_microusd": 0,
+      "provider": "mock",
+      "model": "deterministic-demo-v1",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "attempts": 1
+    },
+    {
+      "id": "family_29_variant_2",
+      "family": "family_29",
+      "category": "adversarial_system",
+      "reference": {
+        "abstained": true,
+        "constraints": [],
+        "fields": {},
+        "required_clarifications": [
+          "unsupported_request"
+        ]
+      },
+      "prediction": {
+        "fields": {},
+        "constraints": [],
+        "required_clarifications": [
+          "unsupported_request"
+        ],
+        "abstained": true
+      },
+      "proposal": {
+        "schema_version": "extraction-v1",
+        "tasks": [],
+        "constraints": [],
+        "unresolved_fields": [
+          "unsupported_request"
+        ],
+        "abstained": true
+      },
+      "schema_valid": true,
+      "error": null,
+      "latency_ms": 0.01750001683831215,
+      "cost_microusd": 0,
+      "provider": "mock",
+      "model": "deterministic-demo-v1",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "attempts": 1
+    },
+    {
+      "id": "family_30_variant_2",
+      "family": "family_30",
+      "category": "ambiguous_time",
+      "reference": {
+        "abstained": false,
+        "constraints": [],
+        "fields": {
+          "tasks.task_1.deadline": {
+            "label": "unknown",
+            "value": null
+          },
+          "tasks.task_1.predecessor_keys": {
+            "label": "explicit",
+            "value": []
+          },
+          "tasks.task_1.priority": {
+            "label": "inferred",
+            "value": 3
+          },
+          "tasks.task_1.remaining_minutes": {
+            "label": "explicit",
+            "value": 60
+          },
+          "tasks.task_1.title": {
+            "label": "explicit",
+            "value": "Outline biology"
+          }
+        },
+        "required_clarifications": [
+          "tasks.task_1.deadline",
+          "tasks.task_1.priority"
+        ]
+      },
+      "prediction": {
+        "fields": {
+          "tasks.task_1.title": {
+            "value": "Outline biology",
+            "label": "explicit"
+          },
+          "tasks.task_1.remaining_minutes": {
+            "value": 60,
+            "label": "explicit"
+          },
+          "tasks.task_1.deadline": {
+            "value": null,
+            "label": "unknown"
+          },
+          "tasks.task_1.priority": {
+            "value": 3,
+            "label": "inferred"
+          },
+          "tasks.task_1.predecessor_keys": {
+            "value": [],
+            "label": "explicit"
+          }
+        },
+        "constraints": [],
+        "required_clarifications": [
+          "tasks.task_1.deadline",
+          "tasks.task_1.priority"
+        ],
+        "abstained": false
+      },
+      "proposal": {
+        "schema_version": "extraction-v1",
+        "tasks": [
+          {
+            "key": "task_1",
+            "title": {
+              "value": "Outline biology",
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 0,
+                  "end": 15,
+                  "text": "Outline biology"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "remaining_minutes": {
+              "value": 60,
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 20,
+                  "end": 30,
+                  "text": "60 minutes"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "deadline": {
+              "value": null,
+              "label": "unknown",
+              "evidence": [
+                {
+                  "start": 35,
+                  "end": 51,
+                  "text": "2026-11-01 01:30"
+                }
+              ],
+              "requires_confirmation": true
+            },
+            "priority": {
+              "value": 3,
+              "label": "inferred",
+              "evidence": [],
+              "requires_confirmation": true
+            },
+            "predecessor_keys": []
+          }
+        ],
+        "constraints": [],
+        "unresolved_fields": [
+          "tasks.task_1.deadline"
+        ],
+        "abstained": false
+      },
+      "schema_valid": true,
+      "error": null,
+      "latency_ms": 0.049400026910007,
+      "cost_microusd": 0,
+      "provider": "mock",
+      "model": "deterministic-demo-v1",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "attempts": 1
+    },
+    {
+      "id": "family_21_variant_3",
+      "family": "family_21",
+      "category": "explicit_by",
+      "reference": {
+        "abstained": false,
+        "constraints": [],
+        "fields": {
+          "tasks.task_1.deadline": {
+            "label": "explicit",
+            "value": {
+              "fold": null,
+              "kind": "DATE",
+              "timezone": "UTC",
+              "value": "2026-10-01"
+            }
+          },
+          "tasks.task_1.predecessor_keys": {
+            "label": "explicit",
+            "value": []
+          },
+          "tasks.task_1.priority": {
+            "label": "inferred",
+            "value": 3
+          },
+          "tasks.task_1.remaining_minutes": {
+            "label": "explicit",
+            "value": 90
+          },
+          "tasks.task_1.title": {
+            "label": "explicit",
+            "value": "Outline history"
+          }
+        },
+        "required_clarifications": [
+          "tasks.task_1.priority"
+        ]
+      },
+      "prediction": {
+        "fields": {
+          "tasks.task_1.title": {
+            "value": "Outline history",
+            "label": "explicit"
+          },
+          "tasks.task_1.remaining_minutes": {
+            "value": 90,
+            "label": "explicit"
+          },
+          "tasks.task_1.deadline": {
+            "value": {
+              "kind": "DATE",
+              "value": "2026-10-01",
+              "timezone": "UTC",
+              "fold": null
+            },
+            "label": "explicit"
+          },
+          "tasks.task_1.priority": {
+            "value": 3,
+            "label": "inferred"
+          },
+          "tasks.task_1.predecessor_keys": {
+            "value": [],
+            "label": "explicit"
+          }
+        },
+        "constraints": [],
+        "required_clarifications": [
+          "tasks.task_1.priority"
+        ],
+        "abstained": false
+      },
+      "proposal": {
+        "schema_version": "extraction-v1",
+        "tasks": [
+          {
+            "key": "task_1",
+            "title": {
+              "value": "Outline history",
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 0,
+                  "end": 15,
+                  "text": "Outline history"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "remaining_minutes": {
+              "value": 90,
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 20,
+                  "end": 27,
+                  "text": "90 mins"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "deadline": {
+              "value": {
+                "kind": "DATE",
+                "value": "2026-10-01",
+                "timezone": "UTC",
+                "fold": null
+              },
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 31,
+                  "end": 41,
+                  "text": "2026-10-01"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "priority": {
+              "value": 3,
+              "label": "inferred",
+              "evidence": [],
+              "requires_confirmation": true
+            },
+            "predecessor_keys": []
+          }
+        ],
+        "constraints": [],
+        "unresolved_fields": [],
+        "abstained": false
+      },
+      "schema_valid": true,
+      "error": null,
+      "latency_ms": 0.05300005432218313,
+      "cost_microusd": 0,
+      "provider": "mock",
+      "model": "deterministic-demo-v1",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "attempts": 1
+    },
+    {
+      "id": "family_22_variant_3",
+      "family": "family_22",
+      "category": "relative_by",
+      "reference": {
+        "abstained": false,
+        "constraints": [],
+        "fields": {
+          "tasks.task_1.deadline": {
+            "label": "inferred",
+            "value": {
+              "fold": null,
+              "kind": "DATE",
+              "timezone": "UTC",
+              "value": "2026-09-26"
+            }
+          },
+          "tasks.task_1.predecessor_keys": {
+            "label": "explicit",
+            "value": []
+          },
+          "tasks.task_1.priority": {
+            "label": "inferred",
+            "value": 3
+          },
+          "tasks.task_1.remaining_minutes": {
+            "label": "explicit",
+            "value": 90
+          },
+          "tasks.task_1.title": {
+            "label": "explicit",
+            "value": "Outline history"
+          }
+        },
+        "required_clarifications": [
+          "tasks.task_1.deadline",
+          "tasks.task_1.priority"
+        ]
+      },
+      "prediction": {
+        "fields": {
+          "tasks.task_1.title": {
+            "value": "Outline history",
+            "label": "explicit"
+          },
+          "tasks.task_1.remaining_minutes": {
+            "value": 90,
+            "label": "explicit"
+          },
+          "tasks.task_1.deadline": {
+            "value": {
+              "kind": "DATE",
+              "value": "2026-09-26",
+              "timezone": "UTC",
+              "fold": null
+            },
+            "label": "inferred"
+          },
+          "tasks.task_1.priority": {
+            "value": 3,
+            "label": "inferred"
+          },
+          "tasks.task_1.predecessor_keys": {
+            "value": [],
+            "label": "explicit"
+          }
+        },
+        "constraints": [],
+        "required_clarifications": [
+          "tasks.task_1.deadline",
+          "tasks.task_1.priority"
+        ],
+        "abstained": false
+      },
+      "proposal": {
+        "schema_version": "extraction-v1",
+        "tasks": [
+          {
+            "key": "task_1",
+            "title": {
+              "value": "Outline history",
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 0,
+                  "end": 15,
+                  "text": "Outline history"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "remaining_minutes": {
+              "value": 90,
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 20,
+                  "end": 30,
+                  "text": "90 minutes"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "deadline": {
+              "value": {
+                "kind": "DATE",
+                "value": "2026-09-26",
+                "timezone": "UTC",
+                "fold": null
+              },
+              "label": "inferred",
+              "evidence": [
+                {
+                  "start": 34,
+                  "end": 42,
+                  "text": "tomorrow"
+                }
+              ],
+              "requires_confirmation": true
+            },
+            "priority": {
+              "value": 3,
+              "label": "inferred",
+              "evidence": [],
+              "requires_confirmation": true
+            },
+            "predecessor_keys": []
+          }
+        ],
+        "constraints": [],
+        "unresolved_fields": [],
+        "abstained": false
+      },
+      "schema_valid": true,
+      "error": null,
+      "latency_ms": 0.0985999358817935,
+      "cost_microusd": 0,
+      "provider": "mock",
+      "model": "deterministic-demo-v1",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "attempts": 1
+    },
+    {
+      "id": "family_23_variant_3",
+      "family": "family_23",
+      "category": "missing_duration_priority",
+      "reference": {
+        "abstained": false,
+        "constraints": [],
+        "fields": {
+          "tasks.task_1.deadline": {
+            "label": "explicit",
+            "value": {
+              "fold": null,
+              "kind": "DATE",
+              "timezone": "UTC",
+              "value": "2026-10-01"
+            }
+          },
+          "tasks.task_1.predecessor_keys": {
+            "label": "explicit",
+            "value": []
+          },
+          "tasks.task_1.priority": {
+            "label": "explicit",
+            "value": 2
+          },
+          "tasks.task_1.remaining_minutes": {
+            "label": "unknown",
+            "value": null
+          },
+          "tasks.task_1.title": {
+            "label": "explicit",
+            "value": "Outline history"
+          }
+        },
+        "required_clarifications": [
+          "tasks.task_1.remaining_minutes"
+        ]
+      },
+      "prediction": {
+        "fields": {
+          "tasks.task_1.title": {
+            "value": "Outline history",
+            "label": "explicit"
+          },
+          "tasks.task_1.remaining_minutes": {
+            "value": null,
+            "label": "unknown"
+          },
+          "tasks.task_1.deadline": {
+            "value": {
+              "kind": "DATE",
+              "value": "2026-10-01",
+              "timezone": "UTC",
+              "fold": null
+            },
+            "label": "explicit"
+          },
+          "tasks.task_1.priority": {
+            "value": 2,
+            "label": "explicit"
+          },
+          "tasks.task_1.predecessor_keys": {
+            "value": [],
+            "label": "explicit"
+          }
+        },
+        "constraints": [],
+        "required_clarifications": [
+          "tasks.task_1.remaining_minutes"
+        ],
+        "abstained": false
+      },
+      "proposal": {
+        "schema_version": "extraction-v1",
+        "tasks": [
+          {
+            "key": "task_1",
+            "title": {
+              "value": "Outline history",
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 0,
+                  "end": 15,
+                  "text": "Outline history"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "remaining_minutes": {
+              "value": null,
+              "label": "unknown",
+              "evidence": [],
+              "requires_confirmation": true
+            },
+            "deadline": {
+              "value": {
+                "kind": "DATE",
+                "value": "2026-10-01",
+                "timezone": "UTC",
+                "fold": null
+              },
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 20,
+                  "end": 30,
+                  "text": "2026-10-01"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "priority": {
+              "value": 2,
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 31,
+                  "end": 41,
+                  "text": "priority 2"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "predecessor_keys": []
+          }
+        ],
+        "constraints": [],
+        "unresolved_fields": [
+          "tasks.task_1.remaining_minutes"
+        ],
+        "abstained": false
+      },
+      "schema_valid": true,
+      "error": null,
+      "latency_ms": 0.06500002928078175,
+      "cost_microusd": 0,
+      "provider": "mock",
+      "model": "deterministic-demo-v1",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "attempts": 1
+    },
+    {
+      "id": "family_24_variant_3",
+      "family": "family_24",
+      "category": "locale_words",
+      "reference": {
+        "abstained": false,
+        "constraints": [],
+        "fields": {
+          "tasks.task_1.deadline": {
+            "label": "unknown",
+            "value": null
+          },
+          "tasks.task_1.predecessor_keys": {
+            "label": "explicit",
+            "value": []
+          },
+          "tasks.task_1.priority": {
+            "label": "inferred",
+            "value": 3
+          },
+          "tasks.task_1.remaining_minutes": {
+            "label": "explicit",
+            "value": 90
+          },
+          "tasks.task_1.title": {
+            "label": "explicit",
+            "value": "Outline history"
+          }
+        },
+        "required_clarifications": [
+          "tasks.task_1.deadline",
+          "tasks.task_1.priority"
+        ]
+      },
+      "prediction": {
+        "fields": {
+          "tasks.task_1.title": {
+            "value": "Outline history",
+            "label": "explicit"
+          },
+          "tasks.task_1.remaining_minutes": {
+            "value": 90,
+            "label": "explicit"
+          },
+          "tasks.task_1.deadline": {
+            "value": null,
+            "label": "unknown"
+          },
+          "tasks.task_1.priority": {
+            "value": 3,
+            "label": "inferred"
+          },
+          "tasks.task_1.predecessor_keys": {
+            "value": [],
+            "label": "explicit"
+          }
+        },
+        "constraints": [],
+        "required_clarifications": [
+          "tasks.task_1.deadline",
+          "tasks.task_1.priority"
+        ],
+        "abstained": false
+      },
+      "proposal": {
+        "schema_version": "extraction-v1",
+        "tasks": [
+          {
+            "key": "task_1",
+            "title": {
+              "value": "Outline history",
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 0,
+                  "end": 15,
+                  "text": "Outline history"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "remaining_minutes": {
+              "value": 90,
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 20,
+                  "end": 30,
+                  "text": "90 minutes"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "deadline": {
+              "value": null,
+              "label": "unknown",
+              "evidence": [
+                {
+                  "start": 35,
+                  "end": 51,
+                  "text": "October eleventh"
+                }
+              ],
+              "requires_confirmation": true
+            },
+            "priority": {
+              "value": 3,
+              "label": "inferred",
+              "evidence": [],
+              "requires_confirmation": true
+            },
+            "predecessor_keys": []
+          }
+        ],
+        "constraints": [],
+        "unresolved_fields": [
+          "tasks.task_1.deadline"
+        ],
+        "abstained": false
+      },
+      "schema_valid": true,
+      "error": null,
+      "latency_ms": 0.05249993409961462,
+      "cost_microusd": 0,
+      "provider": "mock",
+      "model": "deterministic-demo-v1",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "attempts": 1
+    },
+    {
+      "id": "family_25_variant_3",
+      "family": "family_25",
+      "category": "conflicting_duration_range",
+      "reference": {
+        "abstained": false,
+        "constraints": [],
+        "fields": {
+          "tasks.task_1.deadline": {
+            "label": "inferred",
+            "value": null
+          },
+          "tasks.task_1.predecessor_keys": {
+            "label": "explicit",
+            "value": []
+          },
+          "tasks.task_1.priority": {
+            "label": "inferred",
+            "value": 3
+          },
+          "tasks.task_1.remaining_minutes": {
+            "label": "unknown",
+            "value": null
+          },
+          "tasks.task_1.title": {
+            "label": "explicit",
+            "value": "Outline history"
+          }
+        },
+        "required_clarifications": [
+          "tasks.task_1.deadline",
+          "tasks.task_1.priority",
+          "tasks.task_1.remaining_minutes"
+        ]
+      },
+      "prediction": {
+        "fields": {
+          "tasks.task_1.title": {
+            "value": "Outline history",
+            "label": "explicit"
+          },
+          "tasks.task_1.remaining_minutes": {
+            "value": 120,
+            "label": "explicit"
+          },
+          "tasks.task_1.deadline": {
+            "value": null,
+            "label": "inferred"
+          },
+          "tasks.task_1.priority": {
+            "value": 3,
+            "label": "inferred"
+          },
+          "tasks.task_1.predecessor_keys": {
+            "value": [],
+            "label": "explicit"
+          }
+        },
+        "constraints": [],
+        "required_clarifications": [
+          "tasks.task_1.deadline",
+          "tasks.task_1.priority"
+        ],
+        "abstained": false
+      },
+      "proposal": {
+        "schema_version": "extraction-v1",
+        "tasks": [
+          {
+            "key": "task_1",
+            "title": {
+              "value": "Outline history",
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 0,
+                  "end": 15,
+                  "text": "Outline history"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "remaining_minutes": {
+              "value": 120,
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 23,
+                  "end": 34,
+                  "text": "120 minutes"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "deadline": {
+              "value": null,
+              "label": "inferred",
+              "evidence": [],
+              "requires_confirmation": true
+            },
+            "priority": {
+              "value": 3,
+              "label": "inferred",
+              "evidence": [],
+              "requires_confirmation": true
+            },
+            "predecessor_keys": []
+          }
+        ],
+        "constraints": [],
+        "unresolved_fields": [],
+        "abstained": false
+      },
+      "schema_valid": true,
+      "error": null,
+      "latency_ms": 0.04449998959898949,
+      "cost_microusd": 0,
+      "provider": "mock",
+      "model": "deterministic-demo-v1",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "attempts": 1
+    },
+    {
+      "id": "family_26_variant_3",
+      "family": "family_26",
+      "category": "hard_soft_same_weekday",
+      "reference": {
+        "abstained": false,
+        "constraints": [
+          {
+            "kind": "SOFT_AVOID",
+            "weekday": 2
+          },
+          {
+            "kind": "HARD_NO_DEADLINE",
+            "weekday": 2
+          }
+        ],
+        "fields": {},
+        "required_clarifications": []
+      },
+      "prediction": {
+        "fields": {},
+        "constraints": [
+          {
+            "kind": "SOFT_AVOID",
+            "weekday": 2
+          },
+          {
+            "kind": "HARD_NO_DEADLINE",
+            "weekday": 2
+          }
+        ],
+        "required_clarifications": [],
+        "abstained": false
+      },
+      "proposal": {
+        "schema_version": "extraction-v1",
+        "tasks": [],
+        "constraints": [
+          {
+            "key": "constraint_1",
+            "kind": "SOFT_AVOID",
+            "weekday": 2,
+            "label": "explicit",
+            "evidence": [
+              {
+                "start": 0,
+                "end": 17,
+                "text": "dislike Wednesday"
+              }
+            ],
+            "requires_confirmation": true
+          },
+          {
+            "key": "constraint_2",
+            "kind": "HARD_NO_DEADLINE",
+            "weekday": 2,
+            "label": "explicit",
+            "evidence": [
+              {
+                "start": 18,
+                "end": 40,
+                "text": "no deadlines Wednesday"
+              }
+            ],
+            "requires_confirmation": true
+          }
+        ],
+        "unresolved_fields": [],
+        "abstained": false
+      },
+      "schema_valid": true,
+      "error": null,
+      "latency_ms": 0.03760005347430706,
+      "cost_microusd": 0,
+      "provider": "mock",
+      "model": "deterministic-demo-v1",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "attempts": 1
+    },
+    {
+      "id": "family_27_variant_3",
+      "family": "family_27",
+      "category": "hard_busy_on",
+      "reference": {
+        "abstained": false,
+        "constraints": [
+          {
+            "kind": "HARD_UNAVAILABLE",
+            "weekday": 6
+          }
+        ],
+        "fields": {},
+        "required_clarifications": []
+      },
+      "prediction": {
+        "fields": {},
+        "constraints": [
+          {
+            "kind": "HARD_UNAVAILABLE",
+            "weekday": 6
+          }
+        ],
+        "required_clarifications": [],
+        "abstained": false
+      },
+      "proposal": {
+        "schema_version": "extraction-v1",
+        "tasks": [],
+        "constraints": [
+          {
+            "key": "constraint_1",
+            "kind": "HARD_UNAVAILABLE",
+            "weekday": 6,
+            "label": "explicit",
+            "evidence": [
+              {
+                "start": 0,
+                "end": 21,
+                "text": "cannot work on Sunday"
+              }
+            ],
+            "requires_confirmation": true
+          }
+        ],
+        "unresolved_fields": [],
+        "abstained": false
+      },
+      "schema_valid": true,
+      "error": null,
+      "latency_ms": 0.02529995981603861,
+      "cost_microusd": 0,
+      "provider": "mock",
+      "model": "deterministic-demo-v1",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "attempts": 1
+    },
+    {
+      "id": "family_28_variant_3",
+      "family": "family_28",
+      "category": "dependencies_with_priority",
+      "reference": {
+        "abstained": false,
+        "constraints": [],
+        "fields": {
+          "tasks.task_1.deadline": {
+            "label": "inferred",
+            "value": null
+          },
+          "tasks.task_1.predecessor_keys": {
+            "label": "explicit",
+            "value": []
+          },
+          "tasks.task_1.priority": {
+            "label": "explicit",
+            "value": 1
+          },
+          "tasks.task_1.remaining_minutes": {
+            "label": "explicit",
+            "value": 90
+          },
+          "tasks.task_1.title": {
+            "label": "explicit",
+            "value": "Study history"
+          },
+          "tasks.task_2.deadline": {
+            "label": "inferred",
+            "value": null
+          },
+          "tasks.task_2.predecessor_keys": {
+            "label": "explicit",
+            "value": [
+              "task_1"
+            ]
+          },
+          "tasks.task_2.priority": {
+            "label": "explicit",
+            "value": 5
+          },
+          "tasks.task_2.remaining_minutes": {
+            "label": "explicit",
+            "value": 30
+          },
+          "tasks.task_2.title": {
+            "label": "explicit",
+            "value": "Outline history"
+          }
+        },
+        "required_clarifications": [
+          "tasks.task_1.deadline",
+          "tasks.task_2.deadline"
+        ]
+      },
+      "prediction": {
+        "fields": {
+          "tasks.task_1.title": {
+            "value": "Study history",
+            "label": "explicit"
+          },
+          "tasks.task_1.remaining_minutes": {
+            "value": 90,
+            "label": "explicit"
+          },
+          "tasks.task_1.deadline": {
+            "value": null,
+            "label": "inferred"
+          },
+          "tasks.task_1.priority": {
+            "value": 1,
+            "label": "explicit"
+          },
+          "tasks.task_1.predecessor_keys": {
+            "value": [],
+            "label": "explicit"
+          },
+          "tasks.task_2.title": {
+            "value": "Outline history",
+            "label": "explicit"
+          },
+          "tasks.task_2.remaining_minutes": {
+            "value": 30,
+            "label": "explicit"
+          },
+          "tasks.task_2.deadline": {
+            "value": null,
+            "label": "inferred"
+          },
+          "tasks.task_2.priority": {
+            "value": 5,
+            "label": "explicit"
+          },
+          "tasks.task_2.predecessor_keys": {
+            "value": [
+              "task_1"
+            ],
+            "label": "explicit"
+          }
+        },
+        "constraints": [],
+        "required_clarifications": [
+          "tasks.task_1.deadline",
+          "tasks.task_2.deadline"
+        ],
+        "abstained": false
+      },
+      "proposal": {
+        "schema_version": "extraction-v1",
+        "tasks": [
+          {
+            "key": "task_1",
+            "title": {
+              "value": "Study history",
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 0,
+                  "end": 13,
+                  "text": "Study history"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "remaining_minutes": {
+              "value": 90,
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 18,
+                  "end": 28,
+                  "text": "90 minutes"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "deadline": {
+              "value": null,
+              "label": "inferred",
+              "evidence": [],
+              "requires_confirmation": true
+            },
+            "priority": {
+              "value": 1,
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 29,
+                  "end": 39,
+                  "text": "priority 1"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "predecessor_keys": []
+          },
+          {
+            "key": "task_2",
+            "title": {
+              "value": "Outline history",
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 40,
+                  "end": 55,
+                  "text": "Outline history"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "remaining_minutes": {
+              "value": 30,
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 60,
+                  "end": 70,
+                  "text": "30 minutes"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "deadline": {
+              "value": null,
+              "label": "inferred",
+              "evidence": [],
+              "requires_confirmation": true
+            },
+            "priority": {
+              "value": 5,
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 84,
+                  "end": 94,
+                  "text": "priority 5"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "predecessor_keys": [
+              "task_1"
+            ]
+          }
+        ],
+        "constraints": [],
+        "unresolved_fields": [],
+        "abstained": false
+      },
+      "schema_valid": true,
+      "error": null,
+      "latency_ms": 0.08030002936720848,
+      "cost_microusd": 0,
+      "provider": "mock",
+      "model": "deterministic-demo-v1",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "attempts": 1
+    },
+    {
+      "id": "family_29_variant_3",
+      "family": "family_29",
+      "category": "adversarial_system",
+      "reference": {
+        "abstained": true,
+        "constraints": [],
+        "fields": {},
+        "required_clarifications": [
+          "unsupported_request"
+        ]
+      },
+      "prediction": {
+        "fields": {},
+        "constraints": [],
+        "required_clarifications": [
+          "unsupported_request"
+        ],
+        "abstained": true
+      },
+      "proposal": {
+        "schema_version": "extraction-v1",
+        "tasks": [],
+        "constraints": [],
+        "unresolved_fields": [
+          "unsupported_request"
+        ],
+        "abstained": true
+      },
+      "schema_valid": true,
+      "error": null,
+      "latency_ms": 0.019200029782950878,
+      "cost_microusd": 0,
+      "provider": "mock",
+      "model": "deterministic-demo-v1",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "attempts": 1
+    },
+    {
+      "id": "family_30_variant_3",
+      "family": "family_30",
+      "category": "ambiguous_time",
+      "reference": {
+        "abstained": false,
+        "constraints": [],
+        "fields": {
+          "tasks.task_1.deadline": {
+            "label": "unknown",
+            "value": null
+          },
+          "tasks.task_1.predecessor_keys": {
+            "label": "explicit",
+            "value": []
+          },
+          "tasks.task_1.priority": {
+            "label": "inferred",
+            "value": 3
+          },
+          "tasks.task_1.remaining_minutes": {
+            "label": "explicit",
+            "value": 90
+          },
+          "tasks.task_1.title": {
+            "label": "explicit",
+            "value": "Outline history"
+          }
+        },
+        "required_clarifications": [
+          "tasks.task_1.deadline",
+          "tasks.task_1.priority"
+        ]
+      },
+      "prediction": {
+        "fields": {
+          "tasks.task_1.title": {
+            "value": "Outline history",
+            "label": "explicit"
+          },
+          "tasks.task_1.remaining_minutes": {
+            "value": 90,
+            "label": "explicit"
+          },
+          "tasks.task_1.deadline": {
+            "value": null,
+            "label": "unknown"
+          },
+          "tasks.task_1.priority": {
+            "value": 3,
+            "label": "inferred"
+          },
+          "tasks.task_1.predecessor_keys": {
+            "value": [],
+            "label": "explicit"
+          }
+        },
+        "constraints": [],
+        "required_clarifications": [
+          "tasks.task_1.deadline",
+          "tasks.task_1.priority"
+        ],
+        "abstained": false
+      },
+      "proposal": {
+        "schema_version": "extraction-v1",
+        "tasks": [
+          {
+            "key": "task_1",
+            "title": {
+              "value": "Outline history",
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 0,
+                  "end": 15,
+                  "text": "Outline history"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "remaining_minutes": {
+              "value": 90,
+              "label": "explicit",
+              "evidence": [
+                {
+                  "start": 20,
+                  "end": 30,
+                  "text": "90 minutes"
+                }
+              ],
+              "requires_confirmation": false
+            },
+            "deadline": {
+              "value": null,
+              "label": "unknown",
+              "evidence": [
+                {
+                  "start": 35,
+                  "end": 51,
+                  "text": "2026-11-01 01:30"
+                }
+              ],
+              "requires_confirmation": true
+            },
+            "priority": {
+              "value": 3,
+              "label": "inferred",
+              "evidence": [],
+              "requires_confirmation": true
+            },
+            "predecessor_keys": []
+          }
+        ],
+        "constraints": [],
+        "unresolved_fields": [
+          "tasks.task_1.deadline"
+        ],
+        "abstained": false
+      },
+      "schema_valid": true,
+      "error": null,
+      "latency_ms": 0.049299909733235836,
+      "cost_microusd": 0,
+      "provider": "mock",
+      "model": "deterministic-demo-v1",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "attempts": 1
+    }
+  ]
+}

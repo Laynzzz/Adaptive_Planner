@@ -1,0 +1,30 @@
+..F..                                                                    [100%]
+================================== FAILURES ===================================
+_ test_disconnect_attempts_revocation_but_does_not_retain_failed_credentials __
+
+calendar_scenario = (Engine(postgresql+psycopg://planner:***@127.0.0.1:25432/planner_test_3f6c5489848f48da8366db17234850dd), UUID('fe2e7dcd-b0dc-4551-b66f-61108593b561'), <planner.calendar.fake.FakeCalendarProvider object at 0x000001A7C40BC800>)
+
+    def test_disconnect_attempts_revocation_but_does_not_retain_failed_credentials(calendar_scenario):
+        from planner.calendar.provider import ProviderError
+        from planner.calendar.worker import run_calendar_once
+        engine, owner, provider = calendar_scenario
+        observed = []
+        def revoke():
+            observed.append('revoked')
+            raise ProviderError('RETRYABLE')
+        provider.revoke_credentials = revoke
+        with Session(engine) as db, db.begin():
+            connection = db.get(CalendarConnection, owner)
+            connection.state, connection.keep_remote_events = 'DISCONNECTING', True
+            connection.encrypted_refresh_token = 'synthetic-ciphertext'
+        run_calendar_once(engine, lambda _: provider, clock=lambda: NOW)
+>       assert observed == ['revoked']
+E       AssertionError: assert [] == ['revoked']
+E         
+E         Right contains one more item: 'revoked'
+E         Use -v to get more diff
+
+tests\integration\test_calendar_commands.py:54: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/integration/test_calendar_commands.py::test_disconnect_attempts_revocation_but_does_not_retain_failed_credentials
+1 failed, 4 passed in 2.36s

@@ -1,0 +1,34 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+___________ test_expired_live_claim_cannot_reserve_or_call_provider ___________
+
+api_a = <conftest.AuthenticatedAPI object at 0x000002729E6C6870>
+app = <fastapi.applications.FastAPI object at 0x000002729E416B10>
+
+    def test_expired_live_claim_cannot_reserve_or_call_provider(api_a, app):
+        from datetime import timedelta
+        from planner.ai.provider import AIConfig, LLMResult
+        from planner.ai.worker import claim_next, process_claim, reconcile_expired, utc_now
+        class NeverCall:
+            calls = 0
+            async def extract(self, context):
+                self.calls += 1
+                return LLMResult('{}', 'fake', 'test-only', 0)
+        config = AIConfig(live_enabled=True, api_key='synthetic-test-only', model='test-model',
+            approval_reference='test-only', budget_microusd=1000000,
+            input_rate_microusd_per_million=1000000, output_rate_microusd_per_million=1000000,
+            price_as_of='2026-09-25')
+        enqueue(api_a, 'Study', mode='openai')
+        now = utc_now()
+        claim = claim_next(app.state.engine, now)
+        assert reconcile_expired(app.state.engine, now+timedelta(seconds=36)) == 1
+        fake = NeverCall()
+        assert not process_claim(app.state.engine, claim, provider=fake, config=config)
+>       assert fake.calls == 0
+E       assert 1 == 0
+E        +  where 1 = <test_accept_interpretation.test_expired_live_claim_cannot_reserve_or_call_provider.<locals>.NeverCall object at 0x000002729E6AFFE0>.calls
+
+tests\integration\test_accept_interpretation.py:321: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/integration/test_accept_interpretation.py::test_expired_live_claim_cannot_reserve_or_call_provider
+1 failed, 13 deselected in 0.93s

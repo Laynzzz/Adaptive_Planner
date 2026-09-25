@@ -38,6 +38,7 @@ from planner.db.models import (
     PlanningState,
     Task,
 )
+from planner.db.queries import task_page_data
 from planner.db.repositories import owned_task, task_data
 from planner.domain.commands import execute_command
 from planner.domain.time_rules import normalize_time_inputs, resolve_local_time
@@ -65,6 +66,7 @@ def transact(request, principal, payload, mutate, status=200):
 
 
 def validate_task(db, owner_id, data, clock):
+    from planner.domain.weekday_rules import assert_deadline_allowed
     TaskFields.model_validate(data)
     identity = db.get(Identity, owner_id)
     normalize_time_inputs(
@@ -75,6 +77,7 @@ def validate_task(db, owner_id, data, clock):
         },
         clock(),
     )
+    assert_deadline_allowed(db, owner_id, data)
 
 
 def apply_task_data(task, data):
@@ -164,7 +167,7 @@ def list_tasks(
                 ).encode()
             ).decode()
         return {
-            "items": [task_data(db, item, revision) for item in tasks],
+            "items": task_page_data(db, tasks, revision),
             "next_cursor": next_cursor,
             "revision": revision,
         }

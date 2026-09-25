@@ -1,0 +1,28 @@
+.........F                                                               [100%]
+================================== FAILURES ===================================
+____ test_publication_discovered_move_revisions_inputs_and_enqueues_replan ____
+
+calendar_scenario = (Engine(postgresql+psycopg://planner:***@127.0.0.1:25432/planner_test_5fa45e79f8b44303b6787430a82fa9da), UUID('1a10ceea-840f-4d33-ad9e-bca75ab4c002'), <planner.calendar.fake.FakeCalendarProvider object at 0x000001ED42653230>)
+
+    def test_publication_discovered_move_revisions_inputs_and_enqueues_replan(calendar_scenario):
+        from planner.db.models import PendingReplan
+        engine, owner, provider = calendar_scenario
+        activate(calendar_scenario)
+        publish(calendar_scenario)
+        sync(calendar_scenario)
+        remote = next(iter(provider.events.values()))
+        provider.put_external({**remote, 'start': {'dateTime': (NOW + timedelta(hours=2)).isoformat()},
+                               'end': {'dateTime': (NOW + timedelta(hours=3)).isoformat()}})
+        activate(calendar_scenario)
+        assert publish(calendar_scenario).state == 'CONFLICT'
+        with Session(engine) as db:
+>           assert db.get(PlanningState, owner).revision == 1
+E           AssertionError: assert 0 == 1
+E            +  where 0 = <planner.db.models.PlanningState object at 0x000001ED42484230>.revision
+E            +    where <planner.db.models.PlanningState object at 0x000001ED42484230> = get(PlanningState, UUID('1a10ceea-840f-4d33-ad9e-bca75ab4c002'))
+E            +      where get = <sqlalchemy.orm.session.Session object at 0x000001ED424FFCB0>.get
+
+tests\fault\test_calendar_publication.py:196: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/fault/test_calendar_publication.py::test_publication_discovered_move_revisions_inputs_and_enqueues_replan
+1 failed, 9 passed in 5.26s

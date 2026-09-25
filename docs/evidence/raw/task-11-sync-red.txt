@@ -1,0 +1,89 @@
+FFFF                                                                     [100%]
+================================== FAILURES ===================================
+____ test_incomplete_sync_does_not_advance_cursor_or_expose_partial_mirror ____
+
+calendar_scenario = (Engine(postgresql+psycopg://planner:***@127.0.0.1:25432/planner_test_7052f7d8e0064282a4c2919d602a4a20), UUID('6bd0fa67-070f-49e0-9033-790e0fc256e2'), <planner.calendar.fake.FakeCalendarProvider object at 0x00000170E77B3230>)
+
+    def test_incomplete_sync_does_not_advance_cursor_or_expose_partial_mirror(calendar_scenario):
+        engine, owner, provider = calendar_scenario
+        provider.put_external(event('first'))
+>       assert sync(calendar_scenario).state == 'SYNCED'
+               ^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\integration\test_calendar_sync.py:40: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+scenario = (Engine(postgresql+psycopg://planner:***@127.0.0.1:25432/planner_test_7052f7d8e0064282a4c2919d602a4a20), UUID('6bd0fa67-070f-49e0-9033-790e0fc256e2'), <planner.calendar.fake.FakeCalendarProvider object at 0x00000170E77B3230>)
+
+    def sync(scenario):
+>       from planner.calendar.sync import synchronize
+E       ModuleNotFoundError: No module named 'planner.calendar.sync'
+
+tests\integration\test_calendar_sync.py:31: ModuleNotFoundError
+______________ test_noop_transparent_and_cancelled_are_not_busy _______________
+
+calendar_scenario = (Engine(postgresql+psycopg://planner:***@127.0.0.1:25432/planner_test_2bdc87c6c132456989cce2eb41269bad), UUID('d48bc8a9-b8e4-44b9-83bc-e0af929c8bb1'), <planner.calendar.fake.FakeCalendarProvider object at 0x00000170E78A6CF0>)
+
+    def test_noop_transparent_and_cancelled_are_not_busy(calendar_scenario):
+        engine, owner, provider = calendar_scenario
+        provider.put_external(event('clear', transparency='transparent'))
+        provider.put_external(event('deleted', status='cancelled'))
+>       assert sync(calendar_scenario).state == 'SYNCED'
+               ^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\integration\test_calendar_sync.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+scenario = (Engine(postgresql+psycopg://planner:***@127.0.0.1:25432/planner_test_2bdc87c6c132456989cce2eb41269bad), UUID('d48bc8a9-b8e4-44b9-83bc-e0af929c8bb1'), <planner.calendar.fake.FakeCalendarProvider object at 0x00000170E78A6CF0>)
+
+    def sync(scenario):
+>       from planner.calendar.sync import synchronize
+E       ModuleNotFoundError: No module named 'planner.calendar.sync'
+
+tests\integration\test_calendar_sync.py:31: ModuleNotFoundError
+_____________ test_invalid_cursor_rebuilds_without_touching_tasks _____________
+
+calendar_scenario = (Engine(postgresql+psycopg://planner:***@127.0.0.1:25432/planner_test_93f428f36f4944a990b60d01a69fda7d), UUID('fb0dd276-6b5d-4663-acf2-30c1c52e7cd1'), <planner.calendar.fake.FakeCalendarProvider object at 0x00000170E7D01280>)
+
+    def test_invalid_cursor_rebuilds_without_touching_tasks(calendar_scenario):
+        from planner.db.models import Task
+        engine, owner, provider = calendar_scenario
+        provider.put_external(event('first'))
+>       sync(calendar_scenario)
+
+tests\integration\test_calendar_sync.py:79: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+scenario = (Engine(postgresql+psycopg://planner:***@127.0.0.1:25432/planner_test_93f428f36f4944a990b60d01a69fda7d), UUID('fb0dd276-6b5d-4663-acf2-30c1c52e7cd1'), <planner.calendar.fake.FakeCalendarProvider object at 0x00000170E7D01280>)
+
+    def sync(scenario):
+>       from planner.calendar.sync import synchronize
+E       ModuleNotFoundError: No module named 'planner.calendar.sync'
+
+tests\integration\test_calendar_sync.py:31: ModuleNotFoundError
+______________ test_refresh_authentication_failure_needs_reauth _______________
+
+calendar_scenario = (Engine(postgresql+psycopg://planner:***@127.0.0.1:25432/planner_test_a2f184e9e7ed472ab693dbe366d672e6), UUID('ce263815-c5ee-4f2b-8720-21b357e2d837'), <planner.calendar.fake.FakeCalendarProvider object at 0x00000170E7810BC0>)
+
+    def test_refresh_authentication_failure_needs_reauth(calendar_scenario):
+        engine, owner, provider = calendar_scenario
+        provider.authentication_required = True
+>       assert sync(calendar_scenario).state == 'AUTHENTICATION_REQUIRED'
+               ^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\integration\test_calendar_sync.py:91: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+scenario = (Engine(postgresql+psycopg://planner:***@127.0.0.1:25432/planner_test_a2f184e9e7ed472ab693dbe366d672e6), UUID('ce263815-c5ee-4f2b-8720-21b357e2d837'), <planner.calendar.fake.FakeCalendarProvider object at 0x00000170E7810BC0>)
+
+    def sync(scenario):
+>       from planner.calendar.sync import synchronize
+E       ModuleNotFoundError: No module named 'planner.calendar.sync'
+
+tests\integration\test_calendar_sync.py:31: ModuleNotFoundError
+=========================== short test summary info ===========================
+FAILED tests/integration/test_calendar_sync.py::test_incomplete_sync_does_not_advance_cursor_or_expose_partial_mirror
+FAILED tests/integration/test_calendar_sync.py::test_noop_transparent_and_cancelled_are_not_busy
+FAILED tests/integration/test_calendar_sync.py::test_invalid_cursor_rebuilds_without_touching_tasks
+FAILED tests/integration/test_calendar_sync.py::test_refresh_authentication_failure_needs_reauth
+4 failed in 1.20s

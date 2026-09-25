@@ -12,6 +12,13 @@ def validate_tasks(snapshot: InputSnapshot) -> list[Violation]:
         violations.append(Violation(code=code, related_ids=ids, facts=facts))
 
     tasks = {task.id: task for task in snapshot.tasks}
+    for block in snapshot.protected_blocks:
+        if block.source == "CALENDAR_OFF_GRID":
+            report(
+                "CALENDAR_OFF_GRID",
+                (block.id, block.task_id),
+                resolution="Restore to the planning grid or remove the calendar commitment.",
+            )
     if len(tasks) != len(snapshot.tasks):
         report("DUPLICATE_TASK_ID")
     if (

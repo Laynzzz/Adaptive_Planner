@@ -8,6 +8,7 @@ from sqlalchemy import exists, func, or_, select, text
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.orm import Session
 
+from planner.db.adaptation_models import ProtectedWork, WhatIfRecord, WorkLog
 from planner.db.job_models import Job, OwnerDispatchState, ProposalRecord, SnapshotRecord
 from planner.db.models import (
     Availability,
@@ -20,6 +21,7 @@ from planner.db.models import (
 )
 from planner.domain.contracts import Candidate, InputSnapshot
 from planner.domain.time_rules import normalize_time_inputs
+from planner.domain.what_ifs import change_inputs
 
 
 @dataclass(frozen=True)
@@ -31,7 +33,7 @@ class Claim:
     calendar_revision: int
 
 
-def capture_snapshot(db: Session, owner_id: UUID, now: datetime) -> InputSnapshot:
+def capture_snapshot(db: Session, owner_id: UUID, now: datetime, *, changes=None) -> InputSnapshot:
     state = db.get(PlanningState, owner_id)
     identity = db.get(Identity, owner_id)
     availability = db.get(Availability, owner_id)
@@ -69,14 +71,67 @@ def capture_snapshot(db: Session, owner_id: UUID, now: datetime) -> InputSnapsho
             )
         ],
     }
+    completed = set(
+        db.scalars(
+            select(WorkLog.block_id).where(
+                WorkLog.owner_id == owner_id, WorkLog.block_id.is_not(None)
+            )
+        )
+    )
     if prior:
+        completed_tasks = set(
+            db.scalars(
+                select(WorkLog.task_id).where(
+                    WorkLog.owner_id == owner_id, WorkLog.proposal_id == prior.id, WorkLog.complete
+                )
+            )
+        )
         raw["prior_candidate"] = Candidate.model_validate(prior.candidate)
+        completed.update(
+            block.id for block in raw["prior_candidate"].blocks if block.task_id in completed_tasks
+        )
         raw["prior_active_candidate_id"] = prior.id
-        raw["protected_blocks"] = [
-            b.model_dump(exclude_computed_fields=True)
-            for b in raw["prior_candidate"].blocks
-            if b.locked
-        ]
+        raw["prior_candidate"] = raw["prior_candidate"].model_copy(
+            update={
+                "blocks": tuple(b for b in raw["prior_candidate"].blocks if b.id not in completed)
+            }
+        )
+    raw["protected_blocks"] = [
+        dict(
+            id=row.id,
+            owner_id=row.owner_id,
+            task_id=row.task_id,
+            start=row.start,
+            end=row.end,
+            locked=row.locked,
+            source=row.source,
+        )
+        for row in db.scalars(
+            select(ProtectedWork).where(ProtectedWork.owner_id == owner_id, ProtectedWork.active)
+        )
+    ]
+    if changes is not None:
+        raw = change_inputs(raw, changes)
+    from planner.domain.weekday_rules import apply_weekday_rules
+
+    raw = apply_weekday_rules(db, owner_id, raw, now)
+    from planner.calendar.sync import calendar_inputs
+
+    calendar_busy, calendar_protected, suppressed = calendar_inputs(db, owner_id)
+    raw["fixed_events"].extend(calendar_busy)
+    protected = {
+        str(block["id"]): block
+        for block in raw["protected_blocks"]
+        if block["id"] not in suppressed
+    }
+    protected.update({str(block["id"]): block for block in calendar_protected})
+    active_tasks = {str(task.id) for task in tasks if task.state not in ("DONE", "CANCELLED")}
+    completed_ids = {str(identity) for identity in completed}
+    raw["protected_blocks"] = [
+        block
+        for block in protected.values()
+        if str(block["task_id"]) in active_tasks and str(block["id"]) not in completed_ids
+    ]
     return normalize_time_inputs(raw, now)
 
 
@@ -150,7 +205,16 @@ def claim_next(engine, *, now: datetime, pool_size: int = 2) -> Claim | None:
             )
             db.add(job)
             db.flush()
-        snapshot = capture_snapshot(db, owner.owner_id, now)
+        preview = db.get(WhatIfRecord, job.what_if_id) if job.kind == "WHAT_IF" else None
+        if preview is not None and preview.base_revision != state.revision:
+            preview.state = "SUPERSEDED"
+            job.state = "SUPERSEDED"
+            job.reason_code = "STALE_REVISION"
+            job.finished_at = now
+            return None
+        snapshot = capture_snapshot(
+            db, owner.owner_id, now, changes=preview.changes if preview is not None else None
+        )
         stored = SnapshotRecord(
             id=uuid4(),
             owner_id=owner.owner_id,
@@ -175,5 +239,15 @@ def claim_next(engine, *, now: datetime, pool_size: int = 2) -> Claim | None:
         job.lease_until = now + timedelta(seconds=30)
         job.retry_at = None
         owner.last_dispatch_at = now
-        db.delete(pending)
+        other_pending = db.scalar(
+            select(Job.id)
+            .where(
+                Job.owner_id == owner.owner_id,
+                Job.id != job.id,
+                Job.state.in_(["QUEUED", "RETRY_WAIT"]),
+            )
+            .limit(1)
+        )
+        if other_pending is None:
+            db.delete(pending)
         return Claim(job.id, job.owner_id, job.fencing_token, snapshot, job.calendar_revision)

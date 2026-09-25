@@ -14,6 +14,7 @@ from sqlalchemy import (
     String,
     UniqueConstraint,
     func,
+    text,
 )
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
@@ -67,6 +68,13 @@ class Task(Base):
         CheckConstraint("priority >= 1 AND priority <= 5"),
         CheckConstraint("state IN ('TODO', 'IN_PROGRESS', 'DONE', 'CANCELLED')"),
         Index("ix_tasks_owner_created_id", "owner_id", "created_at", "id"),
+        Index(
+            "ix_tasks_active_page",
+            "owner_id",
+            "created_at",
+            "id",
+            postgresql_where=text("state IN ('TODO','IN_PROGRESS')"),
+        ),
     )
     id: Mapped[UUID] = mapped_column(primary_key=True, default=uuid4)
     owner_id: Mapped[UUID] = mapped_column(ForeignKey("identities.id"))

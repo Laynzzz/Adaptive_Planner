@@ -1,0 +1,24 @@
+.......F.                                                                [100%]
+================================== FAILURES ===================================
+_______________ test_manual_description_edit_is_not_overwritten _______________
+
+calendar_scenario = (Engine(postgresql+psycopg://planner:***@127.0.0.1:25432/planner_test_ffcf7f4c31164dacacf113a2e3a33f70), UUID('bc1acd07-8b9a-4fbc-a1f3-ef380c82ef6a'), <planner.calendar.fake.FakeCalendarProvider object at 0x0000026021DBE840>)
+
+    def test_manual_description_edit_is_not_overwritten(calendar_scenario):
+        engine, owner, provider = calendar_scenario
+        activate(calendar_scenario)
+        publish(calendar_scenario)
+        remote = next(iter(provider.events.values()))
+        provider.put_external({**remote, 'description': 'Manual note that must survive.'})
+        # A new active version must inspect the remote etag before modifying the resource.
+        activate(calendar_scenario)
+>       assert publish(calendar_scenario).state == 'CONFLICT'
+E       AssertionError: assert 'PUBLISHED' == 'CONFLICT'
+E         
+E         - CONFLICT
+E         + PUBLISHED
+
+tests\fault\test_calendar_publication.py:136: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/fault/test_calendar_publication.py::test_manual_description_edit_is_not_overwritten
+1 failed, 8 passed in 4.86s

@@ -1,0 +1,53 @@
+....F.....F                                                              [100%]
+================================== FAILURES ===================================
+__________ test_stale_sync_auth_failure_cannot_overwrite_disconnect ___________
+
+calendar_scenario = (Engine(postgresql+psycopg://planner:***@127.0.0.1:25432/planner_test_cb6531e2d4f84051acfc6a26424f6e20), UUID('4e32e040-a261-447a-9101-a52b739a040f'), <planner.calendar.fake.FakeCalendarProvider object at 0x000001CAAF851E80>)
+
+    def test_stale_sync_auth_failure_cannot_overwrite_disconnect(calendar_scenario):
+        from planner.calendar.provider import ProviderError
+        engine, owner, provider = calendar_scenario
+        def old_call(*args, **kwargs):
+            with Session(engine) as db, db.begin():
+                connection = db.get(CalendarConnection, owner)
+                connection.state = 'DISCONNECTING'
+                connection.generation += 1
+            raise ProviderError('AUTHENTICATION_REQUIRED')
+        provider.list_events = old_call
+>       assert sync(calendar_scenario).state == 'SUPERSEDED'
+E       AssertionError: assert 'AUTHENTICATION_REQUIRED' == 'SUPERSEDED'
+E         
+E         - SUPERSEDED
+E         + AUTHENTICATION_REQUIRED
+
+tests\integration\test_calendar_sync.py:113: AssertionError
+_________ test_old_worker_auth_failure_cannot_replace_new_disconnect __________
+
+calendar_scenario = (Engine(postgresql+psycopg://planner:***@127.0.0.1:25432/planner_test_b2a2f68c7bc040109944fe34f24af2ac), UUID('fdf0c92f-73ac-4480-8400-39ae9dd4df7f'), <planner.calendar.fake.FakeCalendarProvider object at 0x000001CAAF7DE360>)
+
+    def test_old_worker_auth_failure_cannot_replace_new_disconnect(calendar_scenario):
+        from planner.calendar.provider import ProviderError
+        from planner.calendar.worker import run_calendar_once
+        engine, owner, provider = calendar_scenario
+        with Session(engine) as db, db.begin():
+            db.get(CalendarConnection, owner).sync_request = uuid4()
+        def factory(_):
+            with Session(engine) as db, db.begin():
+                connection = db.get(CalendarConnection, owner)
+                connection.state = 'DISCONNECTING'
+                connection.sync_request = None
+                connection.generation += 1
+            raise ProviderError('AUTHENTICATION_REQUIRED')
+        assert run_calendar_once(engine, factory, clock=lambda: NOW)
+        with Session(engine) as db:
+>           assert db.get(CalendarConnection, owner).state == 'DISCONNECTING'
+E           AssertionError: assert 'NEEDS_REAUTH' == 'DISCONNECTING'
+E             
+E             - DISCONNECTING
+E             + NEEDS_REAUTH
+
+tests\integration\test_calendar_commands.py:128: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/integration/test_calendar_sync.py::test_stale_sync_auth_failure_cannot_overwrite_disconnect
+FAILED tests/integration/test_calendar_commands.py::test_old_worker_auth_failure_cannot_replace_new_disconnect
+2 failed, 9 passed in 4.32s

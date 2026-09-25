@@ -1,0 +1,31 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+_____________ test_mapping_operation_link_rejects_cross_owner_sql _____________
+
+calendar_scenario = (Engine(postgresql+psycopg://planner:***@127.0.0.1:25432/planner_test_4bfbb6018dd440b9b2821fc9300d4d0b), UUID('a5f004bd-2c36-47e0-af3d-fc4202cbebe9'), <planner.calendar.fake.FakeCalendarProvider object at 0x00000182B2637E90>)
+
+    def test_mapping_operation_link_rejects_cross_owner_sql(calendar_scenario):
+        import pytest
+        from sqlalchemy import update
+        from sqlalchemy.exc import IntegrityError
+        from planner.calendar.fake import FakeCalendarProvider
+        from tests.integration.test_jobs import seed_owner
+        engine, owner, _ = calendar_scenario
+        activate(calendar_scenario)
+        publish(calendar_scenario)
+        other = seed_owner(engine, 2)
+        with Session(engine) as db, db.begin():
+            db.add(CalendarConnection(owner_id=other, provider='MOCK', calendar_id='other'))
+        other_scenario = engine, other, FakeCalendarProvider()
+        activate(other_scenario)
+        publish(other_scenario)
+        with Session(engine) as db:
+            other_operation = db.scalar(select(CalendarWriteOperation.id).where(CalendarWriteOperation.owner_id == other))
+>       with pytest.raises(IntegrityError), Session(engine) as db, db.begin():
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE IntegrityError
+
+tests\fault\test_calendar_publication.py:254: Failed
+=========================== short test summary info ===========================
+FAILED tests/fault/test_calendar_publication.py::test_mapping_operation_link_rejects_cross_owner_sql
+1 failed, 11 deselected in 1.04s

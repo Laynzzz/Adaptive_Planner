@@ -46,7 +46,9 @@ def enqueue_in_transaction(db: Session, owner_id: UUID, *, now: datetime, explic
     )
     job = db.scalar(
         select(Job)
-        .where(Job.owner_id == owner_id, Job.state.in_(["QUEUED", "RETRY_WAIT"]))
+        .where(
+            Job.owner_id == owner_id, Job.kind == "REPLAN", Job.state.in_(["QUEUED", "RETRY_WAIT"])
+        )
         .order_by(Job.created_at)
         .with_for_update()
     )

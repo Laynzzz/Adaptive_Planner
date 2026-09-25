@@ -1,0 +1,49 @@
+{
+  "version": "synthetic-extraction-v1",
+  "frozen_at": "2026-09-25",
+  "files": {
+    "dev.jsonl": {
+      "sha256": "8cdc7150c338bc1f1bc77d005898afbe8d2e5a8cde8cc62c20250f6c6d0905d7",
+      "examples": 60,
+      "families": 20
+    },
+    "validation.jsonl": {
+      "sha256": "5922f1c978fa044e65e1b7d697fd5244ff1f051f1c759efa5bfcb38a486417b5",
+      "examples": 30,
+      "families": 10
+    },
+    "test.jsonl": {
+      "sha256": "9ec8a0a02784475e1998b053de644e1a3141adb12754d445b0e28615b0510428",
+      "examples": 30,
+      "families": 10
+    }
+  },
+  "prompt_hash": "6ab9ed52196cd297c1362d0e7924e91aa4589cb50e4969ed12942170cd23420e",
+  "schema_hash": "044778b16b34387e8deb0f41bd83363ba7dbacd7331bbb305b15b7098deb9d0c",
+  "model_config": {
+    "provider": "mock",
+    "model": "deterministic-demo-v1",
+    "temperature": null,
+    "selection": "Fixed demonstration parser; no model or prompt search and no held-out tuning"
+  },
+  "model_config_hash": "dc76940a282ebb319148b31e6a1646bdad5d667e5c6abae8c903df477d029a07",
+  "author_script_hash": "733706f67da8712b4108ac632e524c0e4ede20b271be1740f34a64c7714f0545",
+  "annotation_provenance": {
+    "source": "Original synthetic scenarios authored with AI assistance for this repository",
+    "license": "Project-authored synthetic data; no private or third-party source text",
+    "annotation": "AI-assisted reference authoring, separate from provider execution",
+    "independent_human_review": "PENDING",
+    "automated_reference_check": "Types, known date validity, duration bounds, field paths, DAG, explicit text anchors"
+  },
+  "quality_gate": "EXPERIMENTAL: mock pipeline only; real AI quality and independent human reference review are unexecuted",
+  "implementation_hashes": {
+    "services/planner/src/planner/ai/provider.py": "b5f41286d61a42a6974f92b5fb64f9ba2d1d0959e8bac62e6736b9bbd3ad24b1",
+    "services/planner/src/planner/ai/interpret.py": "7bc6283a8d37055a805fc696f061aa332038b7257b020b66b2a6d84d048bbf04",
+    "services/planner/src/planner/ai/schema.py": "342ce76d6d8bfb361f873485e1d0c7e7744870a853256b3cfe671edfc7113c2a",
+    "services/planner/src/planner/ai/prompt.py": "7430001e23cbcc889a9414981f5f6b16d674a131d0e819f8fe1fa631f95c260b",
+    "evals/data/author.py": "733706f67da8712b4108ac632e524c0e4ede20b271be1740f34a64c7714f0545",
+    "evals/score/metrics.py": "0605cd49d017432b21e6aa6f9912c58a4c3e009c0ae6adfc20a4c1a91e099aef",
+    "evals/run/evaluate.py": "c511d83ece5913b961fab15632e8fe9ba93a871928100d9afb303c7141693e8c"
+  },
+  "freeze_policy": "Frozen before development, validation and final mock predictions; one fixed baseline, no parameter selection or held-out tuning. Any change requires a separately versioned manifest and rerun evidence."
+}

@@ -41,6 +41,11 @@ class Job(Base):
     __table_args__ = (
         UniqueConstraint("owner_id", "id"),
         ForeignKeyConstraint(
+            ["owner_id", "what_if_id"],
+            ["what_ifs.owner_id", "what_ifs.id"],
+            name="fk_job_owned_what_if",
+        ),
+        ForeignKeyConstraint(
             ["owner_id", "proposal_id"],
             ["proposals.owner_id", "proposals.id"],
             name="fk_job_owned_proposal",
@@ -56,9 +61,23 @@ class Job(Base):
             postgresql_where=text("state = 'RUNNING'"),
         ),
         Index("ix_jobs_owner_created", "owner_id", "created_at"),
+        Index(
+            "ix_jobs_ready_owner_created",
+            "owner_id",
+            "created_at",
+            postgresql_where=text("state IN ('QUEUED','RETRY_WAIT')"),
+        ),
+        Index(
+            "ix_jobs_retry_owner_at",
+            "owner_id",
+            "retry_at",
+            postgresql_where=text("state='RETRY_WAIT'"),
+        ),
     )
     id: Mapped[UUID] = mapped_column(primary_key=True, default=uuid4)
     owner_id: Mapped[UUID] = mapped_column(ForeignKey("identities.id"))
+    kind: Mapped[str] = mapped_column(String(20), default="REPLAN", server_default="REPLAN")
+    what_if_id: Mapped[UUID | None] = mapped_column()
     planning_revision: Mapped[int] = mapped_column(Integer)
     calendar_revision: Mapped[int] = mapped_column(Integer, default=0)
     snapshot_id: Mapped[UUID | None] = mapped_column()

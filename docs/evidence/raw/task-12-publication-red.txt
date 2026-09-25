@@ -1,0 +1,160 @@
+FFFFFFF                                                                  [100%]
+================================== FAILURES ===================================
+_____________ test_timeout_after_remote_create_does_not_duplicate _____________
+
+calendar_scenario = (Engine(postgresql+psycopg://planner:***@127.0.0.1:25432/planner_test_2b66da7838484fe7a4632203154a688e), UUID('e447876a-169b-43c4-9be5-27ed9cc42b39'), <planner.calendar.fake.FakeCalendarProvider object at 0x000001F286979E80>)
+
+    def test_timeout_after_remote_create_does_not_duplicate(calendar_scenario):
+        engine, owner, provider = calendar_scenario
+        activate(calendar_scenario)
+        provider.timeout_after_write = True
+>       assert publish(calendar_scenario).state == 'PARTIAL'
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\fault\test_calendar_publication.py:40: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+scenario = (Engine(postgresql+psycopg://planner:***@127.0.0.1:25432/planner_test_2b66da7838484fe7a4632203154a688e), UUID('e447876a-169b-43c4-9be5-27ed9cc42b39'), <planner.calendar.fake.FakeCalendarProvider object at 0x000001F286979E80>)
+
+    def publish(scenario):
+>       from planner.calendar.publish import publish_active
+E       ModuleNotFoundError: No module named 'planner.calendar.publish'
+
+tests\fault\test_calendar_publication.py:31: ModuleNotFoundError
+_____________ test_manual_move_becomes_locked_without_double_busy _____________
+
+calendar_scenario = (Engine(postgresql+psycopg://planner:***@127.0.0.1:25432/planner_test_70a1c59799d9422ca08a5e742885c8bd), UUID('d4cf5e84-ad3f-4ba3-9e2b-55b09749c531'), <planner.calendar.fake.FakeCalendarProvider object at 0x000001F286B73650>)
+
+    def test_manual_move_becomes_locked_without_double_busy(calendar_scenario):
+        from planner.calendar.sync import calendar_inputs
+        engine, owner, provider = calendar_scenario
+        activate(calendar_scenario)
+>       publish(calendar_scenario)
+
+tests\fault\test_calendar_publication.py:54: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+scenario = (Engine(postgresql+psycopg://planner:***@127.0.0.1:25432/planner_test_70a1c59799d9422ca08a5e742885c8bd), UUID('d4cf5e84-ad3f-4ba3-9e2b-55b09749c531'), <planner.calendar.fake.FakeCalendarProvider object at 0x000001F286B73650>)
+
+    def publish(scenario):
+>       from planner.calendar.publish import publish_active
+E       ModuleNotFoundError: No module named 'planner.calendar.publish'
+
+tests\fault\test_calendar_publication.py:31: ModuleNotFoundError
+____________ test_manual_deletion_is_never_automatically_recreated ____________
+
+calendar_scenario = (Engine(postgresql+psycopg://planner:***@127.0.0.1:25432/planner_test_59017b9fa3524e4490a3a6c2d22925e0), UUID('030f52d9-76cf-46c2-a7e0-2ec0c39fd717'), <planner.calendar.fake.FakeCalendarProvider object at 0x000001F286CB7020>)
+
+    def test_manual_deletion_is_never_automatically_recreated(calendar_scenario):
+        engine, owner, provider = calendar_scenario
+        activate(calendar_scenario)
+>       publish(calendar_scenario)
+
+tests\fault\test_calendar_publication.py:77: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+scenario = (Engine(postgresql+psycopg://planner:***@127.0.0.1:25432/planner_test_59017b9fa3524e4490a3a6c2d22925e0), UUID('030f52d9-76cf-46c2-a7e0-2ec0c39fd717'), <planner.calendar.fake.FakeCalendarProvider object at 0x000001F286CB7020>)
+
+    def publish(scenario):
+>       from planner.calendar.publish import publish_active
+E       ModuleNotFoundError: No module named 'planner.calendar.publish'
+
+tests\fault\test_calendar_publication.py:31: ModuleNotFoundError
+________________ test_same_id_with_wrong_marker_is_a_conflict _________________
+
+calendar_scenario = (Engine(postgresql+psycopg://planner:***@127.0.0.1:25432/planner_test_d513ed1ef9d842cdbbeb2daafadccbbe), UUID('d8a167d6-358f-4ce9-ae75-a89c0e5ae3b0'), <planner.calendar.fake.FakeCalendarProvider object at 0x000001F286F43CB0>)
+
+    def test_same_id_with_wrong_marker_is_a_conflict(calendar_scenario):
+        from planner.calendar.reconcile import event_id
+        from planner.db.job_models import ProposalBlock
+        engine, owner, provider = calendar_scenario
+        activate(calendar_scenario)
+        with Session(engine) as db:
+            block = db.scalar(select(ProposalBlock))
+        provider.put_external({'id': event_id(owner, 'synthetic', block.id),
+                              'start': {'dateTime': block.start.isoformat()}, 'end': {'dateTime': block.end.isoformat()}})
+>       assert publish(calendar_scenario).state == 'CONFLICT'
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\fault\test_calendar_publication.py:96: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+scenario = (Engine(postgresql+psycopg://planner:***@127.0.0.1:25432/planner_test_d513ed1ef9d842cdbbeb2daafadccbbe), UUID('d8a167d6-358f-4ce9-ae75-a89c0e5ae3b0'), <planner.calendar.fake.FakeCalendarProvider object at 0x000001F286F43CB0>)
+
+    def publish(scenario):
+>       from planner.calendar.publish import publish_active
+E       ModuleNotFoundError: No module named 'planner.calendar.publish'
+
+tests\fault\test_calendar_publication.py:31: ModuleNotFoundError
+____ test_write_finishing_after_new_activation_is_obsolete_then_reconciles ____
+
+calendar_scenario = (Engine(postgresql+psycopg://planner:***@127.0.0.1:25432/planner_test_06ea5102a1f7447189335eec12116192), UUID('f8c2b67b-0238-4b74-b90b-3be87ff96424'), <planner.calendar.fake.FakeCalendarProvider object at 0x000001F28701C890>)
+
+    def test_write_finishing_after_new_activation_is_obsolete_then_reconciles(calendar_scenario):
+        engine, owner, provider = calendar_scenario
+        activate(calendar_scenario)
+        provider.after_write = lambda: activate(calendar_scenario)
+>       assert publish(calendar_scenario).state == 'PARTIAL'
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\fault\test_calendar_publication.py:104: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+scenario = (Engine(postgresql+psycopg://planner:***@127.0.0.1:25432/planner_test_06ea5102a1f7447189335eec12116192), UUID('f8c2b67b-0238-4b74-b90b-3be87ff96424'), <planner.calendar.fake.FakeCalendarProvider object at 0x000001F28701C890>)
+
+    def publish(scenario):
+>       from planner.calendar.publish import publish_active
+E       ModuleNotFoundError: No module named 'planner.calendar.publish'
+
+tests\fault\test_calendar_publication.py:31: ModuleNotFoundError
+_________________ test_lease_prevents_second_calendar_writer __________________
+
+calendar_scenario = (Engine(postgresql+psycopg://planner:***@127.0.0.1:25432/planner_test_e55768fdda7e4deda28651900fa84b88), UUID('10c32958-f76e-4260-a70d-caa9aaf32149'), <planner.calendar.fake.FakeCalendarProvider object at 0x000001F287103770>)
+
+    def test_lease_prevents_second_calendar_writer(calendar_scenario):
+        engine, owner, provider = calendar_scenario
+        activate(calendar_scenario)
+        provider.after_write = lambda: setattr(provider, 'nested', publish(calendar_scenario).state)
+>       assert publish(calendar_scenario).state == 'PUBLISHED'
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\fault\test_calendar_publication.py:115: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+scenario = (Engine(postgresql+psycopg://planner:***@127.0.0.1:25432/planner_test_e55768fdda7e4deda28651900fa84b88), UUID('10c32958-f76e-4260-a70d-caa9aaf32149'), <planner.calendar.fake.FakeCalendarProvider object at 0x000001F287103770>)
+
+    def publish(scenario):
+>       from planner.calendar.publish import publish_active
+E       ModuleNotFoundError: No module named 'planner.calendar.publish'
+
+tests\fault\test_calendar_publication.py:31: ModuleNotFoundError
+_____________________ test_expired_auth_stops_publication _____________________
+
+calendar_scenario = (Engine(postgresql+psycopg://planner:***@127.0.0.1:25432/planner_test_bb0e713cf2af44d49b5bf88c84b0e6cd), UUID('f3f1388e-c155-4399-b2a5-30081333f4dc'), <planner.calendar.fake.FakeCalendarProvider object at 0x000001F2870B0380>)
+
+    def test_expired_auth_stops_publication(calendar_scenario):
+        engine, owner, provider = calendar_scenario
+        activate(calendar_scenario)
+        provider.authentication_required = True
+>       assert publish(calendar_scenario).state == 'NEEDS_REAUTH'
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\fault\test_calendar_publication.py:123: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+scenario = (Engine(postgresql+psycopg://planner:***@127.0.0.1:25432/planner_test_bb0e713cf2af44d49b5bf88c84b0e6cd), UUID('f3f1388e-c155-4399-b2a5-30081333f4dc'), <planner.calendar.fake.FakeCalendarProvider object at 0x000001F2870B0380>)
+
+    def publish(scenario):
+>       from planner.calendar.publish import publish_active
+E       ModuleNotFoundError: No module named 'planner.calendar.publish'
+
+tests\fault\test_calendar_publication.py:31: ModuleNotFoundError
+=========================== short test summary info ===========================
+FAILED tests/fault/test_calendar_publication.py::test_timeout_after_remote_create_does_not_duplicate
+FAILED tests/fault/test_calendar_publication.py::test_manual_move_becomes_locked_without_double_busy
+FAILED tests/fault/test_calendar_publication.py::test_manual_deletion_is_never_automatically_recreated
+FAILED tests/fault/test_calendar_publication.py::test_same_id_with_wrong_marker_is_a_conflict
+FAILED tests/fault/test_calendar_publication.py::test_write_finishing_after_new_activation_is_obsolete_then_reconciles
+FAILED tests/fault/test_calendar_publication.py::test_lease_prevents_second_calendar_writer
+FAILED tests/fault/test_calendar_publication.py::test_expired_auth_stops_publication
+7 failed in 2.54s

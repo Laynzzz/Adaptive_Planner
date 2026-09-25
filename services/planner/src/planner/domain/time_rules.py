@@ -175,7 +175,11 @@ def normalize_time_inputs(raw: dict, now: datetime) -> InputSnapshot:
             raise ValueError("EXPECTED_END_REQUIRED")
         start = entered(item["start"], f"protected.{item['id']}.start")
         end = entered(item["end"], f"protected.{item['id']}.end")
-        if item.get("locked") and ((start - origin) % SLOT or (end - origin) % SLOT):
+        if (
+            item.get("locked")
+            and item.get("source") != "CALENDAR_OFF_GRID"
+            and ((start - origin) % SLOT or (end - origin) % SLOT)
+        ):
             raise ValueError("LOCK_NOT_GRID_ALIGNED")
         if end <= start:
             raise ValueError("protected interval needs an explicit expected end after start")

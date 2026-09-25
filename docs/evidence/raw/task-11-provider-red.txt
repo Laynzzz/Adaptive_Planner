@@ -1,0 +1,84 @@
+FFFFFFFF                                                                 [100%]
+================================== FAILURES ===================================
+____________ test_ics_has_utc_instants_stable_uid_and_escaped_text ____________
+
+    def test_ics_has_utc_instants_stable_uid_and_escaped_text():
+>       from planner.calendar.ics import export_ics
+E       ModuleNotFoundError: No module named 'planner.calendar'
+
+tests\unit\test_ics.py:7: ModuleNotFoundError
+________ test_ics_folds_utf8_at_75_octets_without_splitting_characters ________
+
+    def test_ics_folds_utf8_at_75_octets_without_splitting_characters():
+>       from planner.calendar.ics import export_ics
+E       ModuleNotFoundError: No module named 'planner.calendar'
+
+tests\unit\test_ics.py:22: ModuleNotFoundError
+__ test_google_expands_recurrence_and_uses_sync_paging_without_time_filters ___
+
+    def test_google_expands_recurrence_and_uses_sync_paging_without_time_filters():
+>       from planner.calendar.google import GoogleCalendarProvider
+E       ModuleNotFoundError: No module named 'planner.calendar'
+
+tests\unit\test_calendar_provider.py:8: ModuleNotFoundError
+_____ test_google_errors_keep_recovery_semantics[410-INVALID_SYNC_TOKEN] ______
+
+status = 410, kind = 'INVALID_SYNC_TOKEN'
+
+    @pytest.mark.parametrize(('status', 'kind'), [(410, 'INVALID_SYNC_TOKEN'),
+        (401, 'AUTHENTICATION_REQUIRED'), (429, 'RETRYABLE'), (412, 'CONFLICT')])
+    def test_google_errors_keep_recovery_semantics(status, kind):
+>       from planner.calendar.google import GoogleCalendarProvider
+E       ModuleNotFoundError: No module named 'planner.calendar'
+
+tests\unit\test_calendar_provider.py:31: ModuleNotFoundError
+___ test_google_errors_keep_recovery_semantics[401-AUTHENTICATION_REQUIRED] ___
+
+status = 401, kind = 'AUTHENTICATION_REQUIRED'
+
+    @pytest.mark.parametrize(('status', 'kind'), [(410, 'INVALID_SYNC_TOKEN'),
+        (401, 'AUTHENTICATION_REQUIRED'), (429, 'RETRYABLE'), (412, 'CONFLICT')])
+    def test_google_errors_keep_recovery_semantics(status, kind):
+>       from planner.calendar.google import GoogleCalendarProvider
+E       ModuleNotFoundError: No module named 'planner.calendar'
+
+tests\unit\test_calendar_provider.py:31: ModuleNotFoundError
+__________ test_google_errors_keep_recovery_semantics[429-RETRYABLE] __________
+
+status = 429, kind = 'RETRYABLE'
+
+    @pytest.mark.parametrize(('status', 'kind'), [(410, 'INVALID_SYNC_TOKEN'),
+        (401, 'AUTHENTICATION_REQUIRED'), (429, 'RETRYABLE'), (412, 'CONFLICT')])
+    def test_google_errors_keep_recovery_semantics(status, kind):
+>       from planner.calendar.google import GoogleCalendarProvider
+E       ModuleNotFoundError: No module named 'planner.calendar'
+
+tests\unit\test_calendar_provider.py:31: ModuleNotFoundError
+__________ test_google_errors_keep_recovery_semantics[412-CONFLICT] ___________
+
+status = 412, kind = 'CONFLICT'
+
+    @pytest.mark.parametrize(('status', 'kind'), [(410, 'INVALID_SYNC_TOKEN'),
+        (401, 'AUTHENTICATION_REQUIRED'), (429, 'RETRYABLE'), (412, 'CONFLICT')])
+    def test_google_errors_keep_recovery_semantics(status, kind):
+>       from planner.calendar.google import GoogleCalendarProvider
+E       ModuleNotFoundError: No module named 'planner.calendar'
+
+tests\unit\test_calendar_provider.py:31: ModuleNotFoundError
+______ test_google_conditional_write_and_ambiguous_timeout_are_distinct _______
+
+    def test_google_conditional_write_and_ambiguous_timeout_are_distinct():
+>       from planner.calendar.google import GoogleCalendarProvider
+E       ModuleNotFoundError: No module named 'planner.calendar'
+
+tests\unit\test_calendar_provider.py:43: ModuleNotFoundError
+=========================== short test summary info ===========================
+FAILED tests/unit/test_ics.py::test_ics_has_utc_instants_stable_uid_and_escaped_text
+FAILED tests/unit/test_ics.py::test_ics_folds_utf8_at_75_octets_without_splitting_characters
+FAILED tests/unit/test_calendar_provider.py::test_google_expands_recurrence_and_uses_sync_paging_without_time_filters
+FAILED tests/unit/test_calendar_provider.py::test_google_errors_keep_recovery_semantics[410-INVALID_SYNC_TOKEN]
+FAILED tests/unit/test_calendar_provider.py::test_google_errors_keep_recovery_semantics[401-AUTHENTICATION_REQUIRED]
+FAILED tests/unit/test_calendar_provider.py::test_google_errors_keep_recovery_semantics[429-RETRYABLE]
+FAILED tests/unit/test_calendar_provider.py::test_google_errors_keep_recovery_semantics[412-CONFLICT]
+FAILED tests/unit/test_calendar_provider.py::test_google_conditional_write_and_ambiguous_timeout_are_distinct
+8 failed in 0.43s

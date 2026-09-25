@@ -39,3 +39,19 @@ See [evidence index](evidence-index.md) and [execution status](execution-status.
 ## Demonstration to practice later
 
 Sign in as demo A, create a task with a deadline, set an available window, generate and inspect a plan, then activate it. Explain why activation is separate, what happens if another edit occurs, and why Google sync is a distinct future state. Sign in separately as demo B to demonstrate isolation. This is a local synthetic demo, not a production-customer story.
+
+## Adaptation and reviewed input
+
+**Why not subtract elapsed time automatically?** Calendar time is not evidence of completed work. A work log records observed minutes and an explicit remaining estimate separately; corrections append history. A missed block therefore leaves the estimate unchanged until the user updates it. Follow-up: why keep proposal provenance after whole-task completion? Reopening a task must not reuse identities of already completed work. See [Task 8](evidence/task-8-adaptation.md).
+
+**Can an AI interpretation change the calendar?** No. Extraction persists a structured draft. Selected fields and weekday rules pass confirmation, revision, ownership and transactional acceptance before changing inputs. Planning, activation and publication remain separate actions. A source quote establishes provenance but not semantic correctness. Follow-up: what happens on provider timeout? Source text and manual entry remain usable. See [browser evidence](evidence/r2-ui.md) and [evaluation limits](evidence/ai-evaluation.md).
+
+**Why does a good mock score not establish AI quality?** The mock is a fixed local parser, evaluated on authored synthetic families. Its result verifies the scoring pipeline and selected parsing behavior. Live predictions and independent human reference review have their own unexecuted gates. Do not present the 87/90 mock critical-field result as an LLM accuracy claim.
+
+## Calendar failure recovery
+
+**How do retries avoid duplicate remote events?** Stable block-derived IDs, ownership markers and durable operation records let reconciliation find an already committed create after its response was lost. This is recoverable convergence, not a claim of exactly-once networking. Follow-up: what if the user edits the remote event? Conditional ETags reject stale writes, then a fresh read records the actual manual change. See [ADR 0002](adr/0002-calendar-consistency.md).
+
+**Describe an uncovered race and its regression.** A manual move between a remote GET and conditional write was correctly rejected, but the conflict handler initially stored the earlier GET interval. Independent review reproduced the incorrect local reservation. The fix rereads the remote event after the conflict and preserves retryability if that reread fails. Tests also cover 11:07 off-grid moves, which now produce a visible durable failure instead of crashing snapshot capture. See [R2 review](evidence/r2-review.md).
+
+All answers describe agent-assisted implementation and local tests. Personal interview rehearsal, production operation and live Google verification have not been established.

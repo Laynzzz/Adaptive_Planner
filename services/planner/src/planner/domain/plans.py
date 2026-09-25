@@ -50,7 +50,12 @@ def activate_in_transaction(
         return ActivationResult("SNAPSHOT_MISMATCH")
     if candidate.status not in ("FEASIBLE", "OPTIMAL") or validate_candidate(snapshot, candidate):
         return ActivationResult("INVALID_CANDIDATE")
-    if any(block.start < now for block in candidate.blocks):
+    ongoing = {
+        block.id
+        for block in snapshot.protected_blocks
+        if block.source == "IN_PROGRESS" and block.end > now
+    }
+    if any(block.start < now and block.id not in ongoing for block in candidate.blocks):
         enqueue_in_transaction(db, owner_id, now=now)
         return ActivationResult("CURRENT_TIME_CONFLICT")
     if proposal.activated_at is None:

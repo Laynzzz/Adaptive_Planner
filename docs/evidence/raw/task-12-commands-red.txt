@@ -1,0 +1,24 @@
+FF..                                                                     [100%]
+================================== FAILURES ===================================
+______________ test_calendar_queue_survives_expired_worker_lease ______________
+
+calendar_scenario = (Engine(postgresql+psycopg://planner:***@127.0.0.1:25432/planner_test_27831d6dfcc84bdeadd51c5ba1c9a3d7), UUID('cafb870c-ae5e-423c-9ce6-e48e47990f04'), <planner.calendar.fake.FakeCalendarProvider object at 0x000001AD685FC8C0>)
+
+    def test_calendar_queue_survives_expired_worker_lease(calendar_scenario):
+>       from planner.calendar.worker import run_calendar_once
+E       ModuleNotFoundError: No module named 'planner.calendar.worker'
+
+tests\integration\test_calendar_commands.py:12: ModuleNotFoundError
+_____________ test_disconnect_stops_writes_and_clears_credentials _____________
+
+calendar_scenario = (Engine(postgresql+psycopg://planner:***@127.0.0.1:25432/planner_test_3873b1b353c34cdcaa5f10f1678a811e), UUID('bb5a5407-69ce-46e3-a5ec-0e0cfa2bb495'), <planner.calendar.fake.FakeCalendarProvider object at 0x000001AD68C1CFB0>)
+
+    def test_disconnect_stops_writes_and_clears_credentials(calendar_scenario):
+>       from planner.calendar.worker import run_calendar_once
+E       ModuleNotFoundError: No module named 'planner.calendar.worker'
+
+tests\integration\test_calendar_commands.py:26: ModuleNotFoundError
+=========================== short test summary info ===========================
+FAILED tests/integration/test_calendar_commands.py::test_calendar_queue_survives_expired_worker_lease
+FAILED tests/integration/test_calendar_commands.py::test_disconnect_stops_writes_and_clears_credentials
+2 failed, 2 passed in 2.12s
