@@ -1,0 +1,45 @@
+...F                                                                     [100%]
+================================== FAILURES ===================================
+________________ test_measure_deadline_cleans_real_grandchild _________________
+
+tmp_path = WindowsPath('C:/Users/tiany/AppData/Local/Temp/pytest-of-tiany/pytest-224/test_measure_deadline_cleans_r0')
+
+    def test_measure_deadline_cleans_real_grandchild(tmp_path):
+        import os
+        import subprocess
+        import sys
+        import time
+    
+        import pytest
+    
+        from benchmarks.run import measure
+    
+        if os.name != 'nt':
+            pytest.skip('Windows redirector-specific regression')
+        package = tmp_path / 'benchmarks'
+        package.mkdir()
+        (package / '__init__.py').write_text('')
+        marker, child_pid = tmp_path / 'escaped.txt', tmp_path / 'child.pid'
+        grandchild = "import pathlib,time; time.sleep(0.9); pathlib.Path(" + repr(str(marker)) + ").write_text('escaped')"
+        (package / 'child.py').write_text(
+            'import os,pathlib,subprocess,sys,time\n'
+            + 'pathlib.Path(' + repr(str(child_pid)) + ').write_text(str(os.getpid()))\n'
+            + 'subprocess.Popen([sys.executable, "-c", ' + repr(grandchild) + '])\n'
+            + 'time.sleep(3)\n'
+        )
+        try:
+            result = measure({'snapshot': {}, 'family': 'test'}, 'greedy', budget_ms=0,
+                             wall_ms=350, seed=1, frozen_path=tmp_path)
+            assert result['error'] == 'WALL_TIMEOUT'
+            assert child_pid.exists(), 'Child must start so the regression exercises real descendants'
+            time.sleep(1.1)
+>           assert not marker.exists(), 'A descendant continued after the benchmark deadline'
+E           AssertionError: A descendant continued after the benchmark deadline
+E           assert not True
+E            +  where True = exists()
+E            +    where exists = WindowsPath('C:/Users/tiany/AppData/Local/Temp/pytest-of-tiany/pytest-224/test_measure_deadline_cleans_r0/escaped.txt').exists
+
+tests\unit\test_benchmark_manifest.py:102: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/unit/test_benchmark_manifest.py::test_measure_deadline_cleans_real_grandchild
+1 failed, 3 passed in 2.17s

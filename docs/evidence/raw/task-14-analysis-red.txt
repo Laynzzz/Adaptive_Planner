@@ -1,0 +1,12 @@
+..F                                                                      [100%]
+================================== FAILURES ===================================
+_________ test_summary_retains_timeouts_and_invalid_results_in_counts _________
+
+    def test_summary_retains_timeouts_and_invalid_results_in_counts():
+>       from benchmarks.analyze import summarize_policy
+E       ModuleNotFoundError: No module named 'benchmarks.analyze'
+
+tests\unit\test_benchmark_manifest.py:18: ModuleNotFoundError
+=========================== short test summary info ===========================
+FAILED tests/unit/test_benchmark_manifest.py::test_summary_retains_timeouts_and_invalid_results_in_counts
+1 failed, 2 passed in 0.31s

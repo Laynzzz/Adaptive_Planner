@@ -1,0 +1,20 @@
+........F                                                                [100%]
+================================== FAILURES ===================================
+_ test_simple_completion_loss_includes_valid_cases_without_feasibility_witness _
+
+    def test_simple_completion_loss_includes_valid_cases_without_feasibility_witness():
+        from training.evaluate import _pairs, score_policy
+        data=row()
+        data['known_feasible']=False
+        for result in data['policy_results']:
+            if result['policy']=='warm_cp_sat':
+                result.update(validated=False,status='UNKNOWN',quality=None)
+        learned=score_policy([data],lambda _: True)
+        simple=score_policy([data],'greedy')
+>       assert _pairs(learned,simple)[1] == 1
+E       assert 0 == 1
+
+tests\unit\test_policy_evaluation.py:153: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/unit/test_policy_evaluation.py::test_simple_completion_loss_includes_valid_cases_without_feasibility_witness
+1 failed, 8 passed in 0.44s

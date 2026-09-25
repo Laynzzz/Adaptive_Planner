@@ -303,7 +303,20 @@ def build_model(snapshot: InputSnapshot, warm_start=None):
     return model, dynamic
 
 
-def solve_cp_sat(snapshot: InputSnapshot, budget_ms: int = 2000, seed: int = 7) -> Candidate:
+def solve_cp_sat(
+    snapshot: InputSnapshot,
+    budget_ms: int = 2000,
+    seed: int = 7,
+    *,
+    warm_candidate: Candidate | None = None,
+    use_greedy_hint: bool = True,
+    allow_greedy_fallback: bool = True,
+) -> Candidate:
+    """budget_ms caps native solving; runtime_ms includes validation and model construction.
+
+    Cold benchmarks disable both greedy flags. A supplied warm candidate avoids
+    recomputing it and is independently validated before hinting or fallback.
+    """
     started = perf_counter()
     if budget_ms < 0:
         raise ValueError("budget_ms must be nonnegative")
@@ -335,9 +348,15 @@ def solve_cp_sat(snapshot: InputSnapshot, budget_ms: int = 2000, seed: int = 7) 
                 ),
             }
         )
-    greedy = greedy_schedule(snapshot)
-    valid_greedy = greedy.status == "FEASIBLE" and not validate_candidate(snapshot, greedy)
-    model, variables = build_model(snapshot, greedy if valid_greedy else None)
+    greedy = warm_candidate
+    if greedy is None and (use_greedy_hint or allow_greedy_fallback):
+        greedy = greedy_schedule(snapshot)
+    valid_greedy = (
+        greedy is not None
+        and greedy.status in ("FEASIBLE", "OPTIMAL")
+        and not validate_candidate(snapshot, greedy)
+    )
+    model, variables = build_model(snapshot, greedy if valid_greedy and use_greedy_hint else None)
     solver, status = _run(model, budget_ms, seed)
     status_name = {
         cp_model.OPTIMAL: "OPTIMAL",
@@ -378,7 +397,7 @@ def solve_cp_sat(snapshot: InputSnapshot, budget_ms: int = 2000, seed: int = 7) 
         metadata = metadata.model_copy(update={"reason_code": "VALIDATOR_REJECTED"})
     else:
         violations = []
-    if valid_greedy and status_name in ("UNKNOWN", "MODEL_INVALID"):
+    if allow_greedy_fallback and valid_greedy and status_name in ("UNKNOWN", "MODEL_INVALID"):
         return greedy.model_copy(
             update={"source_policy": "GREEDY_FALLBACK", "solver_metadata": metadata}
         )

@@ -1,0 +1,15 @@
+{
+  "version": "http-mixed-load-v1",
+  "pilot_seconds": 30,
+  "pilot_rate": 4,
+  "warmup_seconds": 30,
+  "duration_seconds": 600,
+  "concurrency_cap": 8,
+  "mix": {
+    "tasks_get": 0.6,
+    "me_get": 0.2,
+    "availability_get": 0.1,
+    "generate_post": 0.1
+  },
+  "output": "docs/evidence/raw/http-mixed-load-v1.json"
+}

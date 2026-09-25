@@ -1,0 +1,25 @@
+{
+  "manifest_version": "scheduler-benchmark-v3",
+  "groups": 7,
+  "task_counts": [
+    3,
+    20,
+    50,
+    100,
+    200
+  ],
+  "executions": 28,
+  "statuses": {
+    "OPTIMAL": 3,
+    "FEASIBLE": 10,
+    "UNKNOWN": 12,
+    "INFEASIBLE": 3
+  },
+  "errors": {},
+  "invalid_candidates": 0,
+  "measured_positive_rss": 28,
+  "elapsed_seconds": 13.164765499997884,
+  "manifest_sha256": "ee742e2c79c738026941feb4a564a9099e48c1b629f3cfdefb0d37d3cc218c15",
+  "result_sha256": "9286f548b8023d03c709cd70eb5ca98c48715db622e255c55987a9e73a20ee39",
+  "supervision": "Windows atomic job assignment; independent escaped-grandchild regression nowpasses. Fullv3notrun."
+}

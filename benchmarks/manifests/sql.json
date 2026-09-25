@@ -1,0 +1,20 @@
+{
+  "version": "sql-study-v4-retained-indexes",
+  "read_repeats": 100,
+  "write_repeats": 20,
+  "fixtures": {
+    "small": {
+      "users": 5,
+      "active_tasks": 20,
+      "archived_tasks": 80,
+      "archived_jobs": 1000
+    },
+    "large": {
+      "users": 100,
+      "active_tasks": 200,
+      "archived_tasks": 800,
+      "archived_jobs": 100000
+    }
+  },
+  "output": "docs/evidence/raw/sql-comparison-v4.json"
+}

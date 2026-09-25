@@ -1,0 +1,28 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+___________ test_frozen_benchmark_cp_sat_name_is_the_cold_baseline ____________
+
+    def test_frozen_benchmark_cp_sat_name_is_the_cold_baseline():
+        from training.evaluate import score_policy
+    
+        data = row(repeats=2)
+        expected = score_policy([data], 'cold_cp_sat')
+        for result in data['policy_results']:
+            if result['policy'] == 'cold_cp_sat':
+                result['policy'] = 'cp_sat'
+>       assert score_policy([data], 'cold_cp_sat') == expected
+E       AssertionError: assert {'scenario_co...ount': 0, ...} == {'scenario_co...ount': 2, ...}
+E         
+E         Omitting 9 identical items, use -vv to show
+E         Differing items:
+E         {'missing_cpu_count': 2} != {'missing_cpu_count': 0}
+E         {'reference_completion_losses': 2} != {'reference_completion_losses': 0}
+E         {'paired_valid_count': 0} != {'paired_valid_count': 2}
+E         {'p50_total_ms': None} != {'p50_total_ms': 110.0}...
+E         
+E         ...Full output truncated (13 lines hidden), use '-vv' to show
+
+tests\unit\test_policy_evaluation.py:272: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/unit/test_policy_evaluation.py::test_frozen_benchmark_cp_sat_name_is_the_cold_baseline
+1 failed, 11 deselected in 0.31s

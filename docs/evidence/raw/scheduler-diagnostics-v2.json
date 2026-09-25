@@ -1,0 +1,41 @@
+{
+  "source_sha256": "1ff71e148dc93257213cb6cde0175783b4299b09ee1eeff965a22b80d07d56b9",
+  "unsealed_after_selection_sha256": "4f7b0e0396150d8f1b2d6e4590b33131979f3ade97780b5493a7707f9bb4b35f",
+  "groups": 1000,
+  "known_feasible_groups": 960,
+  "families": {
+    "tiny_exact": 100,
+    "feasible": 820,
+    "zero_budget_control": 40,
+    "infeasible": 40
+  },
+  "reference_statuses": {
+    "OPTIMAL": 107,
+    "FEASIBLE": 571,
+    "UNKNOWN": 282,
+    "INFEASIBLE": 40
+  },
+  "reference_valid_count": 678,
+  "errors": {
+    "WALL_TIMEOUT": 2
+  },
+  "labels": {
+    "train": {
+      "PROVEN_WITHIN_TOLERANCE": 60,
+      "GREEDY_INVALID_OR_MISSING": 352,
+      "REFERENCE_SEARCH_CENSORED": 181,
+      "VALIDATED_REFERENCE_IMPROVES": 7
+    },
+    "validation": {
+      "PROVEN_WITHIN_TOLERANCE": 20,
+      "GREEDY_INVALID_OR_MISSING": 115,
+      "REFERENCE_SEARCH_CENSORED": 61,
+      "VALIDATED_REFERENCE_IMPROVES": 4
+    },
+    "test": {
+      "PROVEN_WITHIN_TOLERANCE": 20,
+      "REFERENCE_SEARCH_CENSORED": 32,
+      "GREEDY_INVALID_OR_MISSING": 148
+    }
+  }
+}

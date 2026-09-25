@@ -1,0 +1,37 @@
+................FF                                                       [100%]
+================================== FAILURES ===================================
+___________ test_cold_cp_does_not_compute_greedy_or_return_fallback ___________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001E355E1A990>
+
+    def test_cold_cp_does_not_compute_greedy_or_return_fallback(monkeypatch):
+        import planner.solver.cp_sat as module
+        def unexpected(_):
+            raise AssertionError('Cold CP must not run greedy.')
+        monkeypatch.setattr(module, 'greedy_schedule', unexpected)
+>       result = module.solve_cp_sat(snapshot(), budget_ms=0, use_greedy_hint=False,
+                                     allow_greedy_fallback=False)
+E       TypeError: solve_cp_sat() got an unexpected keyword argument 'use_greedy_hint'
+
+tests\unit\test_cp_sat.py:213: TypeError
+______ test_precomputed_warm_candidate_is_validated_without_recomputing _______
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001E35610D2B0>
+
+    def test_precomputed_warm_candidate_is_validated_without_recomputing(monkeypatch):
+        import planner.solver.cp_sat as module
+        from planner.solver.greedy import greedy_schedule
+        s = snapshot()
+        warm = greedy_schedule(s)
+        def unexpected(_):
+            raise AssertionError('Precomputed warm candidate must not rerun greedy.')
+        monkeypatch.setattr(module, 'greedy_schedule', unexpected)
+>       result = module.solve_cp_sat(s, budget_ms=0, warm_candidate=warm)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: solve_cp_sat() got an unexpected keyword argument 'warm_candidate'
+
+tests\unit\test_cp_sat.py:227: TypeError
+=========================== short test summary info ===========================
+FAILED tests/unit/test_cp_sat.py::test_cold_cp_does_not_compute_greedy_or_return_fallback
+FAILED tests/unit/test_cp_sat.py::test_precomputed_warm_candidate_is_validated_without_recomputing
+2 failed, 16 passed in 0.90s

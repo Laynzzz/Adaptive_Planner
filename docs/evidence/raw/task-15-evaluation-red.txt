@@ -1,0 +1,44 @@
+FFFFF                                                                    [100%]
+================================== FAILURES ===================================
+________ test_policy_metrics_retain_unknown_labels_and_failed_attempts ________
+
+    def test_policy_metrics_retain_unknown_labels_and_failed_attempts():
+>       from training.evaluate import score_policy
+E       ModuleNotFoundError: No module named 'training.evaluate'
+
+tests\unit\test_policy_evaluation.py:27: ModuleNotFoundError
+__ test_invalid_greedy_bypasses_model_and_warm_latency_is_not_double_counted __
+
+    def test_invalid_greedy_bypasses_model_and_warm_latency_is_not_double_counted():
+>       from training.evaluate import score_policy
+E       ModuleNotFoundError: No module named 'training.evaluate'
+
+tests\unit\test_policy_evaluation.py:41: ModuleNotFoundError
+__________ test_missing_result_and_latency_remain_explicit_not_zero ___________
+
+    def test_missing_result_and_latency_remain_explicit_not_zero():
+>       from training.evaluate import score_policy
+E       ModuleNotFoundError: No module named 'training.evaluate'
+
+tests\unit\test_policy_evaluation.py:51: ModuleNotFoundError
+_____ test_grouped_bootstrap_does_not_treat_repeats_as_independent_cases ______
+
+    def test_grouped_bootstrap_does_not_treat_repeats_as_independent_cases():
+>       from training.evaluate import paired_bootstrap
+E       ModuleNotFoundError: No module named 'training.evaluate'
+
+tests\unit\test_policy_evaluation.py:64: ModuleNotFoundError
+____________ test_model_is_never_given_future_cp_outcome_features _____________
+
+    def test_model_is_never_given_future_cp_outcome_features():
+>       from training.evaluate import score_policy
+E       ModuleNotFoundError: No module named 'training.evaluate'
+
+tests\unit\test_policy_evaluation.py:74: ModuleNotFoundError
+=========================== short test summary info ===========================
+FAILED tests/unit/test_policy_evaluation.py::test_policy_metrics_retain_unknown_labels_and_failed_attempts
+FAILED tests/unit/test_policy_evaluation.py::test_invalid_greedy_bypasses_model_and_warm_latency_is_not_double_counted
+FAILED tests/unit/test_policy_evaluation.py::test_missing_result_and_latency_remain_explicit_not_zero
+FAILED tests/unit/test_policy_evaluation.py::test_grouped_bootstrap_does_not_treat_repeats_as_independent_cases
+FAILED tests/unit/test_policy_evaluation.py::test_model_is_never_given_future_cp_outcome_features
+5 failed in 0.38s

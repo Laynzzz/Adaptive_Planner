@@ -1,0 +1,36 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+________________ test_task_page_batches_dependency_reads_once _________________
+
+api_a = <conftest.AuthenticatedAPI object at 0x0000029AC6803470>
+app = <fastapi.applications.FastAPI object at 0x0000029AC6343FE0>
+
+    def test_task_page_batches_dependency_reads_once(api_a, app):
+        owner = seed_tasks(app, api_a)
+        statements = []
+    
+        def capture(connection, cursor, statement, parameters, context, executemany):
+            if "dependency_edges" in statement:
+                statements.append(statement)
+    
+        with Session(app.state.engine) as db:
+            tasks = db.scalars(select(Task).where(Task.owner_id == owner)).all()
+            event.listen(app.state.engine, "before_cursor_execute", capture)
+            try:
+                result = task_page_data(db, tasks, revision=7)
+            finally:
+                event.remove(app.state.engine, "before_cursor_execute", capture)
+>       assert len(statements) == 1
+E       AssertionError: assert 5 == 1
+E        +  where 5 = len(['SELECT dependency_edges.predecessor_id \nFROM dependency_edges \nWHERE dependency_edges.owner_id = %(owner_id_1)s::U...\nWHERE dependency_edges.owner_id = %(owner_id_1)s::UUID AND dependency_edges.successor_id = %(successor_id_1)s::UUID'])
+
+tests\integration\test_pagination.py:53: AssertionError
+============================== warnings summary ===============================
+.venv\Lib\site-packages\_pytest\config\__init__.py:1345
+  C:\Users\tiany\.codex\worktrees\adaptive-planner-implementation\adaptive-planner\.venv\Lib\site-packages\_pytest\config\__init__.py:1345: PytestAssertRewriteWarning: Module already imported so cannot be rewritten; anyio
+    self._mark_plugins_for_rewrite(hook, disable_autoload)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/integration/test_pagination.py::test_task_page_batches_dependency_reads_once
+1 failed, 1 warning in 0.96s

@@ -21,3 +21,11 @@ evals/data/dev.jsonl -text
 evals/data/validation.jsonl -text
 evals/data/test.jsonl -text
 evals/data/manifest.json -text
+
+# Measurement manifests are immutable byte-hashed inputs.
+benchmarks/manifests/*.json -text
+benchmarks/artifacts/*.zip binary
+
+# Preserve byte-hashed experiment artifacts across Windows checkouts.
+training/artifacts/** -text
+docs/evidence/raw/ml*.json -text

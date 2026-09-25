@@ -1,0 +1,11 @@
+{
+  "sample_count": 158,
+  "started_at": "2026-09-25T21:36:38.5090964Z",
+  "finished_at": "2026-09-25T21:51:21.9947507Z",
+  "covered_seconds": 883.4819606,
+  "peak_sampled_aggregate_rss_bytes": 1570086912,
+  "observed_contiguous_sample_cpu_delta_seconds": 71.234375,
+  "stale_pid_inventory_entries_excluded": 3246,
+  "missing_process_values": 1,
+  "limits": "Sampling began during baseline and continued through optimized. Reconstructed current ancestry from each sample to exclude recycled historical PIDs. CPU uses only consecutive samples for the same PID+parent with nondecreasing counters; short-lived child CPU and earlier CPU remain unmeasured. RSS sums shared pages and can miss between-sample peaks. PostgreSQL/container CPU/RSS excluded. Not total experiment resource consumption."
+}

@@ -1,0 +1,52 @@
+{
+  "version": "routing-dataset-v1",
+  "partial": false,
+  "source": ".runtime\\benchmarks\\full-v2.jsonl",
+  "measurement_manifest_sha256": "0f3fdb3616c2cf4fc9583d31079a1d8ecc934f36ff8c560af2bfd552a56f92c1",
+  "measurement_version": "scheduler-benchmark-v2",
+  "measurement_limitations": [
+    "WINDOWS_CHILD_TREE_DEADLINE_NOT_ENFORCED_V2"
+  ],
+  "deployment_eligibility": "DENIED_MEASUREMENT_SUPERVISION_LIMIT",
+  "feature_version": "routing-features-v1",
+  "feature_order": [
+    "task_count",
+    "mandatory_count",
+    "required_slots",
+    "horizon_slots",
+    "free_slots",
+    "utilization",
+    "slack_mean",
+    "slack_min",
+    "slack_p10",
+    "dependency_count",
+    "dag_depth",
+    "free_interval_count",
+    "free_interval_mean",
+    "free_interval_max",
+    "locked_fraction",
+    "changed_work_fraction",
+    "greedy_valid",
+    "greedy_quality"
+  ],
+  "artifacts": {
+    "train": {
+      "path": ".runtime\\training\\v2\\train.jsonl",
+      "sha256": "44cd2c95af95976f8c0761a10a103384c69a66721096a27eebf31ce463b6098a",
+      "groups": 600
+    },
+    "validation": {
+      "path": ".runtime\\training\\v2\\validation.jsonl",
+      "sha256": "53d18218071fb6e8d3f3d8b5b83370c5945d9f25d0feb52d84b60755f9a8b351",
+      "groups": 200
+    },
+    "test": {
+      "path": ".runtime\\training\\v2\\test.jsonl",
+      "sha256": "9e121946bae7ce9814871b698c2065717b5f026a059baf0ab24cc281ad9bfe0b",
+      "groups": 200
+    }
+  },
+  "label_rule": "Measured valid reference improvement >0.02; negatives require proven optimum; others unknown",
+  "missing_results": "Retained in each policy_results list, never imputed as successful or zero latency",
+  "provenance": "Actual local frozen solver executions on AI-assisted synthetic witnessed workloads"
+}

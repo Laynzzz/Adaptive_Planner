@@ -203,3 +203,36 @@ def test_cp_disruption_uses_prior_utc_instants_across_midnight():
     assert c.status == "OPTIMAL"
     assert [(b.start_slot, b.end_slot) for b in c.blocks] == [(4, 6)]
     assert c.score.disruption == 0
+
+
+def test_cold_cp_does_not_compute_greedy_or_return_fallback(monkeypatch):
+    import planner.solver.cp_sat as module
+
+    def unexpected(_):
+        raise AssertionError("Cold CP must not run greedy.")
+
+    monkeypatch.setattr(module, "greedy_schedule", unexpected)
+    result = module.solve_cp_sat(
+        snapshot(), budget_ms=0, use_greedy_hint=False, allow_greedy_fallback=False
+    )
+    assert result.status == "UNKNOWN"
+    assert result.source_policy == "CP_SAT"
+
+
+def test_precomputed_warm_candidate_is_validated_without_recomputing(monkeypatch):
+    import planner.solver.cp_sat as module
+    from planner.solver.greedy import greedy_schedule
+
+    s = snapshot()
+    warm = greedy_schedule(s)
+
+    def unexpected(_):
+        raise AssertionError("Precomputed warm candidate must not rerun greedy.")
+
+    monkeypatch.setattr(module, "greedy_schedule", unexpected)
+    result = module.solve_cp_sat(s, budget_ms=0, warm_candidate=warm)
+    assert result.status == "FEASIBLE"
+    assert result.blocks == warm.blocks
+    invalid = warm.model_copy(update={"snapshot_hash": "wrong-snapshot"})
+    result = module.solve_cp_sat(s, budget_ms=0, warm_candidate=invalid)
+    assert result.status == "UNKNOWN"

@@ -1,0 +1,10 @@
+{
+  "version": "routing-release-v1",
+  "promote": false,
+  "model_path": "logistic.json",
+  "model_sha256": "04dded06f6470f51c895c25e36b34eadfd4f0dd24e921630b3f12570fab13a5e",
+  "threshold": 0.9,
+  "cp_budget_ms": 200,
+  "selection_sha256": "4f7b0e0396150d8f1b2d6e4590b33131979f3ade97780b5493a7707f9bb4b35f",
+  "evaluation_sha256": "848fc8edab23a778544139aebe8661c3b87cba45d1dd8f7b5391693c18d80951"
+}

@@ -1,0 +1,60 @@
+...FFF                                                                   [100%]
+================================== FAILURES ===================================
+_ test_export_rejects_preprocessing_that_the_artifact_does_not_represent[scaler0] _
+
+scaler = StandardScaler(with_mean=False)
+
+    @pytest.mark.parametrize('scaler', [StandardScaler(with_mean=False), StandardScaler(with_std=False)])
+    def test_export_rejects_preprocessing_that_the_artifact_does_not_represent(scaler):
+        x = np.random.default_rng(9).normal(size=(30, len(FEATURE_NAMES))) + 2
+        y = (x[:, 0] > 2).astype(int)
+        pipeline = make_pipeline(scaler, LogisticRegression()).fit(x, y)
+>       with pytest.raises(ValueError, match='Unsupported preprocessing'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests\unit\test_model_artifact.py:59: Failed
+_ test_export_rejects_preprocessing_that_the_artifact_does_not_represent[scaler1] _
+
+scaler = StandardScaler(with_std=False)
+
+    @pytest.mark.parametrize('scaler', [StandardScaler(with_mean=False), StandardScaler(with_std=False)])
+    def test_export_rejects_preprocessing_that_the_artifact_does_not_represent(scaler):
+        x = np.random.default_rng(9).normal(size=(30, len(FEATURE_NAMES))) + 2
+        y = (x[:, 0] > 2).astype(int)
+        pipeline = make_pipeline(scaler, LogisticRegression()).fit(x, y)
+        with pytest.raises(ValueError, match='Unsupported preprocessing'):
+>           export_pipeline(pipeline)
+
+tests\unit\test_model_artifact.py:60: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+pipeline = Pipeline(steps=[('standardscaler', StandardScaler(with_std=False)),
+                ('logisticregression', LogisticRegression())])
+
+    def export_pipeline(pipeline) -> ModelArtifact:
+        scaler, model = pipeline.steps[0][1], pipeline.steps[1][1]
+        if not isinstance(scaler, StandardScaler) or list(model.classes_) != [0, 1]:
+            raise ValueError("Unsupported preprocessing or label order")
+>       common = dict(mean=tuple(scaler.mean_), scale=tuple(scaler.scale_))
+                                                      ^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'NoneType' object is not iterable
+
+training\artifacts.py:16: TypeError
+___ test_export_rejects_boosting_link_that_the_artifact_does_not_represent ____
+
+    def test_export_rejects_boosting_link_that_the_artifact_does_not_represent():
+        x = np.random.default_rng(9).normal(size=(30, len(FEATURE_NAMES)))
+        y = (x[:, 0] > 0).astype(int)
+        pipeline = make_pipeline(StandardScaler(), GradientBoostingClassifier(loss='exponential',
+            n_estimators=5, max_depth=2, random_state=9)).fit(x, y)
+>       with pytest.raises(ValueError, match='Unsupported boosting'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests\unit\test_model_artifact.py:68: Failed
+=========================== short test summary info ===========================
+FAILED tests/unit/test_model_artifact.py::test_export_rejects_preprocessing_that_the_artifact_does_not_represent[scaler0]
+FAILED tests/unit/test_model_artifact.py::test_export_rejects_preprocessing_that_the_artifact_does_not_represent[scaler1]
+FAILED tests/unit/test_model_artifact.py::test_export_rejects_boosting_link_that_the_artifact_does_not_represent
+3 failed, 3 passed in 2.07s
