@@ -1,0 +1,18 @@
+[
+  {
+    "Hash": "428621D6E35DF841F8D2ECA7DF778BA9291538BC31DF86F12D27C6B5C62EC90F",
+    "Path": "C:\\Users\\tiany\\.codex\\worktrees\\adaptive-planner-implementation\\adaptive-planner\\tests\\fixtures\\solver\\capacity_infeasible.json"
+  },
+  {
+    "Hash": "4926D977884C2685D4F314C1D69F7E90F073D374A3020D98E1DAB579AAC019AC",
+    "Path": "C:\\Users\\tiany\\.codex\\worktrees\\adaptive-planner-implementation\\adaptive-planner\\tests\\fixtures\\solver\\greedy_fails_but_feasible.json"
+  },
+  {
+    "Hash": "3BA6AE942007C097B2012BAE65AD945455CD78906036F6686A5074B5CADECA12",
+    "Path": "C:\\Users\\tiany\\.codex\\worktrees\\adaptive-planner-implementation\\adaptive-planner\\tests\\fixtures\\time\\busy_0907_0922.json"
+  },
+  {
+    "Hash": "D2ACFEBE65B65E9EA74852FDA7E7AB1468615A85878B43BDE5ED553C0AE7CCD0",
+    "Path": "C:\\Users\\tiany\\.codex\\worktrees\\adaptive-planner-implementation\\adaptive-planner\\tests\\fixtures\\time\\manifest.json"
+  }
+]

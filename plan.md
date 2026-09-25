@@ -372,11 +372,11 @@ Files: root pyproject/locks/compose; planner/app.py, settings.py, cli.py; apps/w
 
 Produces: app factory, isolated PostgreSQL fixture, migrated test DB, fake clock, two authenticated identities, fixture loader and named builders. Fixture builder `snapshot()` returns one owner with a 09:00–17:00 UTC window, two 60-minute tasks due 17:00, no dependencies; overrides are explicit. `block(task,start,end)` and `candidate(blocks)` construct typed values, never auto-correct violations. `load_fixture(name)` loads committed JSON via the production contract parser. `valid_task_command()` returns a synthetic 60-minute task, fixed-clock same-day 17:00 UTC deadline, expected revision 0 and a fresh idempotency key. Test API wrappers send that key in the required header and attach the authenticated test session/CSRF token; they do not bypass authorization middleware.
 
-- [ ] Pin compatible packages, Python/Node/PostgreSQL/container versions and commit locks; record official docs and compatibility checks in docs/adr/0001-stack.md.
-- [ ] Write bootstrap smoke: health live succeeds, ready fails without DB and succeeds with migrated DB; frontend can call API.
-- [ ] Implement isolated configuration, fixtures and commands above; never share test DB with personal data.
-- [ ] Run `uv run pytest tests/integration/test_bootstrap.py -q` and frontend typecheck; save command/output in evidence.
-- [ ] Acceptance: fresh environment instructions cover Windows and Linux CI; no live provider keys needed.
+- [x] Pin compatible packages, Python/Node/PostgreSQL/container versions and commit locks; record official docs and compatibility checks in docs/adr/0001-stack.md.
+- [x] Write bootstrap smoke: health live succeeds, ready fails without DB and succeeds with migrated DB; frontend can call API.
+- [x] Implement isolated configuration, fixtures and commands above; never share test DB with personal data.
+- [x] Run `uv run pytest tests/integration/test_bootstrap.py -q` and frontend typecheck; save command/output in evidence.
+- [x] Acceptance: fresh environment instructions cover Windows and Linux CI; no live provider keys needed.
 
 ### Task 2: Time and domain contracts
 
@@ -391,10 +391,10 @@ def test_rounding_is_conservative():
     assert s.tasks[0].required_slots == 3    # entered 31 minutes
 ```
 
-- [ ] Add failing fixtures for DST gap/fold, date-only deadline, 10:10 cutoff, timezone preview, partial work, locked excess and cycles.
-- [ ] Implement deterministic normalization and validation exactly as section 7; fixture manifest includes expected values and rationale.
-- [ ] Run `uv run pytest tests/unit/test_time_rules.py tests/unit/test_task_rules.py -q`.
-- [ ] Acceptance: no dependency on machine timezone/current clock; original intent and rounding remain visible in serialized snapshot.
+- [x] Add failing fixtures for DST gap/fold, date-only deadline, 10:10 cutoff, timezone preview, partial work, locked excess and cycles.
+- [x] Implement deterministic normalization and validation exactly as section 7; fixture manifest includes expected values and rationale.
+- [x] Run `uv run pytest tests/unit/test_time_rules.py tests/unit/test_task_rules.py -q`.
+- [x] Acceptance: no dependency on machine timezone/current clock; original intent and rounding remain visible in serialized snapshot.
 
 ### Task 3: Authentication, ownership and transactional inputs
 
@@ -408,10 +408,10 @@ def test_other_owner_cannot_read_task(api_a, api_b):
     assert api_b.get(f"/api/v1/tasks/{created['id']}").status_code == 404
 ```
 
-- [ ] Write tests for cross-owner reads/foreign keys, two commands with same revision, duplicate keys and changed-body keys.
-- [ ] Implement BFF sessions/CSRF, owner constraints, atomic commands and append-only audit; use transaction isolation/row locking explicitly.
-- [ ] Migrate empty DB and prior snapshot; run `uv run pytest tests/integration/test_commands.py tests/integration/test_isolation.py -q`.
-- [ ] Acceptance: exactly one competing same-revision mutation commits; retries never create extra tasks or revision increments.
+- [x] Write tests for cross-owner reads/foreign keys, two commands with same revision, duplicate keys and changed-body keys.
+- [x] Implement BFF sessions/CSRF, owner constraints, atomic commands and append-only audit; use transaction isolation/row locking explicitly.
+- [x] Migrate empty DB and prior snapshot; run `uv run pytest tests/integration/test_commands.py tests/integration/test_isolation.py -q`.
+- [x] Acceptance: exactly one competing same-revision mutation commits; retries never create extra tasks or revision increments.
 
 ### Task 4: Independent validator, greedy baseline and score
 
@@ -426,10 +426,10 @@ def test_overlap_rejected():
     assert "OVERLAP" in {v.code for v in validate_candidate(s, c)}
 ```
 
-- [ ] Add negative fixtures for workload deficit, locks, dependencies, outside availability, past/deadline blocks and forged owner.
-- [ ] Implement pure validator then greedy topological placement and reference score; hand-check score denominators on tiny fixtures.
-- [ ] Run `uv run pytest tests/unit/test_validator.py tests/unit/test_greedy.py tests/property/test_schedule_invariants.py -q` with at least 1,000 generated invariant cases.
-- [ ] Acceptance: intentionally disabling overlap/ownership checks causes corresponding negative tests to fail.
+- [x] Add negative fixtures for workload deficit, locks, dependencies, outside availability, past/deadline blocks and forged owner.
+- [x] Implement pure validator then greedy topological placement and reference score; hand-check score denominators on tiny fixtures.
+- [x] Run `uv run pytest tests/unit/test_validator.py tests/unit/test_greedy.py tests/property/test_schedule_invariants.py -q` with at least 1,000 generated invariant cases.
+- [x] Acceptance: intentionally disabling overlap/ownership checks causes corresponding negative tests to fail.
 
 ### Task 5: CP-SAT and honest conflict diagnostics
 
@@ -445,11 +445,11 @@ def test_solver_output_is_independently_validated():
     assert validate_candidate(s, c) == []
 ```
 
-- [ ] Create hand-proven tiny fixtures including a greedy counterexample and a proven-infeasible capacity example.
-- [ ] Implement intervals, optional future work, precedence, objective and status mapping; unit-test timeout handling via controlled solver adapter, not unreliable wall-clock luck.
-- [ ] Exhaustively enumerate feasible tiny schedules and compare solver/validator/objective outcomes.
-- [ ] Run `uv run pytest tests/unit/test_cp_sat.py tests/unit/test_diagnostics.py -q`; record model size and bounded smoke timings.
-- [ ] Acceptance: UNKNOWN never becomes INFEASIBLE; validated fallback and unresolved outcomes are distinct.
+- [x] Create hand-proven tiny fixtures including a greedy counterexample and a proven-infeasible capacity example.
+- [x] Implement intervals, optional future work, precedence, objective and status mapping; unit-test timeout handling via controlled solver adapter, not unreliable wall-clock luck.
+- [x] Exhaustively enumerate feasible tiny schedules and compare solver/validator/objective outcomes.
+- [x] Run `uv run pytest tests/unit/test_cp_sat.py tests/unit/test_diagnostics.py -q`; record model size and bounded smoke timings.
+- [x] Acceptance: UNKNOWN never becomes INFEASIBLE; validated fallback and unresolved outcomes are distinct.
 
 ### Task 6: Durable, fair, versioned solving
 
@@ -466,19 +466,19 @@ def test_stale_result_cannot_activate(scenario):
     assert scenario.activate(result).code == "STALE_REVISION"
 ```
 
-- [ ] Write crash/fencing/coalescing/fairness tests, including time advancing without a user edit.
-- [ ] Implement section 10 claims and atomic activation; isolate solver in a killable subprocess.
-- [ ] Run `uv run pytest tests/integration/test_jobs.py tests/integration/test_fairness.py tests/fault/test_job_recovery.py -q`.
-- [ ] Acceptance: edit storms do not starve another owner; old lease token cannot select a result; no long transaction wraps solving.
+- [x] Write crash/fencing/coalescing/fairness tests, including time advancing without a user edit.
+- [x] Implement section 10 claims and atomic activation; isolate solver in a killable subprocess.
+- [x] Run `uv run pytest tests/integration/test_jobs.py tests/integration/test_fairness.py tests/fault/test_job_recovery.py -q`.
+- [x] Acceptance: edit storms do not starve another owner; old lease token cannot select a result; no long transaction wraps solving.
 
 ### Task 7: Typed frontend and complete R1 journey
 
 Files: committed OpenAPI/client under apps/web/src/api; features/tasks, agenda, proposals, settings; tests/e2e/planner.spec.ts; tests/contract/test_openapi.py.
 
-- [ ] Write Playwright journey: sign in, create two tasks, set working hours, generate, inspect, activate, switch user and verify isolation.
-- [ ] Implement task form, agenda and status/diff skeleton with keyboard controls and explicit conflict/error handling; generated client must pass CI drift check.
-- [ ] Run frontend typecheck/unit/e2e and `uv run pytest tests/contract/test_openapi.py -q`.
-- [ ] R1 gate: record fresh-checkout browser demo, fixture hashes, invariant results and known capacity limits. Do not claim live AI/calendar/cloud yet.
+- [x] Write Playwright journey: sign in, create two tasks, set working hours, generate, inspect, activate, switch user and verify isolation.
+- [x] Implement task form, agenda and status/diff skeleton with keyboard controls and explicit conflict/error handling; generated client must pass CI drift check.
+- [x] Run frontend typecheck/unit/e2e and `uv run pytest tests/contract/test_openapi.py -q`.
+- [x] R1 gate: record fresh-checkout browser demo, fixture hashes, invariant results and known capacity limits. Do not claim live AI/calendar/cloud yet.
 
 ## 18. R2 tasks — adaptive product and integrations
 

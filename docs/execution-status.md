@@ -4,18 +4,20 @@ Authoritative design: `../plan.md`. Started 2026-09-25. Local implementation is 
 
 ## Milestone checklist
 
-- [ ] R1: Tasks 1–7 — reproducible app, time/domain contracts, authenticated isolated data, independent validator, greedy/CP-SAT, durable versioned jobs, browser journey.
+- [x] R1: Tasks 1–7 — local gate verified; see [release evidence](evidence/r1-release.md).
 - [ ] R2: Tasks 8–12 — adaptation, reviewed extraction, frozen evaluation, ICS and recoverable Google synchronization.
 - [ ] R3: Tasks 13–16 — SQL evidence, scenario benchmarks, training/promotion decision, shadow and rollback.
 - [ ] R4: Tasks 17–19 — incident evidence, cloud delivery, usability and learning handoff.
 
 ## Current work
 
-- Task 1 foundation verified locally: locked dependencies, real PostgreSQL, health probes, migration harness, React shell, 2 Chromium smoke tests. Identity-aware builders/seed remain pending Task 3; complete Task 1 gate stays open.
-- Task 2 implemented and under review: immutable contracts, slot/time normalization and task invariants.
-- Task 3 in progress: OIDC sessions, owner isolation and transactional commands.
-- Tasks 4–5 in progress: independent validator, greedy baseline, reference score and CP-SAT.
-- Tasks 6–19 pending. No release gate has passed.
+- Tasks 1–3 implemented and locally verified: locked dependencies, real PostgreSQL/Keycloak, bootstrap, immutable domain/time contracts, true two-user authentication fixtures, seed command, owner constraints, revision/idempotency and coherent reads.
+- Tasks 4–5 implemented; review corrected unsplittable minimum-length and cross-midnight reference scoring. 40 solver tests plus property/tiny cases verified. Single-run 20/50/100/200 size smoke recorded.
+- Task 6 independently reviewed and verified after dispatcher contention, revision-scoped retries and child-wall-time corrections.
+- Task 7 generated client checks, 12 component tests and four real browser journeys pass; fresh-source setup reproduced with a dedicated synthetic DB.
+- R1 integrated Python suite: 144 passed; an additional populated prior-schema migration compatibility test passed.
+- Tasks 8–12 adaptation, reviewed extraction/evaluation and calendar integration are in development. R2 remains open.
+- Tasks 13–19 pending; live external gates remain unexecuted.
 
 ## Decisions and prerequisites
 
@@ -28,3 +30,9 @@ Authoritative design: `../plan.md`. Started 2026-09-25. Local implementation is 
 ## Verification record
 
 See `evidence-index.md`; unexecuted checks remain explicitly pending.
+
+## Coordination record
+
+- Root alone stages/commits from 2026-09-25 after shared-index overlap put the verified Task 3 files and their review in commit `eb46ea3`. No content was lost and history was not rewritten.
+- R1 checkpoint commits include solver corrections `b33efd7`, refresh `ea6f738`, jobs `89ddcdf` and browser isolation `67594a3`. R2 changes are being developed afterward.
+- R1 startup processes launched by this task: local API at8000, Vite5173, worker; PostgreSQL25432 and Keycloak28080 in Compose. Restart API after migrations to refresh expected schema head. Paid/cloud resources: none.

@@ -1,0 +1,25 @@
+
+> adaptive-planner@0.1.0 test:e2e
+> playwright test
+
+[WebServer] (node:15864) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:65448) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:17276) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] INFO:     Started server process [43728]
+[WebServer] INFO:     Waiting for application startup.
+[WebServer] INFO:     Application startup complete.
+[WebServer] INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+
+Running 4 tests using 1 worker
+
+(node:65380) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 [chromium] › tests\e2e\bootstrap.spec.ts:3:5 › browser connects through the dev proxy to the migrated backend (484ms)
+  ok 2 [chromium] › tests\e2e\bootstrap.spec.ts:30:5 › an unavailable backend gives a keyboard accessible recovery action (328ms)
+  ok 3 [chromium] › tests\e2e\planner.spec.ts:4:5 › create two tasks, set work hours, generate, inspect and activate a plan (3.2s)
+  ok 4 [chromium] › tests\e2e\tasks.spec.ts:14:5 › two real OIDC users have separate task workspaces (2.2s)
+
+  4 passed (11.8s)
