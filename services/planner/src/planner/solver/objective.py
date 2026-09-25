@@ -34,7 +34,10 @@ def score_candidate(snapshot: InputSnapshot, candidate: Candidate) -> Score:
     if snapshot.prior_candidate:
         for b in snapshot.prior_candidate.blocks:
             if not b.locked:
-                for i in range(max(cutoff, b.start_slot), b.end_slot):
+                # Prior integer indices belong to that snapshot's UTC midnight.
+                start = ceil((b.start - snapshot.slot_origin).total_seconds() / 900)
+                end = int((b.end - snapshot.slot_origin).total_seconds() // 900)
+                for i in range(max(cutoff, start), end):
                     prior[(b.task_id, i)] = 2 if i < near_end else 1
     displaced = sum(weight for pair, weight in prior.items() if pair not in slots)
     reference = sum(prior.values())

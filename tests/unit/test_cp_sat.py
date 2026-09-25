@@ -167,3 +167,39 @@ def test_excessive_model_resources_are_rejected_explicitly_not_truncated():
     assert c.status == "MODEL_INVALID"
     assert c.constraint_report[0].code == "MODEL_RESOURCE_LIMIT"
     assert c.constraint_report[0].facts["resource"] == "optional_intervals"
+
+
+@pytest.mark.parametrize("required", [True, False])
+def test_unsplittable_work_below_minimum_is_not_allocated_without_short_final(required):
+    from planner.solver.cp_sat import solve_cp_sat
+    from planner.solver.validator import validate_candidate
+
+    small = task(1, 1, deadline_slot=4 if required else None).model_copy(
+        update={
+            "splittable": False,
+            "min_block_slots": 2,
+            "max_block_slots": 2,
+            "short_final_allowed": False,
+        }
+    )
+    other = task(2, 2, deadline_slot=4)
+    s = snapshot([small, other], availability=((0, 4),), horizon_end_slot=4)
+    c = solve_cp_sat(s, 2000, 7)
+    if required:
+        assert c.status == "INFEASIBLE"
+    else:
+        assert c.status == "OPTIMAL"
+        assert c.source_policy == "CP_SAT"
+        assert {b.task_id for b in c.blocks} == {other.id}
+        assert validate_candidate(s, c) == []
+
+
+def test_cp_disruption_uses_prior_utc_instants_across_midnight():
+    from planner.solver.cp_sat import solve_cp_sat
+    from tests.unit.test_objective import next_day_replan
+
+    s = next_day_replan()
+    c = solve_cp_sat(s, 2000, 7)
+    assert c.status == "OPTIMAL"
+    assert [(b.start_slot, b.end_slot) for b in c.blocks] == [(4, 6)]
+    assert c.score.disruption == 0

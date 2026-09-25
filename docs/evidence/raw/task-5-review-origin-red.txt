@@ -1,0 +1,37 @@
+FF                                                                       [100%]
+================================== FAILURES ===================================
+_______ test_prior_reference_uses_absolute_instants_across_utc_midnight _______
+
+    def test_prior_reference_uses_absolute_instants_across_utc_midnight():
+        from planner.solver.greedy import make_block
+        from planner.solver.objective import score_candidate
+    
+        s = next_day_replan()
+        unchanged = candidate(s, [make_block(s, s.tasks[0], 4, 6)])
+        moved = candidate(s, [make_block(s, s.tasks[0], 0, 2)])
+>       assert score_candidate(s, unchanged).disruption == 0
+E       AssertionError: assert 1.0 == 0
+E        +  where 1.0 = Score(future_work_deficit=0.0, disruption=1.0, preference_mismatch=0.0, fragmentation=0.0, completion_delay=0.75, objective_version='v1', total_penalty=32.5, quality=0.675).disruption
+E        +    where Score(future_work_deficit=0.0, disruption=1.0, preference_mismatch=0.0, fragmentation=0.0, completion_delay=0.75, objective_version='v1', total_penalty=32.5, quality=0.675) = <function score_candidate at 0x0000019DF9AA4220>(InputSnapshot(id=UUID('021836ae-c79e-87de-1793-e4f26364944d'), snapshot_hash='021836aec79e87de1793e4f26364944daf06ace3...', fold=None), OriginalTimeInput(field='availability.0.end', value='2026-09-26T02:00:00Z', timezone='UTC', fold=None))), Candidate(snapshot_hash='021836aec79e87de1793e4f26364944daf06ace39e9c0924430988fa9e48cc12', planning_revision=0, statu...data=SolverMetadata(runtime_ms=0.0, budget_ms=None, seed=None, variable_count=0, constraint_count=0, reason_code=None)))
+
+tests\unit\test_objective.py:66: AssertionError
+_________ test_cp_disruption_uses_prior_utc_instants_across_midnight __________
+
+    def test_cp_disruption_uses_prior_utc_instants_across_midnight():
+        from planner.solver.cp_sat import solve_cp_sat
+        from tests.unit.test_objective import next_day_replan
+    
+        s = next_day_replan()
+        c = solve_cp_sat(s, 2000, 7)
+        assert c.status == 'OPTIMAL'
+>       assert [(b.start_slot, b.end_slot) for b in c.blocks] == [(4, 6)]
+E       assert [(0, 2)] == [(4, 6)]
+E         
+E         At index 0 diff: (0, 2) != (4, 6)
+E         Use -v to get more diff
+
+tests\unit\test_cp_sat.py:204: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/unit/test_objective.py::test_prior_reference_uses_absolute_instants_across_utc_midnight
+FAILED tests/unit/test_cp_sat.py::test_cp_disruption_uses_prior_utc_instants_across_midnight
+2 failed in 0.79s

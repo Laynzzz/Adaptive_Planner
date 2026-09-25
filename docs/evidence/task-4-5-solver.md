@@ -114,3 +114,25 @@ preference policy rather than observed productivity. Explain the trade-off betwe
 15-minute finite modeling, integer score precision, exhaustive tiny proofs and
 bounded large-instance search. Optional exercise: alter a tiny task release time,
 predict the resulting feasible schedules, then verify using the enumeration.
+
+## Independent review correction
+
+The backend reviewer's additional tiny search found an omitted CP constraint for
+unsplittable work shorter than its declared minimum when a short final block is
+not allowed. The validator correctly rejected that CP result, but this converted
+a required infeasible instance into MODEL_INVALID and made an optional instance
+use fallback unnecessarily. The model now applies the minimum to unsplittable
+work as well. Required and optional regressions failed first (2 failures), then
+passed with the full solver suite. Raw evidence:
+`raw/task-5-review-minimum-red.txt` and `raw/task-5-review-minimum-green.txt`.
+
+The same independent review found that prior-candidate integer slots retained
+the previous snapshot's UTC-midnight origin. After midnight, unchanged absolute
+work was scored as displaced and CP could optimize toward the wrong intervals.
+Both objective consumers now derive reference slots from prior block UTC
+start/end against the current snapshot origin, preserving the immutable prior
+candidate. A real-normalization next-day fixture first failed with disruption
+1 instead of 0 and CP moving the block; after correction both preserve the
+reference interval. Raw evidence: `raw/task-5-review-origin-red.txt` and
+`raw/task-5-review-origin-green.txt`. Full solver suite: 40 tests, 1,000 generated
+invariants and 100 exhaustive tiny comparisons after both corrections.
