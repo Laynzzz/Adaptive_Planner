@@ -1,0 +1,17 @@
+{
+  "version": "time-v1",
+  "clock_policy": "Every test supplies an aware fixed clock; no machine-local clock is read.",
+  "slot_origin": "UTC midnight of reference_now's UTC date; indices are signed half-open offsets in 15-minute elapsed intervals.",
+  "cases": [
+    {"fixture": "busy_0907_0922.json", "expected": {"busy_slots": [36, 38], "required_slots": 3}, "rationale": "Busy rounds outward; 31 entered minutes ceil to 45 reserved minutes without overwriting 31."},
+    {"test": "test_now_release_deadline_and_availability_round_inward", "expected": {"now_slot": 41, "release_slot": 41, "deadline_slot": 45}, "rationale": "10:10 rises to 10:15; 11:22 deadline falls to 11:15."},
+    {"test": "test_date_deadline_means_next_local_midnight", "expected": "2026-09-26T04:00:00Z", "rationale": "September 25 in New York ends at next local midnight under UTC-04."},
+    {"test": "test_dst_gap_rejected", "expected": "NONEXISTENT_LOCAL_TIME", "rationale": "2026-03-08 02:30 never occurs in New York."},
+    {"test": "test_repeated_hour_requires_explicit_fold", "expected": ["2026-11-01T05:30:00Z", "2026-11-01T06:30:00Z"], "rationale": "The two New York 01:30 instants differ by one real hour."},
+    {"test": "test_horizon_enumerates_actual_dst_instants", "expected": {"spring_slots": 1340, "fall_slots": 1348}, "rationale": "Fourteen dates contain 335 or 337 elapsed hours when crossing a DST transition."},
+    {"test": "test_timezone_preview_preserves_timestamp_and_reinterprets_date_without_mutation", "expected": {"date_due": "2026-09-26T04:00:00Z", "timestamp_due": "2026-09-25T20:00:00Z"}, "rationale": "Preview changes date intent timezone while absolute commitments remain fixed."},
+    {"test": "test_partial_observed_work_requires_new_estimate_or_explicit_completion", "expected": {"remaining_minutes": 20, "required_slots": 2}, "rationale": "Observed work is not subtracted automatically; a new explicit estimate governs planning."},
+    {"test": "test_locked_excess_and_new_fixed_event_conflict_are_explicit", "expected": ["LOCK_EXCEEDS_REMAINING", "PROTECTED_BUSY_CONFLICT"], "rationale": "Four locked slots exceed three required slots and overlap the new external event."},
+    {"test": "test_cycle_and_cross_owner_dependencies_rejected", "expected": ["DEPENDENCY_CYCLE", "CROSS_OWNER_DEPENDENCY"], "rationale": "Directed cycles cannot be topologically ordered and owner boundaries cannot be bridged."}
+  ]
+}

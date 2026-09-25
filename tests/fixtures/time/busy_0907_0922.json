@@ -1,0 +1,13 @@
+{
+  "now": "2026-09-25T00:00:00+00:00",
+  "raw": {
+    "owner_id": "00000000-0000-0000-0000-000000000001",
+    "timezone": "UTC",
+    "planning_revision": 1,
+    "availability": [{"start": "2026-09-25T09:00:00Z", "end": "2026-09-25T17:00:00Z"}],
+    "fixed_events": [{"start": "2026-09-25T09:07:00Z", "end": "2026-09-25T09:22:00Z"}],
+    "tasks": [{"id": "00000000-0000-0000-0000-000000000002", "title": "Write draft", "remaining_minutes": 31}]
+  },
+  "expected": {"busy_slot_ranges": [[36, 38]], "required_slots": 3},
+  "rationale": "UTC midnight origin: 09:07 floors to slot 36, 09:22 ceils to 38. 31 entered minutes ceil to three 15-minute slots."
+}
