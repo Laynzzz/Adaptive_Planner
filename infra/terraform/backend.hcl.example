@@ -1,0 +1,6 @@
+bucket       = "REPLACE-WITH-APPROVED-STATE-BUCKET"
+key          = "adaptive-planner/demo/terraform.tfstate"
+region       = "us-east-1"
+encrypt      = true
+use_lockfile = true
+kms_key_id   = "REPLACE-WITH-STATE-KMS-KEY-ARN"

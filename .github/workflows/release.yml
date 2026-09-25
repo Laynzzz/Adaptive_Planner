@@ -1,0 +1,57 @@
+name: Approved cloud release
+on:
+  workflow_dispatch:
+    inputs:
+      controlled_failed_smoke:
+        description: Deliberately fail new-image smoke and verify previous-image recovery
+        type: boolean
+        default: false
+permissions:
+  contents: read
+  id-token: write
+concurrency:
+  group: approved-cloud-release
+  cancel-in-progress: false
+jobs:
+  release:
+    environment: release
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - uses: aws-actions/configure-aws-credentials@61815dcd50bd041e203e49132bacad1fd04d2708 # v5
+        with:
+          role-to-assume: ${{ vars.AWS_RELEASE_ROLE_ARN }}
+          aws-region: us-east-1
+      - name: Read reviewed environment outputs
+        env:
+          REVIEWED_OUTPUTS: ${{ vars.TERRAFORM_OUTPUTS_JSON }}
+        run: |
+          printf '%s' "$REVIEWED_OUTPUTS" > /tmp/planner-outputs.json
+          python -c 'import json; d=json.load(open("/tmp/planner-outputs.json")); print("ECR_URL="+d["ecr_url"]["value"])' >> "$GITHUB_ENV"
+      - name: Build, scan and push immutable release
+        run: |
+          docker build --target runtime --build-arg REVISION="${GITHUB_SHA}" -t "${ECR_URL}:${GITHUB_SHA}" .
+          docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy:0.69.3@sha256:bcc376de8d77cfe086a917230e818dc9f8528e3c852f7b1aff648949b6258d1c image --scanners vuln --severity HIGH,CRITICAL --ignore-unfixed --exit-code 1 "${ECR_URL}:${GITHUB_SHA}"
+          aws ecr get-login-password | docker login --username AWS --password-stdin "${ECR_URL%%/*}"
+          docker push "${ECR_URL}:${GITHUB_SHA}"
+          digest=$(aws ecr describe-images --repository-name "${ECR_URL#*/}" --image-ids imageTag="${GITHUB_SHA}" --query 'imageDetails[0].imageDigest' --output text)
+          echo "RELEASE_IMAGE=${ECR_URL}@${digest}" >> "$GITHUB_ENV"
+      - name: Install browser smoke dependencies
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+      - name: Migrate, deploy, smoke and recover on failure
+        env:
+          PLANNER_RELEASE_SMOKE_USERNAME: ${{ secrets.RELEASE_SMOKE_USERNAME }}
+          PLANNER_RELEASE_SMOKE_PASSWORD: ${{ secrets.RELEASE_SMOKE_PASSWORD }}
+          PLANNER_RELEASE_SMOKE_OWNER_ID: ${{ vars.RELEASE_SMOKE_OWNER_ID }}
+          INJECT_FAILURE: ${{ inputs.controlled_failed_smoke }}
+        run: |
+          args=()
+          if [ "$INJECT_FAILURE" = "true" ]; then args+=(--inject-failed-smoke); fi
+          python scripts/deployment/release.py --outputs /tmp/planner-outputs.json --image "$RELEASE_IMAGE" "${args[@]}"

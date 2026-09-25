@@ -16,3 +16,11 @@ test-results/
 .superpowers/
 .runtime/
 *.tsbuildinfo
+
+# Local infrastructure state and plans (contain secrets).
+**/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+*.tfvars
+!*.tfvars.example

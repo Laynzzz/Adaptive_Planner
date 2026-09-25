@@ -1,0 +1,10 @@
+owner_tag             = "REPLACE"
+cost_center           = "approved-demo"
+application_origin    = "https://planner.example.com"
+certificate_arn       = "arn:aws:acm:us-east-1:123456789012:certificate/REPLACE"
+cognito_domain_prefix = "REPLACE-unique-planner-demo"
+image                 = "123456789012.dkr.ecr.us-east-1.amazonaws.com/adaptive-planner-demo@sha256:REPLACE_64_HEX_DIGEST"
+budget_usd            = 300 # Proposed alarm threshold ONLY; not approval and not a spending cap.
+budget_email          = "REPLACE@example.com"
+github_repository     = "REPLACE/REPLACE"
+desired_count         = 0

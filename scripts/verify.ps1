@@ -6,7 +6,7 @@ function Invoke-Checked([string]$Program, [string[]]$Arguments) {
     & $Program @Arguments
     if ($LASTEXITCODE -ne 0) { throw "$Program failed with exit code $LASTEXITCODE" }
 }
-Invoke-Checked $uvPath @('run','ruff','check','services','tests','db')
+Invoke-Checked $uvPath @('run','ruff','check','services','tests','db','training','benchmarks','evals')
 Invoke-Checked $uvPath @('run','pytest','-q')
 Invoke-Checked 'npm.cmd' @('run','typecheck')
 Invoke-Checked 'npm.cmd' @('run','api:check')

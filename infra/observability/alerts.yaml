@@ -1,0 +1,45 @@
+groups:
+  - name: planner-actionable
+    rules:
+      - alert: PlannerDatabaseUnavailable
+        expr: planner_db_reachable == 0
+        for: 30s
+        labels: {severity: critical}
+        annotations:
+          summary: Database unavailable
+          runbook: docs/runbooks/dependencies.md
+      - alert: PlannerQueueGrowing
+        expr: planner_queue_oldest_age_seconds > 30
+        for: 1m
+        labels: {severity: warning}
+        annotations:
+          summary: Oldest accepted change is waiting over 30 seconds
+          runbook: docs/runbooks/queue.md
+      - alert: PlannerExpiredLease
+        expr: planner_jobs_expired_leases > 0
+        for: 45s
+        labels: {severity: warning}
+        annotations:
+          summary: Worker lease recovery has stopped
+          runbook: docs/runbooks/queue.md
+      - alert: PlannerAPIErrorRate
+        expr: sum(rate(planner_api_requests_count{status="5xx"}[5m])) / clamp_min(sum(rate(planner_api_requests_count[5m])), 0.001) > 0.05
+        for: 2m
+        labels: {severity: warning}
+        annotations:
+          summary: More than five percent server failures
+          runbook: docs/runbooks/dependencies.md
+      - alert: PlannerCalendarConflict
+        expr: planner_calendar_conflicts > 0
+        for: 1m
+        labels: {severity: warning}
+        annotations:
+          summary: Calendar needs explicit conflict review
+          runbook: docs/runbooks/calendar.md
+      - alert: PlannerInvalidCandidate
+        expr: planner_jobs_validator_rejected > 0
+        for: 1m
+        labels: {severity: warning}
+        annotations:
+          summary: Candidate validation rejected a solver result
+          runbook: docs/runbooks/candidates.md
