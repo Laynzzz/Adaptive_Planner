@@ -10,7 +10,7 @@
 
 **Spec:** This document is the authoritative revised design and implementation plan. It incorporates [the original blueprint](../adaptive-planner-blueprint.md), preserving its product thesis while strengthening market-relevant delivery and correctness requirements. Where they differ, this document governs. The original blueprint remains unchanged.
 
-**Date:** 2026-09-24. **Status:** planned, not implemented or benchmarked.
+**Date:** 2026-09-24. **Status:** implementation started 2026-09-25; no release gate complete. See [execution status](docs/execution-status.md) and [evidence index](docs/evidence-index.md) for implemented versus verified capabilities.
 
 ## 1. Global constraints and execution authority
 

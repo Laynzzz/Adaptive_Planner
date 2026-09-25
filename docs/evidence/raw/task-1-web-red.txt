@@ -1,0 +1,99 @@
+
+> @adaptive-planner/web@0.1.0 test
+> vitest --run
+
+
+ RUN  v5.0.2 C:/Users/tiany/.codex/worktrees/adaptive-planner-implementation/adaptive-planner/apps/web
+
+ ❯ src/App.test.tsx (3 tests | 3 failed) 3049ms
+   × shows the ready application after a successful backend readiness response 1022ms
+   × shows a recoverable failure and reconnects when retry succeeds 1013ms
+   × does not claim connection for an unexpected readiness response 1013ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/App.test.tsx > shows the ready application after a successful backend readiness response
+TestingLibraryElementError: Unable to find an element with the text: Workspace connected. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+<body>
+  <div />
+</body>
+
+Ignored nodes: comments, script, style
+<body>
+  <div />
+</body>
+ ❯ waitForWrapper ../../node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ ../../node_modules/@testing-library/dom/dist/query-helpers.js:86:33
+ ❯ src/App.test.tsx:16:23
+     14|   vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(JSON.s…
+     15|   renderApp();
+     16|   expect(await screen.findByText('Workspace connected')).toBeInTheDocu…
+       |                       ^
+     17|   expect(screen.getByRole('heading', {name: 'Make room for what matter…
+     18| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  src/App.test.tsx > shows a recoverable failure and reconnects when retry succeeds
+TestingLibraryElementError: Unable to find role="alert"
+
+Ignored nodes: comments, script, style
+<body>
+  <div />
+</body>
+
+Ignored nodes: comments, script, style
+<body>
+  <div />
+</body>
+ ❯ waitForWrapper ../../node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ ../../node_modules/@testing-library/dom/dist/query-helpers.js:86:33
+ ❯ src/App.test.tsx:26:23
+     24|   vi.stubGlobal('fetch', request);
+     25|   renderApp();
+     26|   expect(await screen.findByRole('alert')).toHaveTextContent('Workspac…
+       |                       ^
+     27|   await userEvent.click(screen.getByRole('button', {name: 'Try again'}…
+     28|   await waitFor(() => expect(screen.getByText('Workspace connected')).…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  src/App.test.tsx > does not claim connection for an unexpected readiness response
+TestingLibraryElementError: Unable to find role="alert"
+
+Ignored nodes: comments, script, style
+<body>
+  <div />
+</body>
+
+Ignored nodes: comments, script, style
+<body>
+  <div />
+</body>
+ ❯ waitForWrapper ../../node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ ../../node_modules/@testing-library/dom/dist/query-helpers.js:86:33
+ ❯ src/App.test.tsx:34:23
+     32|   vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(JSON.s…
+     33|   renderApp();
+     34|   expect(await screen.findByRole('alert')).toHaveTextContent('Workspac…
+       |                       ^
+     35| });
+     36|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  3 failed (3)
+   Start at  15:51:30
+   Duration  27.30s (environment 61%, setup 19%, tests 11%, import 8%)
+
+npm error Lifecycle script `test` failed with error:
+npm error code 1
+npm error path C:\Users\tiany\.codex\worktrees\adaptive-planner-implementation\adaptive-planner\apps\web
+npm error workspace @adaptive-planner/web@0.1.0
+npm error location C:\Users\tiany\.codex\worktrees\adaptive-planner-implementation\adaptive-planner\apps\web
+npm error command failed
+npm error command C:\WINDOWS\system32\cmd.exe /d /s /c vitest --run

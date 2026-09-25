@@ -1,0 +1,16 @@
+{
+  "name": "adaptive-planner",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": ["apps/web"],
+  "engines": {"node": ">=22.12.0 <23", "npm": ">=10 <11"},
+  "packageManager": "npm@10.9.3",
+  "scripts": {
+    "dev": "npm run dev --workspace apps/web",
+    "build": "npm run build --workspace apps/web",
+    "typecheck": "npm run typecheck --workspace apps/web",
+    "test": "npm run test --workspace apps/web -- --run",
+    "test:e2e": "playwright test"
+  },
+  "devDependencies": {"@playwright/test": "1.63.0"}
+}

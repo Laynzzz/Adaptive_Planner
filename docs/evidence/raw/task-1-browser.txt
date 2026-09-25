@@ -1,0 +1,13 @@
+
+> adaptive-planner@0.1.0 test:e2e
+> playwright test tests/e2e/bootstrap.spec.ts
+
+
+Running 2 tests using 1 worker
+
+(node:41104) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 [chromium] › tests\e2e\bootstrap.spec.ts:3:5 › browser connects through the dev proxy to the migrated backend (600ms)
+  ok 2 [chromium] › tests\e2e\bootstrap.spec.ts:14:5 › an unavailable backend gives a keyboard accessible recovery action (354ms)
+
+  2 passed (2.3s)
