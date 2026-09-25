@@ -50,3 +50,7 @@ The fixture manifest is `tests/fixtures/time/manifest.json`. The hand-authored b
 The key distinction is elapsed time versus local intent: actual UTC instants avoid duplicated or missing solver slots, while the original local fields explain what the person entered. Conservative rounding can reject a schedule that would fit in continuous time, so grid infeasibility must not be described as universal impossibility. Read `domain/time_rules.py` with the fixture manifest, then `domain/contracts.py` and `domain/task_rules.py`.
 
 Interview prompt: why not subtract 15 observed minutes from a 31-minute estimate automatically? Observed effort and a remaining estimate measure different things; requiring a new explicit estimate avoids pretending elapsed work proves progress or completion.
+
+## Task 1 fixture contract correction
+
+Review against the exact Task 1 wording found that the initial shared snapshot builder omitted the required same-day 17:00 deadlines and lacked `load_fixture(name)`. Two new checks failed (`[None, None]` instead of `[68, 68]`, and missing fixture loader). The builders now supply the specified deadlines and parse committed raw JSON with its fixed clock using `normalize_time_inputs`; explicit overrides remain unmodified. Final focused verification after the correction: **31 passed in 0.30s**, scoped Ruff **All checks passed**. The follow-up commit containing this paragraph identifies the correction revision.

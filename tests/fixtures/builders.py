@@ -5,10 +5,12 @@ midnight. Blocks derive timestamps only when the caller does not provide them;
 explicit timestamps, owners, revisions and hashes remain exactly as supplied.
 """
 
+import json
 from datetime import UTC, datetime, timedelta
+from pathlib import Path
 from uuid import UUID, uuid5
 
-from planner.domain.contracts import Block, Candidate, InputSnapshot, TaskSpec
+from planner.domain.contracts import Block, Candidate, Deadline, InputSnapshot, TaskSpec
 from planner.domain.time_rules import normalize_time_inputs
 
 OWNER_ID = UUID("00000000-0000-0000-0000-000000000001")
@@ -25,6 +27,9 @@ def task(**changes) -> TaskSpec:
         title="Write synthetic draft",
         remaining_minutes=60,
         release_slot=36,
+        deadline=Deadline(kind="TIMESTAMP", value="2026-09-25T17:00:00Z"),
+        deadline_at=datetime(2026, 9, 25, 17, tzinfo=UTC),
+        deadline_slot=68,
     )
     values.update(changes)
     return TaskSpec(**values)
@@ -37,11 +42,17 @@ def snapshot(**changes) -> InputSnapshot:
             "timezone": "UTC",
             "planning_revision": 1,
             "tasks": [
-                {"id": str(TASK_ID), "title": "Write synthetic draft", "remaining_minutes": 60},
+                {
+                    "id": str(TASK_ID),
+                    "title": "Write synthetic draft",
+                    "remaining_minutes": 60,
+                    "deadline": {"kind": "TIMESTAMP", "value": "2026-09-25T17:00:00Z"},
+                },
                 {
                     "id": str(SECOND_TASK_ID),
                     "title": "Review synthetic draft",
                     "remaining_minutes": 60,
+                    "deadline": {"kind": "TIMESTAMP", "value": "2026-09-25T17:00:00Z"},
                 },
             ],
             "availability": [{"start": "2026-09-25T09:00:00Z", "end": "2026-09-25T17:00:00Z"}],
@@ -81,3 +92,9 @@ def candidate(blocks=(), *, snapshot_spec: InputSnapshot | None = None, **change
     )
     values.update(changes)
     return Candidate(**values)
+
+
+def load_fixture(name: str) -> InputSnapshot:
+    """Load committed raw inputs with their explicit clock via the production parser."""
+    fixture = json.loads((Path(__file__).parent / name).read_text(encoding="utf-8"))
+    return normalize_time_inputs(fixture["raw"], datetime.fromisoformat(fixture["now"]))

@@ -94,3 +94,22 @@ def test_task_bounds_and_negative_work_are_rejected():
         data.update(changes)
         with pytest.raises(ValidationError):
             TaskSpec(**data)
+
+
+def test_shared_snapshot_builder_has_due_today_tasks_and_preserves_bad_overrides():
+    from tests.fixtures.builders import block, snapshot
+
+    s = snapshot()
+    assert [t.deadline_slot for t in s.tasks] == [68, 68]
+    assert [t.required_slots for t in s.tasks] == [4, 4]
+    forged = block(s.tasks[0], 36, 40, owner_id=TASK)
+    assert forged.owner_id == TASK
+
+
+def test_committed_fixture_loader_uses_production_normalization():
+    from tests.fixtures import builders
+
+    assert hasattr(builders, "load_fixture")
+    s = builders.load_fixture("time/busy_0907_0922.json")
+    assert s.busy_slot_ranges == ((36, 38),)
+    assert s.tasks[0].required_slots == 3
