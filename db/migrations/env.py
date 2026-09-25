@@ -3,6 +3,7 @@
 from alembic import context
 from sqlalchemy import create_engine, pool
 
+from planner.db import job_models  # noqa: F401 - register dispatcher metadata
 from planner.db.models import Base
 from planner.settings import Settings
 

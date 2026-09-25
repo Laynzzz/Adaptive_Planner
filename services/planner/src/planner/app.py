@@ -9,6 +9,7 @@ from fastapi.responses import JSONResponse
 
 from planner.api.auth import router as auth_router
 from planner.api.errors import install_error_handlers
+from planner.api.plans import router as plan_router
 from planner.api.routes import router as input_router
 from planner.db.session import create_db_engine, database_is_ready, migration_heads
 from planner.settings import Settings
@@ -52,4 +53,5 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     install_error_handlers(app)
     app.include_router(auth_router)
     app.include_router(input_router)
+    app.include_router(plan_router)
     return app

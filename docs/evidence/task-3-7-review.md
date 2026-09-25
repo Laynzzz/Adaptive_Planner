@@ -77,19 +77,31 @@ pipeline does not create.
 
 Smallest fix: validate schedule invariants for FEASIBLE/OPTIMAL selection while
 preserving non-solution status and facts; display failed `job.candidate` status
-and diagnostics without offering activation. Add worker and frontend regressions
-for a capacity failure with no proposal. Sent to both implementation owners;
-verification pending at report creation.
+and diagnostics without offering activation. Both owners applied that fix.
+The reviewer reran the worker non-solution regression for INFEASIBLE, UNKNOWN and
+MODEL_INVALID: 3 passed in 0.82s. The panel now renders the failed job's numeric
+capacity report even with no proposal, does not offer activation for that result,
+and does not label it as the active plan. Updated frontend checks passed (below).
+This finding is corrected.
 
 ### P2 — Planning responses initially bypassed generated contract types
 
 Location: `apps/web/src/features/proposals/PlanPanel.tsx:4–38` during review.
 The panel hand-declared Proposal/Job shapes, with Job omitting the available
 candidate. Generated schema drift checks cannot protect these separate types.
-Use generated `components['schemas']['ProposalView']` / `JobView` aliases and the
-typed GenerateResponse/ActivationView shapes. The planning endpoints and schema
-generation were still being integrated during this review; owner is updating the
-aliases. Recheck typecheck and OpenAPI drift after regeneration.
+The owner replaced both response shapes with generated
+`components['schemas']['ProposalView']` / `JobView` aliases. Typecheck passed in
+the reviewer rerun. This finding is corrected; the parent owns the final schema
+drift check after all routes settle.
+
+### P2 — Visible Refresh omitted background plan results
+
+Location: `apps/web/src/features/Workspace.tsx:47` (corrected).
+The visible Refresh originally invalidated identity/tasks/availability but omitted
+proposals and jobs. After CURRENT_TIME_CONFLICT queued a replacement, the UI's
+instruction to refresh could keep showing the old proposal. The owner included
+both query keys and added a failing-first component regression. Reviewer reran
+Workspace/PlanPanel checks after this correction: 6 tests passed; typecheck passed.
 
 ## Checked boundaries and evidence limits
 
@@ -116,6 +128,15 @@ Fresh checks performed:
 - Isolated reviewer databases were created through the project test fixture,
   migrated, authenticated through the real local OIDC provider and dropped by
   that same fixture. Synthetic inputs only; no personal records changed.
+- Final focused re-review: TypeScript passed; Workspace/PlanPanel tests passed
+  (5 tests across 2 files); worker non-solution statuses passed (3 parameterized
+  cases); availability database-snapshot interleaving passed (1 case).
 
-The parent agent owns the final complete integration/browser/contract rerun and
-evidence reconciliation after remaining fixes land.
+No remaining blocking finding in this reviewed scope. The parent agent owns the
+final complete integration/browser/contract rerun and evidence reconciliation.
+This conclusion does not claim later plan tasks or cloud behavior are complete.
+
+Commit note: review report initially entered `eb46ea3` together with backend
+files concurrently staged in the shared Git index. The reviewer changed only this
+document; backend changes retain their separate implementation evidence. No
+history was reset. This report update is left for the parent's coordinated commit.
