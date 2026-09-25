@@ -1,0 +1,34 @@
+Mutation: overlap; exit=1
+F                                                                        [100%]
+================================== FAILURES ===================================
+___________ test_adjacent_blocks_are_valid_but_overlap_is_rejected ____________
+
+    def test_adjacent_blocks_are_valid_but_overlap_is_rejected():
+        a, b = task(1), task(2)
+        s = snapshot([a, b])
+        assert codes(s, [block(a, 0, 2), block(b, 2, 4)]) == set()
+>       assert "OVERLAP" in codes(s, [block(a, 0, 2), block(b, 1, 3)])
+E       AssertionError: assert 'OVERLAP' in set()
+E        +  where set() = codes(InputSnapshot(id=UUID('00000000-0000-0000-0000-000000000002'), snapshot_hash='fixture', owner_id=UUID('00000000-0000-0...or_candidate=None, prior_active_candidate_id=None, objective_version='v1', rounding_losses=(), original_time_inputs=()), [Block(id=UUID('00000000-0000-0000-0000-000000002b5c'), owner_id=UUID('00000000-0000-0000-0000-000000000001'), task_id...5, 0, 45, tzinfo=datetime.timezone.utc), start_slot=1, end_slot=3, source='GREEDY', locked=False, original_start=None)])
+
+tests\unit\test_validator.py:78: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/unit/test_validator.py::test_adjacent_blocks_are_valid_but_overlap_is_rejected
+1 failed in 0.32s
+
+Mutation: ownership; exit=1
+F                                                                        [100%]
+================================== FAILURES ===================================
+________________________ test_forged_owner_is_rejected ________________________
+
+    def test_forged_owner_is_rejected():
+        s = snapshot()
+>       assert "BLOCK_OWNER_MISMATCH" in codes(s, [block(s.tasks[0], 0, 2, owner_id=UUID(int=9))])
+E       AssertionError: assert 'BLOCK_OWNER_MISMATCH' in set()
+E        +  where set() = codes(InputSnapshot(id=UUID('00000000-0000-0000-0000-000000000002'), snapshot_hash='fixture', owner_id=UUID('00000000-0000-0...or_candidate=None, prior_active_candidate_id=None, objective_version='v1', rounding_losses=(), original_time_inputs=()), [Block(id=UUID('00000000-0000-0000-0000-000000002b5c'), owner_id=UUID('00000000-0000-0000-0000-000000000009'), task_id...5, 0, 30, tzinfo=datetime.timezone.utc), start_slot=0, end_slot=2, source='GREEDY', locked=False, original_start=None)])
+
+tests\unit\test_validator.py:83: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/unit/test_validator.py::test_forged_owner_is_rejected - Assertio...
+1 failed in 0.32s
+

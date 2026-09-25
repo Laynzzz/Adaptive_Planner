@@ -1,0 +1,349 @@
+FFFFFFFFFFFFFFFFFFF                                                      [100%]
+================================== FAILURES ===================================
+___________ test_adjacent_blocks_are_valid_but_overlap_is_rejected ____________
+
+    def test_adjacent_blocks_are_valid_but_overlap_is_rejected():
+        a, b = task(1), task(2)
+        s = snapshot([a, b])
+>       assert codes(s, [block(a, 0, 2), block(b, 2, 4)]) == set()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\unit\test_validator.py:49: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+s = InputSnapshot(id=UUID('00000000-0000-0000-0000-000000000002'), snapshot_hash='fixture', owner_id=UUID('00000000-0000-0...or_candidate=None, prior_active_candidate_id=None, objective_version='v1', rounding_losses=(), original_time_inputs=())
+blocks = [Block(id=UUID('00000000-0000-0000-0000-000000002b5c'), owner_id=UUID('00000000-0000-0000-0000-000000000001'), task_id...25, 1, 0, tzinfo=datetime.timezone.utc), start_slot=2, end_slot=4, source='GREEDY', locked=False, original_start=None)]
+
+    def codes(s, blocks):
+>       from planner.solver.validator import validate_candidate
+E       ModuleNotFoundError: No module named 'planner.solver'
+
+tests\unit\test_validator.py:42: ModuleNotFoundError
+________________________ test_forged_owner_is_rejected ________________________
+
+    def test_forged_owner_is_rejected():
+        s = snapshot()
+>       assert 'BLOCK_OWNER_MISMATCH' in codes(s, [block(s.tasks[0], 0, 2, owner_id=UUID(int=9))])
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\unit\test_validator.py:55: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+s = InputSnapshot(id=UUID('00000000-0000-0000-0000-000000000002'), snapshot_hash='fixture', owner_id=UUID('00000000-0000-0...or_candidate=None, prior_active_candidate_id=None, objective_version='v1', rounding_losses=(), original_time_inputs=())
+blocks = [Block(id=UUID('00000000-0000-0000-0000-000000002b5c'), owner_id=UUID('00000000-0000-0000-0000-000000000009'), task_id...5, 0, 30, tzinfo=datetime.timezone.utc), start_slot=0, end_slot=2, source='GREEDY', locked=False, original_start=None)]
+
+    def codes(s, blocks):
+>       from planner.solver.validator import validate_candidate
+E       ModuleNotFoundError: No module named 'planner.solver'
+
+tests\unit\test_validator.py:42: ModuleNotFoundError
+_____________ test_task_constraints[changes0-interval0-DEADLINE] ______________
+
+changes = {'deadline_slot': 3}, interval = (2, 4), code = 'DEADLINE'
+
+    @pytest.mark.parametrize(('changes', 'interval', 'code'), [
+        ({'deadline_slot': 3}, (2, 4), 'DEADLINE'),
+        ({'release_slot': 2}, (0, 2), 'RELEASE'),
+        ({'deadline_slot': 8}, (0, 1), 'WORKLOAD_DEFICIT'),
+        ({}, (0, 3), 'WORKLOAD_EXCESS'),
+        ({'state': 'DONE', 'remaining_minutes': 0}, (0, 2), 'INACTIVE_TASK'),
+    ])
+    def test_task_constraints(changes, interval, code):
+        a = task().model_copy(update=changes)
+>       assert code in codes(snapshot([a]), [block(a, *interval)])
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\unit\test_validator.py:67: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+s = InputSnapshot(id=UUID('00000000-0000-0000-0000-000000000002'), snapshot_hash='fixture', owner_id=UUID('00000000-0000-0...or_candidate=None, prior_active_candidate_id=None, objective_version='v1', rounding_losses=(), original_time_inputs=())
+blocks = [Block(id=UUID('00000000-0000-0000-0000-000000002b5e'), owner_id=UUID('00000000-0000-0000-0000-000000000001'), task_id...25, 1, 0, tzinfo=datetime.timezone.utc), start_slot=2, end_slot=4, source='GREEDY', locked=False, original_start=None)]
+
+    def codes(s, blocks):
+>       from planner.solver.validator import validate_candidate
+E       ModuleNotFoundError: No module named 'planner.solver'
+
+tests\unit\test_validator.py:42: ModuleNotFoundError
+______________ test_task_constraints[changes1-interval1-RELEASE] ______________
+
+changes = {'release_slot': 2}, interval = (0, 2), code = 'RELEASE'
+
+    @pytest.mark.parametrize(('changes', 'interval', 'code'), [
+        ({'deadline_slot': 3}, (2, 4), 'DEADLINE'),
+        ({'release_slot': 2}, (0, 2), 'RELEASE'),
+        ({'deadline_slot': 8}, (0, 1), 'WORKLOAD_DEFICIT'),
+        ({}, (0, 3), 'WORKLOAD_EXCESS'),
+        ({'state': 'DONE', 'remaining_minutes': 0}, (0, 2), 'INACTIVE_TASK'),
+    ])
+    def test_task_constraints(changes, interval, code):
+        a = task().model_copy(update=changes)
+>       assert code in codes(snapshot([a]), [block(a, *interval)])
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\unit\test_validator.py:67: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+s = InputSnapshot(id=UUID('00000000-0000-0000-0000-000000000002'), snapshot_hash='fixture', owner_id=UUID('00000000-0000-0...or_candidate=None, prior_active_candidate_id=None, objective_version='v1', rounding_losses=(), original_time_inputs=())
+blocks = [Block(id=UUID('00000000-0000-0000-0000-000000002b5c'), owner_id=UUID('00000000-0000-0000-0000-000000000001'), task_id...5, 0, 30, tzinfo=datetime.timezone.utc), start_slot=0, end_slot=2, source='GREEDY', locked=False, original_start=None)]
+
+    def codes(s, blocks):
+>       from planner.solver.validator import validate_candidate
+E       ModuleNotFoundError: No module named 'planner.solver'
+
+tests\unit\test_validator.py:42: ModuleNotFoundError
+_________ test_task_constraints[changes2-interval2-WORKLOAD_DEFICIT] __________
+
+changes = {'deadline_slot': 8}, interval = (0, 1), code = 'WORKLOAD_DEFICIT'
+
+    @pytest.mark.parametrize(('changes', 'interval', 'code'), [
+        ({'deadline_slot': 3}, (2, 4), 'DEADLINE'),
+        ({'release_slot': 2}, (0, 2), 'RELEASE'),
+        ({'deadline_slot': 8}, (0, 1), 'WORKLOAD_DEFICIT'),
+        ({}, (0, 3), 'WORKLOAD_EXCESS'),
+        ({'state': 'DONE', 'remaining_minutes': 0}, (0, 2), 'INACTIVE_TASK'),
+    ])
+    def test_task_constraints(changes, interval, code):
+        a = task().model_copy(update=changes)
+>       assert code in codes(snapshot([a]), [block(a, *interval)])
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\unit\test_validator.py:67: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+s = InputSnapshot(id=UUID('00000000-0000-0000-0000-000000000002'), snapshot_hash='fixture', owner_id=UUID('00000000-0000-0...or_candidate=None, prior_active_candidate_id=None, objective_version='v1', rounding_losses=(), original_time_inputs=())
+blocks = [Block(id=UUID('00000000-0000-0000-0000-000000002b5c'), owner_id=UUID('00000000-0000-0000-0000-000000000001'), task_id...5, 0, 15, tzinfo=datetime.timezone.utc), start_slot=0, end_slot=1, source='GREEDY', locked=False, original_start=None)]
+
+    def codes(s, blocks):
+>       from planner.solver.validator import validate_candidate
+E       ModuleNotFoundError: No module named 'planner.solver'
+
+tests\unit\test_validator.py:42: ModuleNotFoundError
+__________ test_task_constraints[changes3-interval3-WORKLOAD_EXCESS] __________
+
+changes = {}, interval = (0, 3), code = 'WORKLOAD_EXCESS'
+
+    @pytest.mark.parametrize(('changes', 'interval', 'code'), [
+        ({'deadline_slot': 3}, (2, 4), 'DEADLINE'),
+        ({'release_slot': 2}, (0, 2), 'RELEASE'),
+        ({'deadline_slot': 8}, (0, 1), 'WORKLOAD_DEFICIT'),
+        ({}, (0, 3), 'WORKLOAD_EXCESS'),
+        ({'state': 'DONE', 'remaining_minutes': 0}, (0, 2), 'INACTIVE_TASK'),
+    ])
+    def test_task_constraints(changes, interval, code):
+        a = task().model_copy(update=changes)
+>       assert code in codes(snapshot([a]), [block(a, *interval)])
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\unit\test_validator.py:67: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+s = InputSnapshot(id=UUID('00000000-0000-0000-0000-000000000002'), snapshot_hash='fixture', owner_id=UUID('00000000-0000-0...or_candidate=None, prior_active_candidate_id=None, objective_version='v1', rounding_losses=(), original_time_inputs=())
+blocks = [Block(id=UUID('00000000-0000-0000-0000-000000002b5c'), owner_id=UUID('00000000-0000-0000-0000-000000000001'), task_id...5, 0, 45, tzinfo=datetime.timezone.utc), start_slot=0, end_slot=3, source='GREEDY', locked=False, original_start=None)]
+
+    def codes(s, blocks):
+>       from planner.solver.validator import validate_candidate
+E       ModuleNotFoundError: No module named 'planner.solver'
+
+tests\unit\test_validator.py:42: ModuleNotFoundError
+___________ test_task_constraints[changes4-interval4-INACTIVE_TASK] ___________
+
+changes = {'state': 'DONE', 'remaining_minutes': 0}, interval = (0, 2)
+code = 'INACTIVE_TASK'
+
+    @pytest.mark.parametrize(('changes', 'interval', 'code'), [
+        ({'deadline_slot': 3}, (2, 4), 'DEADLINE'),
+        ({'release_slot': 2}, (0, 2), 'RELEASE'),
+        ({'deadline_slot': 8}, (0, 1), 'WORKLOAD_DEFICIT'),
+        ({}, (0, 3), 'WORKLOAD_EXCESS'),
+        ({'state': 'DONE', 'remaining_minutes': 0}, (0, 2), 'INACTIVE_TASK'),
+    ])
+    def test_task_constraints(changes, interval, code):
+        a = task().model_copy(update=changes)
+>       assert code in codes(snapshot([a]), [block(a, *interval)])
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\unit\test_validator.py:67: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+s = InputSnapshot(id=UUID('00000000-0000-0000-0000-000000000002'), snapshot_hash='fixture', owner_id=UUID('00000000-0000-0...or_candidate=None, prior_active_candidate_id=None, objective_version='v1', rounding_losses=(), original_time_inputs=())
+blocks = [Block(id=UUID('00000000-0000-0000-0000-000000002b5c'), owner_id=UUID('00000000-0000-0000-0000-000000000001'), task_id...5, 0, 30, tzinfo=datetime.timezone.utc), start_slot=0, end_slot=2, source='GREEDY', locked=False, original_start=None)]
+
+    def codes(s, blocks):
+>       from planner.solver.validator import validate_candidate
+E       ModuleNotFoundError: No module named 'planner.solver'
+
+tests\unit\test_validator.py:42: ModuleNotFoundError
+__________ test_availability_busy_rounding_and_past_are_independent ___________
+
+    def test_availability_busy_rounding_and_past_are_independent():
+        s = snapshot(availability=((2, 8),), busy_slot_ranges=((3, 4),),
+                     reference_now=ORIGIN+timedelta(minutes=15))
+        a = s.tasks[0]
+>       assert 'OUTSIDE_AVAILABILITY' in codes(s, [block(a, 0, 2)])
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\unit\test_validator.py:74: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+s = InputSnapshot(id=UUID('00000000-0000-0000-0000-000000000002'), snapshot_hash='fixture', owner_id=UUID('00000000-0000-0...or_candidate=None, prior_active_candidate_id=None, objective_version='v1', rounding_losses=(), original_time_inputs=())
+blocks = [Block(id=UUID('00000000-0000-0000-0000-000000002b5c'), owner_id=UUID('00000000-0000-0000-0000-000000000001'), task_id...5, 0, 30, tzinfo=datetime.timezone.utc), start_slot=0, end_slot=2, source='GREEDY', locked=False, original_start=None)]
+
+    def codes(s, blocks):
+>       from planner.solver.validator import validate_candidate
+E       ModuleNotFoundError: No module named 'planner.solver'
+
+tests\unit\test_validator.py:42: ModuleNotFoundError
+_____ test_dependency_requires_complete_predecessor_before_any_successor ______
+
+    def test_dependency_requires_complete_predecessor_before_any_successor():
+        a, b = task(1, 4), task(2)
+        s = snapshot([a, b], dependencies=(Dependency(owner_id=OWNER,
+                     predecessor_id=a.id, successor_id=b.id),))
+>       assert 'DEPENDENCY' in codes(s, [block(a, 0, 2), block(b, 2, 4)])
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\unit\test_validator.py:84: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+s = InputSnapshot(id=UUID('00000000-0000-0000-0000-000000000002'), snapshot_hash='fixture', owner_id=UUID('00000000-0000-0...or_candidate=None, prior_active_candidate_id=None, objective_version='v1', rounding_losses=(), original_time_inputs=())
+blocks = [Block(id=UUID('00000000-0000-0000-0000-000000002b5c'), owner_id=UUID('00000000-0000-0000-0000-000000000001'), task_id...25, 1, 0, tzinfo=datetime.timezone.utc), start_slot=2, end_slot=4, source='GREEDY', locked=False, original_start=None)]
+
+    def codes(s, blocks):
+>       from planner.solver.validator import validate_candidate
+E       ModuleNotFoundError: No module named 'planner.solver'
+
+tests\unit\test_validator.py:42: ModuleNotFoundError
+_______________ test_protected_identity_and_interval_are_exact ________________
+
+    def test_protected_identity_and_interval_are_exact():
+        a = task()
+        fixed = block(a, 2, 4, locked=True, source='IN_PROGRESS')
+        s = snapshot([a], protected_blocks=(fixed,))
+>       assert not codes(s, [fixed])
+                   ^^^^^^^^^^^^^^^^^
+
+tests\unit\test_validator.py:93: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+s = InputSnapshot(id=UUID('00000000-0000-0000-0000-000000000002'), snapshot_hash='fixture', owner_id=UUID('00000000-0000-0...or_candidate=None, prior_active_candidate_id=None, objective_version='v1', rounding_losses=(), original_time_inputs=())
+blocks = [Block(id=UUID('00000000-0000-0000-0000-000000002b5e'), owner_id=UUID('00000000-0000-0000-0000-000000000001'), task_id...1, 0, tzinfo=datetime.timezone.utc), start_slot=2, end_slot=4, source='IN_PROGRESS', locked=True, original_start=None)]
+
+    def codes(s, blocks):
+>       from planner.solver.validator import validate_candidate
+E       ModuleNotFoundError: No module named 'planner.solver'
+
+tests\unit\test_validator.py:42: ModuleNotFoundError
+_________ test_short_block_allowed_only_as_final_completed_remainder __________
+
+    def test_short_block_allowed_only_as_final_completed_remainder():
+        a = task(slots=3).model_copy(update={'min_block_slots': 2, 'short_final_allowed': True})
+        s = snapshot([a])
+>       assert not codes(s, [block(a, 0, 2), block(a, 4, 5)])
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\unit\test_validator.py:100: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+s = InputSnapshot(id=UUID('00000000-0000-0000-0000-000000000002'), snapshot_hash='fixture', owner_id=UUID('00000000-0000-0...or_candidate=None, prior_active_candidate_id=None, objective_version='v1', rounding_losses=(), original_time_inputs=())
+blocks = [Block(id=UUID('00000000-0000-0000-0000-000000002b5c'), owner_id=UUID('00000000-0000-0000-0000-000000000001'), task_id...5, 1, 15, tzinfo=datetime.timezone.utc), start_slot=4, end_slot=5, source='GREEDY', locked=False, original_start=None)]
+
+    def codes(s, blocks):
+>       from planner.solver.validator import validate_candidate
+E       ModuleNotFoundError: No module named 'planner.solver'
+
+tests\unit\test_validator.py:42: ModuleNotFoundError
+________ test_greedy_is_deterministic_and_honors_priority_and_topology ________
+
+    def test_greedy_is_deterministic_and_honors_priority_and_topology():
+>       from planner.solver.greedy import greedy_schedule
+E       ModuleNotFoundError: No module named 'planner.solver'
+
+tests\unit\test_greedy.py:6: ModuleNotFoundError
+_____ test_greedy_preserves_protected_blocks_and_schedules_remaining_work _____
+
+    def test_greedy_preserves_protected_blocks_and_schedules_remaining_work():
+>       from planner.solver.greedy import greedy_schedule
+E       ModuleNotFoundError: No module named 'planner.solver'
+
+tests\unit\test_greedy.py:18: ModuleNotFoundError
+________________ test_failed_greedy_is_unknown_not_infeasible _________________
+
+    def test_failed_greedy_is_unknown_not_infeasible():
+>       from planner.solver.greedy import greedy_schedule
+E       ModuleNotFoundError: No module named 'planner.solver'
+
+tests\unit\test_greedy.py:30: ModuleNotFoundError
+____________ test_short_final_remainder_and_optional_partial_work _____________
+
+    def test_short_final_remainder_and_optional_partial_work():
+>       from planner.solver.greedy import greedy_schedule
+E       ModuleNotFoundError: No module named 'planner.solver'
+
+tests\unit\test_greedy.py:36: ModuleNotFoundError
+_____ test_all_five_objective_components_have_hand_computed_denominators ______
+
+    def test_all_five_objective_components_have_hand_computed_denominators():
+>       from planner.solver.objective import score_candidate
+E       ModuleNotFoundError: No module named 'planner.solver'
+
+tests\unit\test_objective.py:7: ModuleNotFoundError
+______________________ test_empty_denominators_are_zero _______________________
+
+    def test_empty_denominators_are_zero():
+>       from planner.solver.objective import score_candidate
+E       ModuleNotFoundError: No module named 'planner.solver'
+
+tests\unit\test_objective.py:24: ModuleNotFoundError
+_________________ test_unknown_objective_version_is_rejected __________________
+
+    def test_unknown_objective_version_is_rejected():
+>       from planner.solver.objective import score_candidate
+E       ModuleNotFoundError: No module named 'planner.solver'
+
+tests\unit\test_objective.py:32: ModuleNotFoundError
+_____________________ test_thousand_generated_invariants ______________________
+
+    @settings(max_examples=1000, deadline=None, derandomize=True)
+>   @given(st.integers(1, 6), st.integers(0, 15), st.integers(1, 5), st.booleans())
+                   ^^^
+
+tests\property\test_schedule_invariants.py:7: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+work = 1, offset = 0, priority = 1, split = False
+
+    @settings(max_examples=1000, deadline=None, derandomize=True)
+    @given(st.integers(1, 6), st.integers(0, 15), st.integers(1, 5), st.booleans())
+    def test_thousand_generated_invariants(work, offset, priority, split):
+>       from planner.solver.greedy import greedy_schedule
+E       ModuleNotFoundError: No module named 'planner.solver'
+E       Failing test case: test_thousand_generated_invariants(
+E           # The test always failed when commented parts were varied together.
+E           work=1,  # or any other generated value
+E           offset=0,  # or any other generated value
+E           priority=1,  # or any other generated value
+E           split=False,  # or any other generated value
+E       )
+
+tests\property\test_schedule_invariants.py:9: ModuleNotFoundError
+=========================== short test summary info ===========================
+FAILED tests/unit/test_validator.py::test_adjacent_blocks_are_valid_but_overlap_is_rejected
+FAILED tests/unit/test_validator.py::test_forged_owner_is_rejected - ModuleNo...
+FAILED tests/unit/test_validator.py::test_task_constraints[changes0-interval0-DEADLINE]
+FAILED tests/unit/test_validator.py::test_task_constraints[changes1-interval1-RELEASE]
+FAILED tests/unit/test_validator.py::test_task_constraints[changes2-interval2-WORKLOAD_DEFICIT]
+FAILED tests/unit/test_validator.py::test_task_constraints[changes3-interval3-WORKLOAD_EXCESS]
+FAILED tests/unit/test_validator.py::test_task_constraints[changes4-interval4-INACTIVE_TASK]
+FAILED tests/unit/test_validator.py::test_availability_busy_rounding_and_past_are_independent
+FAILED tests/unit/test_validator.py::test_dependency_requires_complete_predecessor_before_any_successor
+FAILED tests/unit/test_validator.py::test_protected_identity_and_interval_are_exact
+FAILED tests/unit/test_validator.py::test_short_block_allowed_only_as_final_completed_remainder
+FAILED tests/unit/test_greedy.py::test_greedy_is_deterministic_and_honors_priority_and_topology
+FAILED tests/unit/test_greedy.py::test_greedy_preserves_protected_blocks_and_schedules_remaining_work
+FAILED tests/unit/test_greedy.py::test_failed_greedy_is_unknown_not_infeasible
+FAILED tests/unit/test_greedy.py::test_short_final_remainder_and_optional_partial_work
+FAILED tests/unit/test_objective.py::test_all_five_objective_components_have_hand_computed_denominators
+FAILED tests/unit/test_objective.py::test_empty_denominators_are_zero - Modul...
+FAILED tests/unit/test_objective.py::test_unknown_objective_version_is_rejected
+FAILED tests/property/test_schedule_invariants.py::test_thousand_generated_invariants
+19 failed in 0.98s
