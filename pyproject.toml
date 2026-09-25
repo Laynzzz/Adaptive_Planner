@@ -1,0 +1,32 @@
+[project]
+name = "adaptive-planner"
+version = "0.1.0"
+requires-python = ">=3.12,<3.13"
+dependencies = ["planner"]
+
+[tool.uv]
+package = false
+
+[tool.uv.workspace]
+members = ["services/planner"]
+
+[tool.uv.sources]
+planner = { workspace = true }
+
+[dependency-groups]
+dev = ["pytest==9.1.1", "hypothesis==6.168.1", "ruff==0.16.9", "httpx==0.28.1"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+markers = ["integration: requires local PostgreSQL"]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["planner", "tests"]

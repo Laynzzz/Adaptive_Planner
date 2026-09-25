@@ -1,0 +1,24 @@
+{
+  "realm": "adaptive-planner",
+  "enabled": true,
+  "sslRequired": "none",
+  "registrationAllowed": false,
+  "clients": [{
+    "clientId": "planner-web",
+    "enabled": true,
+    "publicClient": true,
+    "standardFlowEnabled": true,
+    "directAccessGrantsEnabled": false,
+    "redirectUris": ["http://127.0.0.1:8000/api/v1/auth/callback"],
+    "webOrigins": ["http://127.0.0.1:5173"],
+    "attributes": {"pkce.code.challenge.method": "S256"}
+  }],
+  "users": [
+    {"username": "demo-a", "enabled": true, "emailVerified": true,
+     "firstName": "Demo", "lastName": "A", "email": "demo-a@example.invalid",
+     "credentials": [{"type": "password", "value": "local-demo-a-only", "temporary": false}]},
+    {"username": "demo-b", "enabled": true, "emailVerified": true,
+     "firstName": "Demo", "lastName": "B", "email": "demo-b@example.invalid",
+     "credentials": [{"type": "password", "value": "local-demo-b-only", "temporary": false}]}
+  ]
+}

@@ -1,0 +1,29 @@
+name: adaptive-planner
+services:
+  postgres:
+    image: postgres:17.9-bookworm@sha256:47f917f7409eacd22fc5dfb1dee634e1b55cf0c01d1a7eb701be2227a03e0641
+    environment:
+      POSTGRES_USER: planner
+      POSTGRES_PASSWORD: local-planner-only
+      POSTGRES_DB: planner
+    ports:
+      - "127.0.0.1:${PLANNER_POSTGRES_PORT:-25432}:5432"
+    volumes:
+      - planner-postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U planner -d planner"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+  oidc:
+    image: quay.io/keycloak/keycloak:26.6.2@sha256:f9ba7b2af90db8dc749a57ca9aedca51e840cb9224441ab546a968da941da900
+    command: ["start-dev", "--import-realm"]
+    environment:
+      KC_HTTP_ENABLED: "true"
+      KC_HOSTNAME: "http://127.0.0.1:${PLANNER_OIDC_PORT:-28080}"
+    ports:
+      - "127.0.0.1:${PLANNER_OIDC_PORT:-28080}:8080"
+    volumes:
+      - ./infra/oidc/adaptive-planner-realm.json:/opt/keycloak/data/import/adaptive-planner-realm.json:ro
+volumes:
+  planner-postgres:
