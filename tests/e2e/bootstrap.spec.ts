@@ -4,7 +4,7 @@ test("browser connects through the dev proxy to the migrated backend", async ({
   page,
 }) => {
   await page.goto("/");
-  await expect(page.getByRole("status")).toHaveText("Workspace connected");
+  await expect(page.locator(".connection")).toHaveText("Workspace connected");
   await expect(
     page.getByRole("heading", { name: "Your agenda" }),
   ).toBeVisible();
@@ -40,5 +40,5 @@ test("an unavailable backend gives a keyboard accessible recovery action", async
   await page.unroute("**/health/ready");
   await page.getByRole("button", { name: "Try again" }).focus();
   await page.keyboard.press("Enter");
-  await expect(page.getByRole("status")).toHaveText("Workspace connected");
+  await expect(page.locator(".connection")).toHaveText("Workspace connected");
 });

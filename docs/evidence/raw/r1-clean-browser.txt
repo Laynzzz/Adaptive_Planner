@@ -1,0 +1,104 @@
+
+> adaptive-planner@0.1.0 test:e2e
+> playwright test
+
+[WebServer] (node:51004) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:54852) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:44200) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] INFO:     Started server process [53948]
+[WebServer] INFO:     Waiting for application startup.
+[WebServer] INFO:     Application startup complete.
+[WebServer] INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+
+Running 4 tests using 3 workers
+
+(node:30072) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:51152) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:65136) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 [chromium] › tests\e2e\bootstrap.spec.ts:3:5 › browser connects through the dev proxy to the migrated backend (531ms)
+(node:65448) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 4 [chromium] › tests\e2e\bootstrap.spec.ts:30:5 › an unavailable backend gives a keyboard accessible recovery action (462ms)
+  ok 2 [chromium] › tests\e2e\tasks.spec.ts:14:5 › two real OIDC users have separate task workspaces (2.6s)
+  x  3 [chromium] › tests\e2e\planner.spec.ts:4:5 › create two tasks, set work hours, generate, inspect and activate a plan (6.6s)
+
+
+  1) [chromium] › tests\e2e\bootstrap.spec.ts:3:5 › browser connects through the dev proxy to the migrated backend 
+
+    Error: expect(locator).toHaveText(expected) failed
+
+    Locator: getByRole('status')
+    Expected: "Workspace connected"
+    Error: strict mode violation: getByRole('status') resolved to 2 elements:
+        1) <span role="status" class="connection">…</span> aka getByText('Workspace connected')
+        2) <p role="status" class="empty-agenda">Loading your workspace…</p> aka getByText('Loading your workspace…')
+
+    Call log:
+      - Expect "toHaveText" getByRole('status') with timeout 5000ms
+      - waiting for getByRole('status')
+        - locator resolved to <span role="status" class="connection">…</span>
+        - unexpected value "Connecting…"
+
+
+       5 | }) => {
+       6 |   await page.goto("/");
+    >  7 |   await expect(page.getByRole("status")).toHaveText("Workspace connected");
+         |                                          ^
+       8 |   await expect(
+       9 |     page.getByRole("heading", { name: "Your agenda" }),
+      10 |   ).toBeVisible();
+        at C:\Users\tiany\.codex\worktrees\adaptive-planner-implementation\adaptive-planner\.runtime\r1-clean-89ddcdf\tests\e2e\bootstrap.spec.ts:7:42
+
+    Error Context: test-results\bootstrap-browser-connects-dbf64-oxy-to-the-migrated-backend-chromium\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\bootstrap-browser-connects-dbf64-oxy-to-the-migrated-backend-chromium\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\bootstrap-browser-connects-dbf64-oxy-to-the-migrated-backend-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [chromium] › tests\e2e\planner.spec.ts:4:5 › create two tasks, set work hours, generate, inspect and activate a plan 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: locator('.task-list > ul').getByText('Review lecture 1790368448619', { exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" locator('.task-list > ul').getByText('Review lecture 1790368448619', { exact: true }) with timeout 5000ms
+      - waiting for locator('.task-list > ul').getByText('Review lecture 1790368448619', { exact: true })
+
+
+      18 |     await expect(
+      19 |       page.locator(".task-list > ul").getByText(title, { exact: true }),
+    > 20 |     ).toBeVisible();
+         |       ^
+      21 |   }
+      22 |   await page.getByLabel("Available from (UTC)").fill(`${day}T09:00`);
+      23 |   await page.getByLabel("Available until (UTC)").fill(`${day}T17:00`);
+        at C:\Users\tiany\.codex\worktrees\adaptive-planner-implementation\adaptive-planner\.runtime\r1-clean-89ddcdf\tests\e2e\planner.spec.ts:20:7
+
+    Error Context: test-results\planner-create-two-tasks-s-1d7b7-inspect-and-activate-a-plan-chromium\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\planner-create-two-tasks-s-1d7b7-inspect-and-activate-a-plan-chromium\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\planner-create-two-tasks-s-1d7b7-inspect-and-activate-a-plan-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    [chromium] › tests\e2e\bootstrap.spec.ts:3:5 › browser connects through the dev proxy to the migrated backend 
+    [chromium] › tests\e2e\planner.spec.ts:4:5 › create two tasks, set work hours, generate, inspect and activate a plan 
+  2 passed (13.4s)
