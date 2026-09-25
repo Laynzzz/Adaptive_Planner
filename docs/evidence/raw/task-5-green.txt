@@ -1,0 +1,21 @@
+....................................                                     [100%]
+============================ Hypothesis Statistics ============================
+tests/property/test_schedule_invariants.py::test_thousand_generated_invariants:
+
+  - during generate phase (1.06 seconds):
+    - Typical runtimes: ~ 0-1 ms, of which < 1ms in data generation
+    - 1000 passing, 0 failing, and 0 invalid test cases
+
+  - Stopped because settings.max_examples=1000
+
+
+tests/property/test_schedule_invariants.py::test_cp_small_generated_schedules_match_independent_oracle:
+
+  - during generate phase (1.25 seconds):
+    - Typical runtimes: ~ 1-37 ms, of which < 1ms in data generation
+    - 100 passing, 0 failing, and 0 invalid test cases
+
+  - Stopped because settings.max_examples=100
+
+
+36 passed in 3.13s

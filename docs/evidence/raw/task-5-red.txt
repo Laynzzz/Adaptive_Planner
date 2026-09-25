@@ -1,0 +1,102 @@
+FFFFFFFFFFF                                                              [100%]
+================================== FAILURES ===================================
+________________ test_cp_recovers_a_hand_proven_greedy_failure ________________
+
+    def test_cp_recovers_a_hand_proven_greedy_failure():
+>       from planner.solver.cp_sat import solve_cp_sat
+E       ModuleNotFoundError: No module named 'planner.solver.cp_sat'
+
+tests\unit\test_cp_sat.py:15: ModuleNotFoundError
+_____________________ test_capacity_is_proven_infeasible ______________________
+
+    def test_capacity_is_proven_infeasible():
+>       from planner.solver.cp_sat import solve_cp_sat
+E       ModuleNotFoundError: No module named 'planner.solver.cp_sat'
+
+tests\unit\test_cp_sat.py:28: ModuleNotFoundError
+____________ test_solver_optimum_matches_exhaustive_tiny_reference ____________
+
+    def test_solver_optimum_matches_exhaustive_tiny_reference():
+>       from benchmarks.tiny_reference import enumerate_candidates
+E       ModuleNotFoundError: No module named 'benchmarks'
+
+tests\unit\test_cp_sat.py:34: ModuleNotFoundError
+___ test_unknown_timeout_keeps_validated_fallback_distinct_from_unresolved ____
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000023B448A6BD0>
+
+    def test_unknown_timeout_keeps_validated_fallback_distinct_from_unresolved(monkeypatch):
+>       import planner.solver.cp_sat as module
+E       ModuleNotFoundError: No module named 'planner.solver.cp_sat'
+
+tests\unit\test_cp_sat.py:48: ModuleNotFoundError
+_________________ test_model_invalid_status_is_not_infeasible _________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000023B448A68A0>
+
+    def test_model_invalid_status_is_not_infeasible(monkeypatch):
+>       import planner.solver.cp_sat as module
+E       ModuleNotFoundError: No module named 'planner.solver.cp_sat'
+
+tests\unit\test_cp_sat.py:60: ModuleNotFoundError
+_ test_protected_blocks_remain_exact_and_optional_predecessor_blocks_successor _
+
+    def test_protected_blocks_remain_exact_and_optional_predecessor_blocks_successor():
+>       from planner.solver.cp_sat import solve_cp_sat
+E       ModuleNotFoundError: No module named 'planner.solver.cp_sat'
+
+tests\unit\test_cp_sat.py:66: ModuleNotFoundError
+________________ test_split_remainder_matches_validator[True] _________________
+
+short = True
+
+    @pytest.mark.parametrize('short', [True, False])
+    def test_split_remainder_matches_validator(short):
+>       from planner.solver.cp_sat import solve_cp_sat
+E       ModuleNotFoundError: No module named 'planner.solver.cp_sat'
+
+tests\unit\test_cp_sat.py:81: ModuleNotFoundError
+________________ test_split_remainder_matches_validator[False] ________________
+
+short = False
+
+    @pytest.mark.parametrize('short', [True, False])
+    def test_split_remainder_matches_validator(short):
+>       from planner.solver.cp_sat import solve_cp_sat
+E       ModuleNotFoundError: No module named 'planner.solver.cp_sat'
+
+tests\unit\test_cp_sat.py:81: ModuleNotFoundError
+_____ test_capacity_diagnostic_reports_numbers_not_minimal_conflict_claim _____
+
+    def test_capacity_diagnostic_reports_numbers_not_minimal_conflict_claim():
+>       from planner.solver.diagnostics import diagnose
+E       ModuleNotFoundError: No module named 'planner.solver.diagnostics'
+
+tests\unit\test_diagnostics.py:6: ModuleNotFoundError
+_____________ test_greedy_failure_is_not_a_proof_of_infeasibility _____________
+
+    def test_greedy_failure_is_not_a_proof_of_infeasibility():
+>       from planner.solver.diagnostics import diagnose
+E       ModuleNotFoundError: No module named 'planner.solver.diagnostics'
+
+tests\unit\test_diagnostics.py:15: ModuleNotFoundError
+____________ test_unsplittable_window_and_input_error_are_distinct ____________
+
+    def test_unsplittable_window_and_input_error_are_distinct():
+>       from planner.solver.diagnostics import diagnose
+E       ModuleNotFoundError: No module named 'planner.solver.diagnostics'
+
+tests\unit\test_diagnostics.py:20: ModuleNotFoundError
+=========================== short test summary info ===========================
+FAILED tests/unit/test_cp_sat.py::test_cp_recovers_a_hand_proven_greedy_failure
+FAILED tests/unit/test_cp_sat.py::test_capacity_is_proven_infeasible - Module...
+FAILED tests/unit/test_cp_sat.py::test_solver_optimum_matches_exhaustive_tiny_reference
+FAILED tests/unit/test_cp_sat.py::test_unknown_timeout_keeps_validated_fallback_distinct_from_unresolved
+FAILED tests/unit/test_cp_sat.py::test_model_invalid_status_is_not_infeasible
+FAILED tests/unit/test_cp_sat.py::test_protected_blocks_remain_exact_and_optional_predecessor_blocks_successor
+FAILED tests/unit/test_cp_sat.py::test_split_remainder_matches_validator[True]
+FAILED tests/unit/test_cp_sat.py::test_split_remainder_matches_validator[False]
+FAILED tests/unit/test_diagnostics.py::test_capacity_diagnostic_reports_numbers_not_minimal_conflict_claim
+FAILED tests/unit/test_diagnostics.py::test_greedy_failure_is_not_a_proof_of_infeasibility
+FAILED tests/unit/test_diagnostics.py::test_unsplittable_window_and_input_error_are_distinct
+11 failed in 1.02s
