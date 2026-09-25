@@ -23,6 +23,7 @@ From the repository root with uv on PATH:
 ./scripts/dev.ps1 setup
 # Separate terminals:
 ./scripts/dev.ps1 api
+./scripts/dev.ps1 worker
 ./scripts/dev.ps1 web
 ```
 
@@ -39,22 +40,28 @@ docker compose up -d --wait postgres oidc
 uv run alembic upgrade head
 # Separate terminals:
 uv run python -m planner.cli serve
+uv run python -m planner.jobs.worker
 npm run dev
 ```
 
 ## Verification
 
+Local demo sign-in uses `demo-a` / `local-demo-a-only` and `demo-b` / `local-demo-b-only`. These are intentionally public credentials for the loopback-only synthetic identity provider. They are never deployment credentials. After signing in once as each user, `uv run python -m planner.cli seed-demo` populates the synthetic demo tasks without inventing provider subject IDs.
+
+The worker must be running to compute plans. Login, task edits and work-hour changes use server-side sessions and revision checks. A changed-input conflict retains the form draft; refresh the workspace before retrying.
+
 ```bash
 uv run ruff check services tests db
 uv run pytest -q
 npm run typecheck
+npm run api:check
 npm test
 npm run build
 npx playwright install chromium
 npm run test:e2e
 ```
 
-Windows convenience: `./scripts/verify.ps1 -Browser`. Real database integration tests create and drop only uniquely named test databases. The database must be running. Browser tests require the development database migrated to current head; Playwright starts missing API/web processes automatically.
+Windows convenience: `./scripts/verify.ps1 -Browser`. Real database integration tests create and drop only uniquely named test databases. The database and local OIDC provider must be running. Browser tests require the development database migrated to current head and a worker running; Playwright starts missing API/web processes automatically. After a new migration is added, apply it and restart the API so readiness compares against the current schema.
 
 ## Learning and evidence
 

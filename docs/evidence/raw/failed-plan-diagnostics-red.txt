@@ -1,0 +1,129 @@
+
+> @adaptive-planner/web@0.1.0 test
+> vitest --run src/features/proposals/PlanPanel.test.tsx
+
+
+ RUN  v5.0.2 C:/Users/tiany/.codex/worktrees/adaptive-planner-implementation/adaptive-planner/apps/web
+
+ ❯ src/features/proposals/PlanPanel.test.tsx (3 tests | 1 failed) 1282ms
+   × failed scheduling shows the candidate conflict report when no proposal exists 1050ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/features/proposals/PlanPanel.test.tsx > failed scheduling shows the candidate conflict report when no proposal exists
+TestingLibraryElementError: Unable to find an element with the text: These constraints cannot all be met. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <section
+      aria-labelledby="plan-title"
+      class="plan-panel"
+    >
+      <div
+        class="section-header"
+      >
+        <div>
+          <h2
+            id="plan-title"
+          >
+            Plan proposal
+          </h2>
+          <p
+            class="field-help"
+          >
+            Review the result before activating it.
+          </p>
+        </div>
+        <button>
+          Generate plan
+        </button>
+      </div>
+      <div
+        class="plan-body"
+      >
+        <p
+          role="alert"
+        >
+          Planning failed: 
+          INFEASIBLE
+        </p>
+        <p
+          class="field-help"
+        >
+          Once your tasks and available hours are ready, generate a plan to see where the work fits.
+        </p>
+      </div>
+    </section>
+  </div>
+</body>
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <section
+      aria-labelledby="plan-title"
+      class="plan-panel"
+    >
+      <div
+        class="section-header"
+      >
+        <div>
+          <h2
+            id="plan-title"
+          >
+            Plan proposal
+          </h2>
+          <p
+            class="field-help"
+          >
+            Review the result before activating it.
+          </p>
+        </div>
+        <button>
+          Generate plan
+        </button>
+      </div>
+      <div
+        class="plan-body"
+      >
+        <p
+          role="alert"
+        >
+          Planning failed: 
+          INFEASIBLE
+        </p>
+        <p
+          class="field-help"
+        >
+          Once your tasks and available hours are ready, generate a plan to see where the work fits.
+        </p>
+      </div>
+    </section>
+  </div>
+</body>
+ ❯ waitForWrapper ../../node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ ../../node_modules/@testing-library/dom/dist/query-helpers.js:86:33
+ ❯ src/features/proposals/PlanPanel.test.tsx:110:23
+    108|   mount();
+    109|   await userEvent.click(await screen.findByRole('button',{name:'Genera…
+    110|   expect(await screen.findByText('These constraints cannot all be met'…
+       |                       ^
+    111|   expect(screen.getByText('deadline capacity')).toBeInTheDocument();
+    112|   expect(screen.getByText(/"required_slots": 12/)).toBeInTheDocument();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 passed (3)
+   Start at  16:18:11
+   Duration  2.28s (tests 60%, environment 26%, setup 7%, import 4%, transform 3%)
+
+npm error Lifecycle script `test` failed with error:
+npm error code 1
+npm error path C:\Users\tiany\.codex\worktrees\adaptive-planner-implementation\adaptive-planner\apps\web
+npm error workspace @adaptive-planner/web@0.1.0
+npm error location C:\Users\tiany\.codex\worktrees\adaptive-planner-implementation\adaptive-planner\apps\web
+npm error command failed
+npm error command C:\WINDOWS\system32\cmd.exe /d /s /c vitest --run src/features/proposals/PlanPanel.test.tsx

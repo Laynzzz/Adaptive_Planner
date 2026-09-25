@@ -1,0 +1,45 @@
+
+> adaptive-planner@0.1.0 test:e2e
+> playwright test tests/e2e/planner.spec.ts
+
+
+Running 1 test using 1 worker
+
+(node:66828) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 [chromium] › tests\e2e\planner.spec.ts:4:5 › create two tasks, set work hours, generate, inspect and activate a plan (1.0m)
+
+
+  1) [chromium] › tests\e2e\planner.spec.ts:4:5 › create two tasks, set work hours, generate, inspect and activate a plan 
+
+    Test timeout of 60000ms exceeded.
+
+    Error: locator.click: Test timeout of 60000ms exceeded.
+    Call log:
+      - waiting for getByRole('link', { name: 'Sign in', exact: true })
+
+
+       at helpers.ts:4
+
+      2 | export async function signIn(page:Page,user:'a'|'b') {
+      3 |   await page.goto('/');
+    > 4 |   await page.getByRole('link',{name:'Sign in',exact:true}).click();
+        |                                                            ^
+      5 |   await page.getByLabel('Username or email').fill(`demo-${user}`);
+      6 |   await page.getByLabel('Password',{exact:true}).fill(`local-demo-${user}-only`);
+      7 |   await page.getByRole('button',{name:'Sign In',exact:true}).click();
+        at signIn (C:\Users\tiany\.codex\worktrees\adaptive-planner-implementation\adaptive-planner\tests\e2e\helpers.ts:4:60)
+        at C:\Users\tiany\.codex\worktrees\adaptive-planner-implementation\adaptive-planner\tests\e2e\planner.spec.ts:6:3
+
+    Error Context: test-results\planner-create-two-tasks-s-1d7b7-inspect-and-activate-a-plan-chromium\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\planner-create-two-tasks-s-1d7b7-inspect-and-activate-a-plan-chromium\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\planner-create-two-tasks-s-1d7b7-inspect-and-activate-a-plan-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [chromium] › tests\e2e\planner.spec.ts:4:5 › create two tasks, set work hours, generate, inspect and activate a plan 

@@ -9,6 +9,7 @@ function Invoke-Checked([string]$Program, [string[]]$Arguments) {
 Invoke-Checked $uvPath @('run','ruff','check','services','tests','db')
 Invoke-Checked $uvPath @('run','pytest','-q')
 Invoke-Checked 'npm.cmd' @('run','typecheck')
+Invoke-Checked 'npm.cmd' @('run','api:check')
 Invoke-Checked 'npm.cmd' @('test')
 Invoke-Checked 'npm.cmd' @('run','build')
 if ($Browser) {

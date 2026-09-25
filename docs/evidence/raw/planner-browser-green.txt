@@ -1,0 +1,12 @@
+
+> adaptive-planner@0.1.0 test:e2e
+> playwright test tests/e2e/planner.spec.ts
+
+
+Running 1 test using 1 worker
+
+(node:52240) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 [chromium] › tests\e2e\planner.spec.ts:4:5 › create two tasks, set work hours, generate, inspect and activate a plan (3.2s)
+
+  1 passed (3.9s)

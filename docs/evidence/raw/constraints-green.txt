@@ -1,0 +1,13 @@
+
+> @adaptive-planner/web@0.1.0 test
+> vitest --run
+
+
+ RUN  v5.0.2 C:/Users/tiany/.codex/worktrees/adaptive-planner-implementation/adaptive-planner/apps/web
+
+
+ Test Files  5 passed (5)
+      Tests  10 passed (10)
+   Start at  16:08:45
+   Duration  2.13s (tests 41%, environment 37%, setup 12%, import 6%, transform 3%)
+

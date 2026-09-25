@@ -1,0 +1,43 @@
+
+> adaptive-planner@0.1.0 test:e2e
+> playwright test tests/e2e/tasks.spec.ts --timeout=30000
+
+
+Running 1 test using 1 worker
+
+(node:15052) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 [chromium] › tests\e2e\tasks.spec.ts:12:5 › two real OIDC users have separate task workspaces (30.1s)
+
+
+  1) [chromium] › tests\e2e\tasks.spec.ts:12:5 › two real OIDC users have separate task workspaces ─
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('link', { name: 'Sign in', exact: true })
+
+
+      3 | async function signIn(page: Page, user: 'a' | 'b') {
+      4 |   await page.goto('/');
+    > 5 |   await page.getByRole('link',{name:'Sign in',exact:true}).click();
+        |                                                            ^
+      6 |   await page.getByLabel('Username or email').fill(`demo-${user}`);
+      7 |   await page.getByLabel('Password', {exact:true}).fill(`local-demo-${user}-only`);
+      8 |   await page.getByRole('button',{name:'Sign In',exact:true}).click();
+        at signIn (C:\Users\tiany\.codex\worktrees\adaptive-planner-implementation\adaptive-planner\tests\e2e\tasks.spec.ts:5:60)
+        at C:\Users\tiany\.codex\worktrees\adaptive-planner-implementation\adaptive-planner\tests\e2e\tasks.spec.ts:14:3
+
+    Error Context: test-results\tasks-two-real-OIDC-users-have-separate-task-workspaces-chromium\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\tasks-two-real-OIDC-users-have-separate-task-workspaces-chromium\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\tasks-two-real-OIDC-users-have-separate-task-workspaces-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [chromium] › tests\e2e\tasks.spec.ts:12:5 › two real OIDC users have separate task workspaces ──
