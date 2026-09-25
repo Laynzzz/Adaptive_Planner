@@ -41,14 +41,14 @@ export async function request<T>(
   }
   return data as T;
 }
-export function mutate<T>(
+export async function mutate<T>(
   path: string,
   method: string,
   body: unknown,
   csrf: string,
   key: string,
 ): Promise<T> {
-  return request<T>(path, {
+  const options = {
     method,
     body: JSON.stringify(body),
     headers: {
@@ -56,5 +56,19 @@ export function mutate<T>(
       "X-CSRF-Token": csrf,
       "Idempotency-Key": key,
     },
-  });
+  };
+  for (let attempt = 0; ; attempt++) {
+    try {
+      return await request<T>(path, options);
+    } catch (error) {
+      if (
+        !(error instanceof ApiError) ||
+        error.status !== 409 ||
+        error.code !== "COMMAND_IN_PROGRESS" ||
+        attempt >= 2
+      )
+        throw error;
+      await new Promise((resolve) => setTimeout(resolve, 75 * (attempt + 1)));
+    }
+  }
 }

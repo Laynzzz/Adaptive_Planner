@@ -1,0 +1,82 @@
+
+> @adaptive-planner/web@0.1.0 test
+> vitest --run src/api/client.test.ts
+
+
+ RUN  v5.0.2 C:/Users/tiany/.codex/worktrees/adaptive-planner-implementation/adaptive-planner/apps/web
+
+(node:56212) PromiseRejectionHandledWarning: Promise rejection was handled asynchronously (rejection id: 1)
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/api/client.test.ts (3 tests | 2 failed) 13ms
+   × brief command contention retries the identical body and idempotency key 9ms
+   × persistent contention stops after three attempts 2ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/api/client.test.ts > brief command contention retries the identical body and idempotency key
+AssertionError: promise rejected "Error: Request failed (409). Please try a… { …(2) }" instead of resolving
+ ❯ src/api/client.test.ts:17:23
+     15|   const saving = mutate("/tasks/t", "PATCH", { expected_revision: 4 },…
+     16|   await vi.runAllTimersAsync();
+     17|   await expect(saving).resolves.toEqual({ revision: 5 });
+       |                       ^
+     18|   expect(fetch).toHaveBeenCalledTimes(2);
+     19|   expect(fetch.mock.calls[0][1].body).toBe(fetch.mock.calls[1][1].body…
+
+Caused by: Error: Request failed (409). Please try again.
+ ❯ request src/api/client.ts:34:11
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { status: 409, code: 'COMMAND_IN_PROGRESS' }
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  src/api/client.test.ts > persistent contention stops after three attempts
+AssertionError: expected "vi.fn()" to be called 3 times, but got 1 times
+ ❯ src/api/client.test.ts:37:17
+     35|   await vi.runAllTimersAsync();
+     36|   await checked;
+     37|   expect(fetch).toHaveBeenCalledTimes(3);
+       |                 ^
+     38| });
+     39|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+⎯⎯⎯⎯⎯⎯ Unhandled Errors ⎯⎯⎯⎯⎯⎯
+
+Vitest caught 1 unhandled error during the test run.
+This might cause false positive tests. Resolve unhandled errors to make sure your tests are not affected.
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+Error: Request failed (409). Please try again.
+ ❯ request src/api/client.ts:34:11
+     32|   if (!response.ok) {
+     33|     const error = data.error ?? data.detail ?? data;
+     34|     throw new ApiError(
+       |           ^
+     35|       response.status,
+     36|       error.code ?? "REQUEST_FAILED",
+ ❯ processTicksAndRejections node:internal/process/task_queues:105:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { status: 409, code: 'COMMAND_IN_PROGRESS' }
+This error originated in "src/api/client.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The last test to run before this error was "brief command contention retries the identical body and idempotency key". This means either:
+- the error was thrown while Vitest was running this test, or
+- the error was thrown after the test completed, and this was the most recent test at that point.
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 1 passed (3)
+     Errors  1 error
+   Start at  18:19:17
+   Duration  994ms (environment 72%, setup 21%, transform 4%, tests 1%)
+
+npm error Lifecycle script `test` failed with error:
+npm error code 1
+npm error path C:\Users\tiany\.codex\worktrees\adaptive-planner-implementation\adaptive-planner\apps\web
+npm error workspace @adaptive-planner/web@0.1.0
+npm error location C:\Users\tiany\.codex\worktrees\adaptive-planner-implementation\adaptive-planner\apps\web
+npm error command failed
+npm error command C:\WINDOWS\system32\cmd.exe /d /s /c vitest --run src/api/client.test.ts
