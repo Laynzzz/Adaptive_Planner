@@ -35,11 +35,12 @@ jobs:
           python -c 'import json; d=json.load(open("/tmp/planner-outputs.json")); print("ECR_URL="+d["ecr_url"]["value"])' >> "$GITHUB_ENV"
       - name: Build, scan and push immutable release
         run: |
-          docker build --target runtime --build-arg REVISION="${GITHUB_SHA}" -t "${ECR_URL}:${GITHUB_SHA}" .
-          docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy:0.69.3@sha256:bcc376de8d77cfe086a917230e818dc9f8528e3c852f7b1aff648949b6258d1c image --scanners vuln --severity HIGH,CRITICAL --ignore-unfixed --exit-code 1 "${ECR_URL}:${GITHUB_SHA}"
+          release_tag="${GITHUB_SHA}-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          docker build --target runtime --build-arg REVISION="${GITHUB_SHA}" -t "${ECR_URL}:${release_tag}" .
+          docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy:0.69.3@sha256:bcc376de8d77cfe086a917230e818dc9f8528e3c852f7b1aff648949b6258d1c image --scanners vuln --severity HIGH,CRITICAL --ignore-unfixed --exit-code 1 "${ECR_URL}:${release_tag}"
           aws ecr get-login-password | docker login --username AWS --password-stdin "${ECR_URL%%/*}"
-          docker push "${ECR_URL}:${GITHUB_SHA}"
-          digest=$(aws ecr describe-images --repository-name "${ECR_URL#*/}" --image-ids imageTag="${GITHUB_SHA}" --query 'imageDetails[0].imageDigest' --output text)
+          docker push "${ECR_URL}:${release_tag}"
+          digest=$(aws ecr describe-images --repository-name "${ECR_URL#*/}" --image-ids imageTag="${release_tag}" --query 'imageDetails[0].imageDigest' --output text)
           echo "RELEASE_IMAGE=${ECR_URL}@${digest}" >> "$GITHUB_ENV"
       - name: Install browser smoke dependencies
         run: |

@@ -104,3 +104,37 @@ def test_rollback_runs_workflow_again_before_claiming_recovery():
     with pytest.raises(RuntimeError):
         release.release(CONFIG, IMAGE, aws=aws, smoke=smoke)
     assert len(attempts) == 2
+
+@pytest.mark.parametrize("mismatch", ["revision", "count", "missing", "duplicate", "failure"])
+def test_rollback_verifies_complete_restored_inventory_before_workflow(mismatch):
+    class UnrestoredAWS(FakeAWS):
+        rollback_waited = False
+
+        def __call__(self, args, payload=None):
+            result = super().__call__(args, payload)
+            if args[1:3] == ["wait", "services-stable"] and len(self.updates) == 4:
+                self.rollback_waited = True
+            if args[1] == "describe-services" and self.rollback_waited:
+                if mismatch == "revision":
+                    result["services"][0]["taskDefinition"] = "api:2"
+                elif mismatch == "count":
+                    result["services"][0]["desiredCount"] = 0
+                elif mismatch == "missing":
+                    result["services"].pop()
+                elif mismatch == "duplicate":
+                    result["services"][1] = result["services"][0]
+                else:
+                    result["failures"] = [{"arn": "worker", "reason": "MISSING"}]
+            return result
+
+    aws = UnrestoredAWS()
+    attempts = []
+
+    def smoke(origin):
+        attempts.append(origin)
+        if len(attempts) == 1:
+            raise RuntimeError("New image workflow failed")
+
+    with pytest.raises(RuntimeError, match="Rollback inventory verification failed"):
+        release.release(CONFIG, IMAGE, aws=aws, smoke=smoke)
+    assert len(attempts) == 1

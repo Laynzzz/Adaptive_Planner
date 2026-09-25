@@ -141,6 +141,26 @@ def release(config, image, *, aws=aws_cli, smoke):
         if failures:
             raise RuntimeError("Rollback failed for service names: " + ",".join(failures)) from None
         aws(["ecs", "wait", "services-stable", "--cluster", cluster, "--services", *names])
+        restored = aws(
+            ["ecs", "describe-services", "--cluster", cluster, "--services", *names]
+        )
+        expected = {
+            service["serviceName"]: (service["taskDefinition"], service["desiredCount"])
+            for service in previous
+        }
+        observed_rows = restored.get("services", [])
+        observed = {
+            service.get("serviceName"): (
+                service.get("taskDefinition"), service.get("desiredCount")
+            )
+            for service in observed_rows
+        }
+        if (
+            restored.get("failures")
+            or len(observed_rows) != len(expected)
+            or observed != expected
+        ):
+            raise RuntimeError("Rollback inventory verification failed") from None
         if any(service["desiredCount"] > 0 for service in previous):
             try:
                 smoke(config["application_url"])
